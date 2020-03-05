@@ -1,0 +1,83 @@
+@startuml
+class TopicLine {
+    - url
+    - line
+    - description
+}
+class Topic {
+    - name
+    - datetime
+}
+
+class TopicLineService {
+    - topics
+    - addTopicLine(Topic)
+    - removeTopicLine()
+    - addTopicLine()
+    - removeTopic()
+
+    - getState()
+    - loadState() 
+}
+
+class OpenFileDescriptor {
+    - getLine()
+}
+
+class StartupActivity
+
+class State
+note right of State
+   topicLine
+     - topicId
+     - url
+     - line
+     - description
+   topic
+     - id
+     - name 
+end note
+
+package idea {
+    class FileEditor
+    class VirtualFile
+
+    class Document
+    class DocumentMarkupModel
+    class RangeHighLighter
+
+    interface FileEditorManagerListener
+
+    Document o- DocumentMarkupModel
+    DocumentMarkupModel o- RangeHighLighter
+
+    VirtualFile ..> Document : load
+}
+
+
+package ui {
+    class Popup
+    class listItem
+}
+
+package actions {
+    class ToggleAction
+    class OpenPopupAction
+}
+
+/' relation '/
+Topic o- TopicLine
+TopicLine -- VirtualFile
+TopicLine - OpenFileDescriptor
+TopicLine -- RangeHighLighter
+
+TopicLineService o-- Topic
+TopicLineService - State
+
+TopicLine -- listItem
+
+OpenPopupAction ..> Popup : open
+
+StartupActivity ..> TopicLineService : initialize
+
+@enduml

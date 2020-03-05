@@ -1,0 +1,20 @@
+@startuml
+
+actor user
+
+rectangle editor {
+    user --> (行をtopicに追加する)
+}
+
+rectangle popup {
+    user --> (topicを作る)
+    user --> (topicを管理する)
+
+    user --> (行にコメントを書く)
+    user --> (行を並べ替える)
+
+    user --> (topicを探す)
+    user --> (topicを見る)
+}
+
+@enduml
