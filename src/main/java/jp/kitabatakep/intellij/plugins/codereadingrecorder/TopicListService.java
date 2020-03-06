@@ -9,6 +9,7 @@ import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @State(
     name = AppConstants.appName,
@@ -29,9 +30,9 @@ public class TopicListService implements PersistentStateComponent<Element>
         topicList.add(topic);
     }
 
-    public ArrayList<Topic> getTopicList()
+    public Iterator<Topic> getTopicListIterator()
     {
-        return topicList;
+        return topicList.iterator();
     }
 
     @Override

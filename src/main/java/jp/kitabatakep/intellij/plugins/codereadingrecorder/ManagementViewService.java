@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
 {
@@ -64,7 +65,9 @@ public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
     {
         DefaultListModel<TopicItem> model = new DefaultListModel<>();
         TopicListService topicListService = TopicListService.getInstance(project);
-        for (Topic topic : topicListService.getTopicList()) {
+        Iterator<Topic> iterator = topicListService.getTopicListIterator();
+        while (iterator.hasNext()) {
+            Topic topic = iterator.next();
             model.addElement(new TopicItem(topic));
         }
         return model;
