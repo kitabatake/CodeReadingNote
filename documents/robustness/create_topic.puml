@@ -1,0 +1,54 @@
+# topicを作る
+
+ユーザーは `ToolWindow` を開き、 "create new topic" ボタンをクリックする。
+システムは `NewTopicDialog` を表示する。
+ユーザーは "topic name" と "description" を記入し、 "submit" ボタンを送信する。
+システムは入力値をチェックし、 `TopicList` に新しい `Topic` を追加し、`ToolWindow` に反映し、focusする。
+
+## 入力されたtopic nameが空だった場合
+
+`NewTopicDialog` は表示したまま、手前に `AlertPopup` を表示する。
+
+@startuml
+
+left to right direction
+
+/' definition '/
+actor user
+
+entity TopicList
+entity Topic
+
+boundary ToolWindow
+boundary NewTopicDialog
+boundary AlertPopup #orange
+
+control showToolWindow
+control showNewTopicDialog
+control validateNewTopicDialog
+control addTopic
+control addTopicToToolWindow
+control showAlertPopup #orange
+
+/' flow '/
+
+user -- ToolWindow : click create new topic button
+showToolWindow - ToolWindow
+
+ToolWindow -- showNewTopicDialog
+showNewTopicDialog -- NewTopicDialog
+
+user -- NewTopicDialog : input
+NewTopicDialog - validateNewTopicDialog
+
+validateNewTopicDialog - addTopic : valid
+validateNewTopicDialog - showAlertPopup : invalid
+
+addTopic -- TopicList
+addTopic -- Topic
+
+showAlertPopup - AlertPopup
+
+addTopic -- addTopicToToolWindow
+addTopicToToolWindow --> ToolWindow
+@enduml
