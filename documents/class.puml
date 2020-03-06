@@ -56,13 +56,15 @@ package idea {
 
 
 package ui {
-    class Popup
-    class listItem
+    class ToolWindow
+    class TopicListView
+
+    ToolWindow o- TopicListView
 }
 
 package actions {
     class ToggleAction
-    class OpenPopupAction
+    class OpenToolWindowAction
 }
 
 /' relation '/
@@ -74,9 +76,9 @@ TopicLine -- RangeHighLighter
 TopicLineService o-- Topic
 TopicLineService - State
 
-TopicLine -- listItem
+TopicLine -- TopicListView
 
-OpenPopupAction ..> Popup : open
+OpenToolWindowAction ..> ToolWindow : open
 
 StartupActivity ..> TopicLineService : initialize
 

@@ -11,7 +11,7 @@
 
 @startuml
 
-left to right direction
+'left to right direction
 
 /' definition '/
 actor user
@@ -22,16 +22,16 @@ entity Topic
 boundary ToolWindow
 boundary NewTopicDialog
 boundary AlertPopup #orange
+boundary TopicListView
 
 control showToolWindow
 control showNewTopicDialog
 control validateNewTopicDialog
 control addTopic
-control addTopicToToolWindow
+control addTopicToTopicListView
 control showAlertPopup #orange
 
 /' flow '/
-
 user -- ToolWindow : click create new topic button
 showToolWindow - ToolWindow
 
@@ -49,6 +49,6 @@ addTopic -- Topic
 
 showAlertPopup - AlertPopup
 
-addTopic -- addTopicToToolWindow
-addTopicToToolWindow --> ToolWindow
+addTopic -- addTopicToTopicListView
+addTopicToTopicListView --> TopicListView
 @enduml

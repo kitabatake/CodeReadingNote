@@ -1,0 +1,34 @@
+# 行をtopicに追加する
+
+ユーザーはEditor上の `Topic` に追加したい行にカーソルを合わせ、 `AddToTopic` アクションを実行する。
+システムは `AddTopicLineDialog` を表示する。
+ユーザーは `Topic` を選択し、必要があれば "comment" を入力し、 "submit" ボタンをクリックする。
+システムは `Topic` へ新しい `TopicLine` を追加する。
+
+@startuml
+/' definition '/
+actor user
+
+entity Topic
+entity TopicLine
+
+control addToTopic
+control showAddTopicLineDialog
+
+boundary AddTopicLineDialog
+boundary Editor
+
+
+/' flow '/
+user -- Editor : focus line
+
+Editor -- showAddTopicLineDialog : launch AddToTopic Action
+
+showAddTopicLineDialog - AddTopicLineDialog
+
+user -- AddTopicLineDialog : select Topic and input info
+
+AddTopicLineDialog - addToTopic
+addToTopic -- Topic
+addToTopic -- TopicLine
+@enduml
