@@ -1,6 +1,7 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
@@ -8,6 +9,7 @@ import com.intellij.ui.components.JBList;
 import com.intellij.ui.popup.util.ItemWrapper;
 import com.intellij.ui.popup.util.MasterDetailPopupBuilder;
 import com.intellij.util.ArrayUtilRt;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.NewTopicDialogOpenAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.ui.TopicItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,6 +36,9 @@ public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
             myPopup.cancel();
         }
 
+        DefaultActionGroup actions = new DefaultActionGroup();
+        actions.add(new NewTopicDialogOpenAction());
+
         DefaultListModel<TopicItem> model = buildModel(project);
         JBList<TopicItem> list = new JBList<>(model);
 
@@ -42,6 +47,7 @@ public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
             setDelegate(this).
             setDimensionServiceKey(DIMENSION_SERVICE_KEY).
             setAddDetailViewToEast(true).
+            setActionsGroup(actions).
             setPopupTuner(builder -> builder.setCloseOnEnter(false).setCancelOnClickOutside(false)).
             setDoneRunnable(() -> { if (myPopup != null) myPopup.cancel(); }).
             createMasterDetailPopup();
@@ -50,15 +56,17 @@ public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
 
         popup.showInBestPositionFor(e.getDataContext());
 
-        list.getEmptyText().setText("No Bookmarks");
+        list.getEmptyText().setText("No Topic");
         list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     }
 
-    private static DefaultListModel<TopicItem> buildModel(Project project) {
+    private static DefaultListModel<TopicItem> buildModel(Project project)
+    {
         DefaultListModel<TopicItem> model = new DefaultListModel<>();
-        Topic t = new Topic("hoge");
-        model.addElement(new TopicItem(t));
-
+        TopicListService topicListService = TopicListService.getInstance(project);
+        for (Topic topic : topicListService.getTopicList()) {
+            model.addElement(new TopicItem(topic));
+        }
         return model;
     }
 
