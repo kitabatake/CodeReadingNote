@@ -1,0 +1,31 @@
+@startuml
+/' definition '/
+participant StartupActivity
+participant MessageBusConnection
+participant MessageBus
+
+participant ToolWindow
+participant TopicListView
+participant NewTopicDialog
+participant TopicList
+participant TopicListEventListener
+participant TopicListEventNotifier
+
+/' flow '/
+
+StartupActivity -> MessageBus : getConnection
+StartupActivity -> MessageBusConnection : subscribe(TopicListMessageTopic, TopicListEventListener)
+
+ToolWindow -> NewTopicDialog : open
+
+NewTopicDialog -> NewTopicDialog : validates
+create Topic
+NewTopicDialog -> Topic : new
+NewTopicDialog -> TopicList : addTopic(topic)
+
+TopicList -> MessageBus : syncPublisher()
+TopicList -> TopicListEventNotifier : topicAdded(topic)
+TopicListEventNotifier -> TopicListEventListener : topicAdded(topic)
+TopicListEventListener -> TopicListView : addTopic(topic
+
+@enduml

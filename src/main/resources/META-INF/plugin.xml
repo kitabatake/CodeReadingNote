@@ -13,10 +13,18 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementViewService" />
+
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <action
+                id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ManagementViewOpenAction"
+                class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ManagementViewOpenAction"
+                text="CodeReadingRecorder"
+        >
+            <add-to-group group-id="ToolsMenu" />
+        </action>
+
     </actions>
 </idea-plugin>
