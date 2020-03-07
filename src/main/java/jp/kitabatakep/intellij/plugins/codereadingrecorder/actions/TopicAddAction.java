@@ -3,15 +3,14 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.ui.Messages;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListService;
 import org.jetbrains.annotations.NotNull;
 
-public class NewTopicDialogOpenAction extends AnAction
+public class TopicAddAction extends AnAction
 {
-    public NewTopicDialogOpenAction() {
+    public TopicAddAction() {
         super("add Topic", "add topic", AllIcons.General.Add);
     }
 

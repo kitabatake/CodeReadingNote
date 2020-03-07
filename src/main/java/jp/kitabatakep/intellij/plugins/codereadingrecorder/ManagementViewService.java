@@ -9,14 +9,13 @@ import com.intellij.ui.components.JBList;
 import com.intellij.ui.popup.util.ItemWrapper;
 import com.intellij.ui.popup.util.MasterDetailPopupBuilder;
 import com.intellij.util.ArrayUtilRt;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.NewTopicDialogOpenAction;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.ui.TopicItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
@@ -38,7 +37,7 @@ public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
         }
 
         DefaultActionGroup actions = new DefaultActionGroup();
-        actions.add(new NewTopicDialogOpenAction());
+        actions.add(new TopicAddAction());
 
         DefaultListModel<TopicItem> model = buildModel(project);
         JBList<TopicItem> list = new JBList<>(model);
