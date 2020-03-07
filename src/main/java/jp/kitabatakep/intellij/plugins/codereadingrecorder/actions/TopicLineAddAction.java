@@ -1,11 +1,12 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
 
 import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListService;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,16 +33,23 @@ public class TopicLineAddAction extends AnAction
         Editor editor = event.getData(PlatformDataKeys.EDITOR);
         int line = editor.getCaretModel().getLogicalPosition().line;
 
+        Topic topic = topicSelectDialog(project);
+        topic.addLine(new TopicLine(file, line));
+    }
+
+    private Topic topicSelectDialog(Project project)
+    {
         TopicListService service = TopicListService.getInstance(project);
-        String[] topicStrings = service.getTopicStrings();
+        Topic[] topics = service.topicsStream().toArray(Topic[]::new);
+        String[] topicStrings = service.topicsStream().map(t -> t.getName()).toArray(String[]::new);
         int index = Messages.showChooseDialog(
             "Choose Topic",
             "Choose Topic",
             topicStrings,
-            topicStrings[topicStrings.length - 1],
+            topicStrings[0],
             Messages.getQuestionIcon()
         );
 
-        Logger.getInstance("hoge").info(topicStrings[index]);
+        return topics[index];
     }
 }

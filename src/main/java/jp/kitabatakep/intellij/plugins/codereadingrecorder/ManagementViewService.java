@@ -66,11 +66,9 @@ public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
     {
         DefaultListModel<TopicItem> model = new DefaultListModel<>();
         TopicListService topicListService = TopicListService.getInstance(project);
-        Iterator<Topic> iterator = topicListService.getTopicListIterator();
-        while (iterator.hasNext()) {
-            Topic topic = iterator.next();
-            model.addElement(new TopicItem(topic));
-        }
+        topicListService.topicsStream().forEach(topic -> {
+                model.addElement(new TopicItem(topic));
+            });
         return model;
     }
 

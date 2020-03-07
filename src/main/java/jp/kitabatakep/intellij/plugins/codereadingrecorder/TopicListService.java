@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 @State(
     name = AppConstants.appName,
@@ -19,7 +20,7 @@ import java.util.Iterator;
 )
 public class TopicListService implements PersistentStateComponent<Element>
 {
-    private ArrayList<Topic> topicList = new ArrayList<>();
+    private ArrayList<Topic> topics = new ArrayList<>();
     private Integer nextTopicId = 1;
 
     public static TopicListService getInstance(@NotNull Project project)
@@ -30,29 +31,18 @@ public class TopicListService implements PersistentStateComponent<Element>
     public void addTopic(String name)
     {
         Topic topic = new Topic(nextTopicId, name);
-        topicList.add(topic);
+        topics.add(topic);
         nextTopicId++;
     }
 
-    public Iterator<Topic> getTopicListIterator()
+    public Stream<Topic> topicsStream()
     {
-        return topicList.iterator();
-    }
-
-    public String[] getTopicStrings()
-    {
-        Iterator<Topic> iterator = getTopicListIterator();
-        ArrayList<String> ret = new ArrayList<>();
-        while (iterator.hasNext()) {
-            Topic topic = iterator.next();
-            ret.add(topic.getName());
-        }
-        return ret.toArray(new String[0]);
+        return topics.stream();
     }
 
     public void clearTopicList()
     {
-        topicList.clear();
+        topics.clear();
     }
 
     @Override
@@ -60,11 +50,24 @@ public class TopicListService implements PersistentStateComponent<Element>
     {
         Element container = new Element(AppConstants.appName);
         Element topicsElement = new Element("topics");
-        for (Topic topic : topicList) {
+        for (Topic topic : topics) {
             Element topicElement = new Element("topic");
             topicElement.setAttribute("id", Integer.toString(topic.getId()));
             topicElement.setAttribute("name", topic.getName());
             topicsElement.addContent(topicElement);
+
+            Element topicLinesElement = new Element("topicLines");
+            Iterator<TopicLine> linesIterator = topic.getLinesIterator();
+            while (linesIterator.hasNext()) {
+                TopicLine topicLine = linesIterator.next();
+
+                Element topicLineElement = new Element("topicLine");
+                topicLineElement.setAttribute("line", String.valueOf(topicLine.getLine()));
+                topicLineElement.setAttribute("url", topicLine.getFile().getUrl());
+                topicLinesElement.addContent(topicLineElement);
+            }
+
+            topicElement.addContent(topicLinesElement);
         }
         container.addContent(topicsElement);
 
@@ -81,7 +84,7 @@ public class TopicListService implements PersistentStateComponent<Element>
         for (Element bookmarkElement : topicsElement.getChildren("topic")) {
             int id = Integer.valueOf(bookmarkElement.getAttributeValue("id")).intValue();
             String name = bookmarkElement.getAttributeValue("name");
-            topicList.add(new Topic(id, name));
+            topics.add(new Topic(id, name));
         }
 
         Element stateElement = element.getChild("state");
