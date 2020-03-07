@@ -10,6 +10,7 @@ import com.intellij.ui.popup.util.ItemWrapper;
 import com.intellij.ui.popup.util.MasterDetailPopupBuilder;
 import com.intellij.util.ArrayUtilRt;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicClearAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.ui.TopicItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,6 +39,7 @@ public class ManagementViewService implements MasterDetailPopupBuilder.Delegate
 
         DefaultActionGroup actions = new DefaultActionGroup();
         actions.add(new TopicAddAction());
+        actions.add(new TopicClearAction());
 
         DefaultListModel<TopicItem> model = buildModel(project);
         JBList<TopicItem> list = new JBList<>(model);

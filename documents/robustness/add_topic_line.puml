@@ -12,7 +12,7 @@ actor user
 entity Topic
 entity TopicLine
 
-control addToTopic
+control addTopicLine
 control showAddTopicLineDialog
 
 boundary AddTopicLineDialog
@@ -28,7 +28,7 @@ showAddTopicLineDialog - AddTopicLineDialog
 
 user -- AddTopicLineDialog : select Topic and input info
 
-AddTopicLineDialog - addToTopic
-addToTopic -- Topic
-addToTopic -- TopicLine
+AddTopicLineDialog - addTopicLine
+addTopicLine -- Topic
+addTopicLine -- TopicLine
 @enduml

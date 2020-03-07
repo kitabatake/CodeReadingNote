@@ -31,6 +31,6 @@ public class TopicAddAction extends AnAction
         );
 
         TopicListService topicListService = TopicListService.getInstance(e.getProject());
-        topicListService.addTopic(new Topic(newTopicName));
+        topicListService.addTopic(newTopicName);
     }
 }

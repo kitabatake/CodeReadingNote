@@ -33,7 +33,7 @@ public class TopicItem extends ItemWrapper
 
     public static void setupRenderer(SimpleColoredComponent renderer, Project project, Topic topic, boolean selected)
     {
-        renderer.append(topic.getName());
+        renderer.append(String.format("%s(%d)", topic.getName(), topic.getId()));
     }
 
     @Override

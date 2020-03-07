@@ -26,6 +26,11 @@
         >
             <add-to-group group-id="ToolsMenu" />
         </action>
-
+        <action
+                id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
+                class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
+                text="Add to Topic">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>
