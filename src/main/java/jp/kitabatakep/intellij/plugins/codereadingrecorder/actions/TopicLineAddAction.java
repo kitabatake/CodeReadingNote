@@ -34,14 +34,16 @@ public class TopicLineAddAction extends AnAction
         int line = editor.getCaretModel().getLogicalPosition().line;
 
         Topic topic = topicSelectDialog(project);
-        topic.addLine(new TopicLine(file, line));
+        if (topic != null) {
+            topic.addLine(new TopicLine(file, line));
+        }
     }
 
     private Topic topicSelectDialog(Project project)
     {
         TopicListService service = TopicListService.getInstance(project);
         Topic[] topics = service.topicsStream().toArray(Topic[]::new);
-        String[] topicStrings = service.topicsStream().map(t -> t.getName()).toArray(String[]::new);
+        String[] topicStrings = service.topicsStream().map(Topic::getName).toArray(String[]::new);
         int index = Messages.showChooseDialog(
             "Choose Topic",
             "Choose Topic",
@@ -50,6 +52,10 @@ public class TopicLineAddAction extends AnAction
             Messages.getQuestionIcon()
         );
 
-        return topics[index];
+        if (index == -1) {
+            return null;
+        } else {
+            return topics[index];
+        }
     }
 }
