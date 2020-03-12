@@ -1,10 +1,11 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
 import org.jdom.Element;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.stream.Stream;
 
 public class TopicList
 {
@@ -14,10 +15,19 @@ public class TopicList
     public void loadState(Element element)
     {
         Element topicsElement = element.getChild("topics");
-        for (Element bookmarkElement : topicsElement.getChildren("topic")) {
-            int id = Integer.valueOf(bookmarkElement.getAttributeValue("id")).intValue();
-            String name = bookmarkElement.getAttributeValue("name");
-            topics.add(new Topic(id, name));
+        for (Element topicElement : topicsElement.getChildren("topic")) {
+            int id = Integer.valueOf(topicElement.getAttributeValue("id")).intValue();
+            String name = topicElement.getAttributeValue("name");
+            Topic topic = new Topic(id, name);
+
+            for (Element topicLineElement : topicsElement.getChildren("topicLines")) {
+                String url = topicLineElement.getAttributeValue("url");
+                String lineString = topicLineElement.getAttributeValue("line");
+                int line = Integer.parseInt(lineString);
+                VirtualFile file = VirtualFileManager.getInstance().findFileByUrl(url);
+                topic.addLine(new TopicLine(file, line));
+            }
+            topics.add(topic);
         }
 
         Element stateElement = element.getChild("state");
