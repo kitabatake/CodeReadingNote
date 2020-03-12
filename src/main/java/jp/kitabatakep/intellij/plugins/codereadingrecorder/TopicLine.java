@@ -1,5 +1,6 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.vfs.VirtualFile;
 
 public class TopicLine
