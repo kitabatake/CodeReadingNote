@@ -10,6 +10,8 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.ui.ManagementPopup;
 import org.jetbrains.annotations.NotNull;
 
 import org.jdom.Element;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 
 @State(
@@ -55,8 +57,14 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     public void openPopup(@NotNull AnActionEvent e)
     {
         if (popup == null) {
+            Iterator<Topic> iterator = topicList.iterator();
+            ArrayList<Topic> topics = new ArrayList<>();
+            while (iterator.hasNext()) {
+                topics.add(iterator.next());
+            }
+
             popup = new ManagementPopup();
-            popup.buildPopup();
+            popup.buildPopup(topics.toArray(new Topic[0]));
         }
         popup.open(e);
     }

@@ -71,6 +71,11 @@ public class TopicList
         return topics.stream();
     }
 
+    public Iterator<Topic> iterator()
+    {
+        return topics.iterator();
+    }
+
     public void clearTopicList()
     {
         topics.clear();
