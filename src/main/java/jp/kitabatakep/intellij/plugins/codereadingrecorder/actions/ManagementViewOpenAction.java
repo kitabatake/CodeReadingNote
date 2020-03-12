@@ -3,7 +3,8 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementViewService;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
+
 import org.jetbrains.annotations.NotNull;
 
 public class ManagementViewOpenAction extends AnAction
@@ -19,7 +20,6 @@ public class ManagementViewOpenAction extends AnAction
         Project project = e.getProject();
         if (project == null) return;
 
-        ManagementViewService service = ManagementViewService.getInstance(project);
-        service.open(e);
+        CodeReadingRecorderService.getInstance(project).openPopup(e);
     }
 }

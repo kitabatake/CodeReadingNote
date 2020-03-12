@@ -19,6 +19,8 @@ class TopicList {
 class CodeReadingRecorderService {
   - project
   - topicList
+  - JBPopup popup
+
   - getState()
   - loadState()
 }
@@ -59,10 +61,7 @@ package idea {
 }
 
 package ui {
-    class ToolWindow
-    class TopicListView
-
-    ToolWindow o- TopicListView
+    class ManagementPopupBuilder
 }
 
 package actions {

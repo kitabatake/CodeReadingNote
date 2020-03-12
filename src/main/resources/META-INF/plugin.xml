@@ -13,9 +13,7 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementViewService" />
         <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService" />
-
     </extensions>
 
     <actions>

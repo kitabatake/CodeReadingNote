@@ -1,37 +1,22 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder;
+package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.ComponentPopupBuilder;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ManagementViewService
+public class ManagementPopup
 {
-    private static Project project;
     private static final String DIMENSION_SERVICE_KEY = AppConstants.appName;
+
     private JBPopup popup;
 
-    public static ManagementViewService getInstance(@NotNull Project project)
-    {
-        ManagementViewService.project = project;
-        return ServiceManager.getService(project, ManagementViewService.class);
-    }
-
-    public void open(@NotNull AnActionEvent e)
-    {
-        if (popup == null) {
-            popup = createPopup();
-        }
-        popup.showInBestPositionFor(e.getDataContext());
-    }
-
-    private JBPopup createPopup()
+    public void buildPopup()
     {
         JPanel contentPane = new JPanel(new BorderLayout());
         JLabel label = new JLabel(AppConstants.appName);
@@ -45,6 +30,11 @@ public class ManagementViewService
             .setResizable(true)
             .setMovable(true);
 
-        return builder.createPopup();
+        popup = builder.createPopup();
+    }
+
+    public void open(@NotNull AnActionEvent e)
+    {
+        popup.showInBestPositionFor(e.getDataContext());
     }
 }
