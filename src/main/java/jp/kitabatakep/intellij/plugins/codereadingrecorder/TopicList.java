@@ -66,11 +66,6 @@ public class TopicList
         nextTopicId++;
     }
 
-    public Stream<Topic> topicsStream()
-    {
-        return topics.stream();
-    }
-
     public Iterator<Topic> iterator()
     {
         return topics.iterator();

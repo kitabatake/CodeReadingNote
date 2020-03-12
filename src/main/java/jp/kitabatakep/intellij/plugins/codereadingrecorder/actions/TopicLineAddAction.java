@@ -11,6 +11,9 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class TopicLineAddAction extends AnAction
 {
     @Override
@@ -45,20 +48,26 @@ public class TopicLineAddAction extends AnAction
         CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
         TopicList topicList = service.getTopicList();
 
-        Topic[] topics = topicList.topicsStream().toArray(Topic[]::new);
-        String[] topicStrings = topicList.topicsStream().map(Topic::getName).toArray(String[]::new);
+        Iterator<Topic> iterator = topicList.iterator();
+        ArrayList<Topic> topics = new ArrayList<>();
+        ArrayList<String> topicStrings = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Topic topic = iterator.next();
+            topics.add(topic);
+            topicStrings.add(topic.getName());
+        }
         int index = Messages.showChooseDialog(
             "Choose Topic",
             "Choose Topic",
-            topicStrings,
-            topicStrings[0],
+            topicStrings.toArray(new String[0]),
+            topicStrings.get(0),
             Messages.getQuestionIcon()
         );
 
         if (index == -1) {
             return null;
         } else {
-            return topics[index];
+            return topics.get(index);
         }
     }
 }
