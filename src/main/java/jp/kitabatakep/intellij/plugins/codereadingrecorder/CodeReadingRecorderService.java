@@ -56,16 +56,14 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
 
     public void openPopup(@NotNull AnActionEvent e)
     {
-        if (popup == null) {
-            Iterator<Topic> iterator = topicList.iterator();
-            ArrayList<Topic> topics = new ArrayList<>();
-            while (iterator.hasNext()) {
-                topics.add(iterator.next());
-            }
-
-            popup = new ManagementPopup();
-            popup.buildPopup(topics.toArray(new Topic[0]));
+        Iterator<Topic> iterator = topicList.iterator();
+        ArrayList<Topic> topics = new ArrayList<>();
+        while (iterator.hasNext()) {
+            topics.add(iterator.next());
         }
+
+        popup = new ManagementPopup();
+        popup.buildPopup(topics.toArray(new Topic[0]));
         popup.open(e);
     }
 }
