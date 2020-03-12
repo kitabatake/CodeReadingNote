@@ -18,8 +18,8 @@
 
     <actions>
         <action
-                id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ManagementViewOpenAction"
-                class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ManagementViewOpenAction"
+                id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ManagementPopupOpenAction"
+                class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ManagementPopupOpenAction"
                 text="CodeReadingRecorder"
         >
             <add-to-group group-id="ToolsMenu" />

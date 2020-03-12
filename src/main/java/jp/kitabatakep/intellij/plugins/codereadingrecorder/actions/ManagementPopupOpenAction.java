@@ -7,7 +7,7 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderSe
 
 import org.jetbrains.annotations.NotNull;
 
-public class ManagementViewOpenAction extends AnAction
+public class ManagementPopupOpenAction extends AnAction
 {
     @Override
     public void update(@NotNull AnActionEvent e) {
