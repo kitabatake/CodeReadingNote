@@ -9,25 +9,22 @@ class Topic {
     - datetime
 }
 
-class TopicLineService {
-    - topics
+class TopicList {
     - addTopicLine(Topic)
     - removeTopicLine()
     - addTopicLine()
     - removeTopic()
-
-    - getState()
-    - loadState() 
 }
 
-class OpenFileDescriptor {
-    - getLine()
+class CodeReadingRecorderService {
+  - project
+  - topicList
+  - getState()
+  - loadState()
 }
 
-class StartupActivity
-
-class State
-note right of State
+note right of CodeReadingRecorderService
+   state format is..
    topicLine
      - topicId
      - url
@@ -35,8 +32,15 @@ note right of State
      - description
    topic
      - id
-     - name 
+     - name
 end note
+
+class OpenFileDescriptor {
+    - getLine()
+}
+
+class StartupActivity
+
 
 package idea {
     class FileEditor
@@ -54,7 +58,6 @@ package idea {
     VirtualFile ..> Document : load
 }
 
-
 package ui {
     class ToolWindow
     class TopicListView
@@ -67,19 +70,20 @@ package actions {
     class OpenToolWindowAction
 }
 
+
 /' relation '/
+StartupActivity ..> CodeReadingRecorderService : initialize
+CodeReadingRecorderService o-- TopicList
+
+TopicList o-- Topic
 Topic o- TopicLine
+
 TopicLine -- VirtualFile
 TopicLine - OpenFileDescriptor
 TopicLine -- RangeHighLighter
 
-TopicLineService o-- Topic
-TopicLineService - State
-
 TopicLine -- TopicListView
 
 OpenToolWindowAction ..> ToolWindow : open
-
-StartupActivity ..> TopicLineService : initialize
 
 @enduml

@@ -1,51 +1,33 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.project.Project;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-@State(
-    name = AppConstants.appName,
-    storages = {
-        @Storage(AppConstants.appName + ".xml"),
-    }
-)
-public class TopicListService implements PersistentStateComponent<Element>
+public class TopicList
 {
     private ArrayList<Topic> topics = new ArrayList<>();
     private Integer nextTopicId = 1;
 
-    public static TopicListService getInstance(@NotNull Project project)
+    public void loadState(Element element)
     {
-        return ServiceManager.getService(project, TopicListService.class);
+        Element topicsElement = element.getChild("topics");
+        for (Element bookmarkElement : topicsElement.getChildren("topic")) {
+            int id = Integer.valueOf(bookmarkElement.getAttributeValue("id")).intValue();
+            String name = bookmarkElement.getAttributeValue("name");
+            topics.add(new Topic(id, name));
+        }
+
+        Element stateElement = element.getChild("state");
+        if (stateElement != null) {
+            nextTopicId = Integer.valueOf(stateElement.getAttributeValue("nextTopicId"));
+        } else {
+            nextTopicId = 1;
+        }
     }
 
-    public void addTopic(String name)
-    {
-        Topic topic = new Topic(nextTopicId, name);
-        topics.add(topic);
-        nextTopicId++;
-    }
-
-    public Stream<Topic> topicsStream()
-    {
-        return topics.stream();
-    }
-
-    public void clearTopicList()
-    {
-        topics.clear();
-    }
-
-    @Override
     public Element getState()
     {
         Element container = new Element(AppConstants.appName);
@@ -77,21 +59,22 @@ public class TopicListService implements PersistentStateComponent<Element>
         return container;
     }
 
-    @Override
-    public void loadState(@NotNull Element element)
+    public void addTopic(String name)
     {
-        Element topicsElement = element.getChild("topics");
-        for (Element bookmarkElement : topicsElement.getChildren("topic")) {
-            int id = Integer.valueOf(bookmarkElement.getAttributeValue("id")).intValue();
-            String name = bookmarkElement.getAttributeValue("name");
-            topics.add(new Topic(id, name));
-        }
-
-        Element stateElement = element.getChild("state");
-        if (stateElement != null) {
-            nextTopicId = Integer.valueOf(stateElement.getAttributeValue("nextTopicId"));
-        } else {
-            nextTopicId = 1;
-        }
+        Topic topic = new Topic(nextTopicId, name);
+        topics.add(topic);
+        nextTopicId++;
     }
+
+    public Stream<Topic> topicsStream()
+    {
+        return topics.stream();
+    }
+
+    public void clearTopicList()
+    {
+        topics.clear();
+    }
+
+
 }

@@ -4,8 +4,8 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.Messages;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListService;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicList;
 import org.jetbrains.annotations.NotNull;
 
 public class TopicAddAction extends AnAction
@@ -30,7 +30,7 @@ public class TopicAddAction extends AnAction
             null
         );
 
-        TopicListService topicListService = TopicListService.getInstance(e.getProject());
-        topicListService.addTopic(newTopicName);
+        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(e.getProject());
+        service.getTopicList().addTopic(newTopicName);
     }
 }

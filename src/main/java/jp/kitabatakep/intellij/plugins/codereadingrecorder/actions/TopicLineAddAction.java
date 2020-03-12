@@ -5,9 +5,10 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListService;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicList;
 import org.jetbrains.annotations.NotNull;
 
 public class TopicLineAddAction extends AnAction
@@ -41,9 +42,11 @@ public class TopicLineAddAction extends AnAction
 
     private Topic topicSelectDialog(Project project)
     {
-        TopicListService service = TopicListService.getInstance(project);
-        Topic[] topics = service.topicsStream().toArray(Topic[]::new);
-        String[] topicStrings = service.topicsStream().map(Topic::getName).toArray(String[]::new);
+        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
+        TopicList topicList = service.getTopicList();
+
+        Topic[] topics = topicList.topicsStream().toArray(Topic[]::new);
+        String[] topicStrings = topicList.topicsStream().map(Topic::getName).toArray(String[]::new);
         int index = Messages.showChooseDialog(
             "Choose Topic",
             "Choose Topic",
