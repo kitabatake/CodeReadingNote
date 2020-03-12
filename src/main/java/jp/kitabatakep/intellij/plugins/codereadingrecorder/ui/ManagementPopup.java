@@ -14,7 +14,6 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ManagementPopup
 {
@@ -25,7 +24,6 @@ public class ManagementPopup
 
     public void buildPopup(Topic[] topics)
     {
-        JPanel contentPane = new JPanel(new BorderLayout());
         JBSplitter splitPane = new JBSplitter(0.3f);
         splitPane.setSplitterProportionKey(AppConstants.appName + ".splitter");
 
