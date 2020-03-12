@@ -54,7 +54,7 @@ public class TopicLineAddAction extends AnAction
         while (iterator.hasNext()) {
             Topic topic = iterator.next();
             topics.add(topic);
-            topicStrings.add(topic.getName());
+            topicStrings.add(topic.name());
         }
         int index = Messages.showChooseDialog(
             "Choose Topic",

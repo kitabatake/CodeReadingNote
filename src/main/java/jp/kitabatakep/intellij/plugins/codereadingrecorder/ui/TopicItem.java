@@ -33,7 +33,7 @@ public class TopicItem extends ItemWrapper
 
     public static void setupRenderer(SimpleColoredComponent renderer, Project project, Topic topic, boolean selected)
     {
-        renderer.append(String.format("%s(%d)", topic.getName(), topic.getId()));
+        renderer.append(String.format("%s(%d)", topic.name(), topic.id()));
     }
 
     @Override
@@ -41,12 +41,12 @@ public class TopicItem extends ItemWrapper
 
     @Override
     public String speedSearchText() {
-        return myTopic.getName();
+        return myTopic.name();
     }
 
     @Override
     public String footerText() {
-        return myTopic.getName();
+        return myTopic.name();
     }
 
     @Override

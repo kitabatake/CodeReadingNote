@@ -12,6 +12,24 @@ public class TopicList
     private ArrayList<Topic> topics = new ArrayList<>();
     private Integer nextTopicId = 1;
 
+    public void addTopic(String name)
+    {
+        Topic topic = new Topic(nextTopicId, name);
+        topics.add(topic);
+        nextTopicId++;
+    }
+
+    public Iterator<Topic> iterator()
+    {
+        return topics.iterator();
+    }
+
+    public void clearTopicList()
+    {
+        topics.clear();
+    }
+
+
     public void loadState(Element element)
     {
         Element topicsElement = element.getChild("topics");
@@ -44,8 +62,8 @@ public class TopicList
         Element topicsElement = new Element("topics");
         for (Topic topic : topics) {
             Element topicElement = new Element("topic");
-            topicElement.setAttribute("id", Integer.toString(topic.getId()));
-            topicElement.setAttribute("name", topic.getName());
+            topicElement.setAttribute("id", Integer.toString(topic.id()));
+            topicElement.setAttribute("name", topic.name());
             topicsElement.addContent(topicElement);
 
             Element topicLinesElement = new Element("topicLines");
@@ -68,23 +86,4 @@ public class TopicList
         container.addContent(state);
         return container;
     }
-
-    public void addTopic(String name)
-    {
-        Topic topic = new Topic(nextTopicId, name);
-        topics.add(topic);
-        nextTopicId++;
-    }
-
-    public Iterator<Topic> iterator()
-    {
-        return topics.iterator();
-    }
-
-    public void clearTopicList()
-    {
-        topics.clear();
-    }
-
-
 }
