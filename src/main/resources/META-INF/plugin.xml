@@ -14,16 +14,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService" />
+        <toolWindow id="CodeReadingRecorder" anchor="right" factoryClass="jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementToolWindowFactory" />
+
     </extensions>
 
     <actions>
-        <action
-                id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ManagementPopupOpenAction"
-                class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ManagementPopupOpenAction"
-                text="CodeReadingRecorder"
-        >
-            <add-to-group group-id="ToolsMenu" />
-        </action>
         <action
                 id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
                 class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"

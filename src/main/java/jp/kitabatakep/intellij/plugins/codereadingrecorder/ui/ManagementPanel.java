@@ -1,61 +1,56 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
-import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
-import com.intellij.openapi.ui.popup.ComponentPopupBuilder;
-import com.intellij.openapi.ui.popup.IconButton;
-import com.intellij.openapi.ui.popup.JBPopup;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.ui.InplaceButton;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.ui.JBUI;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public class ManagementPopup
+public class ManagementPanel extends JPanel
 {
-    private static final String DIMENSION_SERVICE_KEY = AppConstants.appName;
+    private ToolWindow toolWindow;
+    private Project project;
 
-    private JBPopup popup;
-    private JBList<Topic> topicList;
+    private CodeReadingRecorderService service;
 
-    public void buildPopup(Topic[] topics)
+    public ManagementPanel(Project project, final ToolWindow toolWindow)
     {
+        super(new BorderLayout());
+        this.project = project;
+        this.toolWindow = toolWindow;
+        service = CodeReadingRecorderService.getInstance(project);
+
         JBSplitter splitPane = new JBSplitter(0.3f);
         splitPane.setSplitterProportionKey(AppConstants.appName + ".splitter");
 
-        topicList = new JBList<>(topics);
-        splitPane.setFirstComponent(topicList);
+        splitPane.setFirstComponent(topicList());
         splitPane.setSecondComponent(new JLabel(AppConstants.appName));
 
+        add(actionToolBar(), BorderLayout.PAGE_START);
+        add(splitPane);
+    }
 
+    private JBList topicList()
+    {
+        Iterator<Topic> iterator = service.getTopicList().iterator();
+        ArrayList<Topic> topics = new ArrayList<>();
+        while (iterator.hasNext()) {
+            topics.add(iterator.next());
+        }
 
-        ComponentPopupBuilder builder = JBPopupFactory.getInstance().createComponentPopupBuilder(splitPane, null);
-        builder
-            .setDimensionServiceKey(null, DIMENSION_SERVICE_KEY, true)
-            .setResizable(true)
-            .setMovable(true)
-            .setSettingButtons(actionToolBar());
-
-        builder.setCommandButton(
-            new InplaceButton(
-                new IconButton("Close", AllIcons.Actions.Close, AllIcons.Actions.CloseHovered),
-                event -> {
-                    if (popup != null) popup.cancel();
-                }
-            )
-        );
-
-        popup = builder.createPopup();
+        return new JBList<>(topics);
     }
 
     private JComponent actionToolBar()
@@ -71,10 +66,5 @@ public class ManagementPopup
         toolBar.setBorder(JBUI.Borders.merge(toolBar.getBorder(), JBUI.Borders.emptyLeft(12), true));
         toolBar.setOpaque(false);
         return toolBar;
-    }
-
-    public void open(@NotNull AnActionEvent e)
-    {
-        popup.showInBestPositionFor(e.getDataContext());
     }
 }
