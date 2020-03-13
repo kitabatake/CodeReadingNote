@@ -17,7 +17,6 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddActio
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ManagementPanel extends JPanel
@@ -26,7 +25,7 @@ public class ManagementPanel extends JPanel
     private Project project;
 
     private CodeReadingRecorderService service;
-    private JBList topicList;
+    private JBList<Topic> topicList;
     private DefaultListModel<Topic> topicListModel;
 
     public ManagementPanel(Project project, final ToolWindow toolWindow)
@@ -72,6 +71,7 @@ public class ManagementPanel extends JPanel
         }
 
         topicList = new JBList<>(topicListModel);
+        topicList.setCellRenderer(new TopicListCellRenderer<Topic>());
     }
 
     private JComponent actionToolBar()
@@ -87,5 +87,21 @@ public class ManagementPanel extends JPanel
         toolBar.setBorder(JBUI.Borders.merge(toolBar.getBorder(), JBUI.Borders.emptyLeft(12), true));
         toolBar.setOpaque(false);
         return toolBar;
+    }
+
+    private static class TopicListCellRenderer<T> extends JLabel implements ListCellRenderer<T>
+    {
+        public Component getListCellRendererComponent(
+            JList list,
+            Object value,
+            int index,
+            boolean isSelected,
+            boolean cellHasFocus)
+        {
+            Topic topic = (Topic) value;
+            setText(topic.name());
+
+            return this;
+        }
     }
 }
