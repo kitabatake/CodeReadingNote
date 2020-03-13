@@ -1,12 +1,16 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.messages.MessageBus;
 import org.jdom.Element;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 public class TopicList
@@ -22,7 +26,7 @@ public class TopicList
 
     public void addTopic(String name)
     {
-        Topic topic = new Topic(nextTopicId, name);
+        Topic topic = new Topic(nextTopicId, name, new Date());
         topics.add(topic);
         nextTopicId++;
 
@@ -48,7 +52,15 @@ public class TopicList
         for (Element topicElement : topicsElement.getChildren("topic")) {
             int id = Integer.valueOf(topicElement.getAttributeValue("id")).intValue();
             String name = topicElement.getAttributeValue("name");
-            Topic topic = new Topic(id, name);
+            String createdAtString = topicElement.getAttributeValue("createdAt");
+
+            Topic topic;
+            try {
+                topic = new Topic(id, name, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(createdAtString));
+            } catch (ParseException e) {
+                Logger.getInstance(AppConstants.appName).error(e.getMessage());
+                continue;
+            }
 
             for (Element topicLineElement : topicsElement.getChildren("topicLines")) {
                 String url = topicLineElement.getAttributeValue("url");
@@ -76,6 +88,8 @@ public class TopicList
             Element topicElement = new Element("topic");
             topicElement.setAttribute("id", Integer.toString(topic.id()));
             topicElement.setAttribute("name", topic.name());
+            topicElement.setAttribute("createdAt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.createdAt()));
+
             topicsElement.addContent(topicElement);
 
             Element topicLinesElement = new Element("topicLines");
