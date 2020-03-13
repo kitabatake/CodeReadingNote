@@ -1,10 +1,12 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-public class Topic
+public class Topic implements Comparable<Topic>
 {
     private int id;
     private String name;
@@ -28,6 +30,12 @@ public class Topic
     }
 
     public Date createdAt() { return createdAt; }
+
+    @Override
+    public int compareTo(@NotNull Topic topic)
+    {
+        return topic.createdAt().compareTo(createdAt);
+    }
 
     public void addLine(TopicLine line)
     {

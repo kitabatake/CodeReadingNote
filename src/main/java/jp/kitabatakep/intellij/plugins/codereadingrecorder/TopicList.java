@@ -10,6 +10,7 @@ import org.jdom.Element;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -71,6 +72,7 @@ public class TopicList
             }
             topics.add(topic);
         }
+        Collections.sort(topics);
 
         Element stateElement = element.getChild("state");
         if (stateElement != null) {

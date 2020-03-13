@@ -17,6 +17,7 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddActio
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 public class ManagementPanel extends JPanel
@@ -51,7 +52,7 @@ public class ManagementPanel extends JPanel
             @Override
             public void topicAdded(Topic topic)
             {
-                topicListModel.addElement(topic);
+                topicListModel.add(0, topic);
             }
 
             @Override
@@ -99,7 +100,7 @@ public class ManagementPanel extends JPanel
             boolean cellHasFocus)
         {
             Topic topic = (Topic) value;
-            setText(topic.name());
+            setText(topic.name() + "(" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.createdAt()) + ")");
 
             return this;
         }
