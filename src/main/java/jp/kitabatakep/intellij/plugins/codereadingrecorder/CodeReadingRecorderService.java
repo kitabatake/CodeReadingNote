@@ -18,12 +18,12 @@ import org.jdom.Element;
 public class CodeReadingRecorderService implements PersistentStateComponent<Element>
 {
     Project project;
-
-    TopicList topicList = new TopicList();
+    TopicList topicList;
 
     public CodeReadingRecorderService(@NotNull Project project)
     {
         this.project = project;
+        topicList = new TopicList(project);
     }
 
     public static CodeReadingRecorderService getInstance(@NotNull Project project)

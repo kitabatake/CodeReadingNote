@@ -7,10 +7,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBList;
+import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListNotifier;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
 
 import javax.swing.*;
@@ -24,6 +26,8 @@ public class ManagementPanel extends JPanel
     private Project project;
 
     private CodeReadingRecorderService service;
+    private JBList topicList;
+    private DefaultListModel<Topic> topicListModel;
 
     public ManagementPanel(Project project, final ToolWindow toolWindow)
     {
@@ -31,26 +35,43 @@ public class ManagementPanel extends JPanel
         this.project = project;
         this.toolWindow = toolWindow;
         service = CodeReadingRecorderService.getInstance(project);
+        initTopicList();
 
         JBSplitter splitPane = new JBSplitter(0.3f);
         splitPane.setSplitterProportionKey(AppConstants.appName + ".splitter");
 
-        splitPane.setFirstComponent(topicList());
+        splitPane.setFirstComponent(topicList);
         splitPane.setSecondComponent(new JLabel(AppConstants.appName));
 
         add(actionToolBar(), BorderLayout.PAGE_START);
         add(splitPane);
+
+        MessageBus messageBus = project.getMessageBus();
+        messageBus.connect().subscribe(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC, new TopicListNotifier()
+        {
+            @Override
+            public void topicAdded(Topic topic)
+            {
+                topicListModel.addElement(topic);
+            }
+
+            @Override
+            public void topicDeleted(Topic topic)
+            {
+
+            }
+        });
     }
 
-    private JBList topicList()
+    private void initTopicList()
     {
         Iterator<Topic> iterator = service.getTopicList().iterator();
-        ArrayList<Topic> topics = new ArrayList<>();
+        topicListModel = new DefaultListModel<>();
         while (iterator.hasNext()) {
-            topics.add(iterator.next());
+            topicListModel.addElement(iterator.next());
         }
 
-        return new JBList<>(topics);
+        topicList = new JBList<>(topicListModel);
     }
 
     private JComponent actionToolBar()

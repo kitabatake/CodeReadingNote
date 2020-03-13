@@ -1,7 +1,9 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.util.messages.MessageBus;
 import org.jdom.Element;
 
 import java.util.ArrayList;
@@ -9,14 +11,24 @@ import java.util.Iterator;
 
 public class TopicList
 {
+    private Project project;
     private ArrayList<Topic> topics = new ArrayList<>();
     private Integer nextTopicId = 1;
+
+    public TopicList(Project project)
+    {
+        this.project = project;
+    }
 
     public void addTopic(String name)
     {
         Topic topic = new Topic(nextTopicId, name);
         topics.add(topic);
         nextTopicId++;
+
+        MessageBus messageBus = project.getMessageBus();
+        TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
+        publisher.topicAdded(topic);
     }
 
     public Iterator<Topic> iterator()
