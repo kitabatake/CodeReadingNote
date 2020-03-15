@@ -1,14 +1,19 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
+import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
@@ -16,6 +21,8 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListNotifier;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -38,7 +45,7 @@ public class ManagementPanel extends JPanel
         initTopicList();
 
         JBSplitter splitPane = new JBSplitter(0.3f);
-        splitPane.setSplitterProportionKey(AppConstants.appName + ".splitter");
+        splitPane.setSplitterProportionKey(AppConstants.appName + "ManagementPanel.splitter");
 
         splitPane.setFirstComponent(topicList);
         splitPane.setSecondComponent(new JLabel(AppConstants.appName));
@@ -63,18 +70,6 @@ public class ManagementPanel extends JPanel
         });
     }
 
-    private void initTopicList()
-    {
-        Iterator<Topic> iterator = service.getTopicList().iterator();
-        topicListModel = new DefaultListModel<>();
-        while (iterator.hasNext()) {
-            topicListModel.addElement(iterator.next());
-        }
-
-        topicList = new JBList<>(topicListModel);
-        topicList.setCellRenderer(new TopicListCellRenderer<Topic>());
-    }
-
     private JComponent actionToolBar()
     {
         DefaultActionGroup actions = new DefaultActionGroup();
@@ -90,8 +85,35 @@ public class ManagementPanel extends JPanel
         return toolBar;
     }
 
+    private void initTopicList()
+    {
+        Iterator<Topic> iterator = service.getTopicList().iterator();
+        topicListModel = new DefaultListModel<>();
+        while (iterator.hasNext()) {
+            topicListModel.addElement(iterator.next());
+        }
+
+        topicList = new JBList<>(topicListModel);
+        topicList.setCellRenderer(new TopicListCellRenderer<Topic>());
+        topicList.addListSelectionListener(e -> {
+            Topic topic = topicList.getSelectedValue();
+            Notifications.Bus.notify(
+                new Notification(
+                    "hoge",
+                    "TopicListSelectionListener",
+                    topic.name(),
+                    NotificationType.INFORMATION
+                )
+            );
+        });
+    }
+
     private static class TopicListCellRenderer<T> extends JLabel implements ListCellRenderer<T>
     {
+        private TopicListCellRenderer() {
+            setOpaque(true);
+        }
+
         public Component getListCellRendererComponent(
             JList list,
             Object value,
@@ -102,6 +124,8 @@ public class ManagementPanel extends JPanel
             Topic topic = (Topic) value;
             setText(topic.name() + "(" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.createdAt()) + ")");
 
+            setForeground(UIUtil.getListSelectionForeground(isSelected));
+            setBackground(UIUtil.getListSelectionBackground(isSelected));
             return this;
         }
     }
