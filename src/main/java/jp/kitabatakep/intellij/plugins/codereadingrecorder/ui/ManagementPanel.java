@@ -40,7 +40,7 @@ public class ManagementPanel extends JPanel
         this.toolWindow = toolWindow;
         service = CodeReadingRecorderService.getInstance(project);
         initTopicList();
-        topicDetailPanel = new TopicDetailPanel();
+        topicDetailPanel = new TopicDetailPanel(project);
 
         JBSplitter splitPane = new JBSplitter(0.3f);
         splitPane.setSplitterProportionKey(AppConstants.appName + "ManagementPanel.splitter");
