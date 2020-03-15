@@ -1,14 +1,10 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.ui.JBColor;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.messages.MessageBus;
@@ -21,8 +17,6 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListNotifier;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -36,6 +30,9 @@ public class ManagementPanel extends JPanel
     private JBList<Topic> topicList;
     private DefaultListModel<Topic> topicListModel;
 
+    private Topic selectedTopic;
+    private TopicDetailPanel topicDetailPanel;
+
     public ManagementPanel(Project project, final ToolWindow toolWindow)
     {
         super(new BorderLayout());
@@ -43,12 +40,13 @@ public class ManagementPanel extends JPanel
         this.toolWindow = toolWindow;
         service = CodeReadingRecorderService.getInstance(project);
         initTopicList();
+        topicDetailPanel = new TopicDetailPanel();
 
         JBSplitter splitPane = new JBSplitter(0.3f);
         splitPane.setSplitterProportionKey(AppConstants.appName + "ManagementPanel.splitter");
 
         splitPane.setFirstComponent(topicList);
-        splitPane.setSecondComponent(new JLabel(AppConstants.appName));
+        splitPane.setSecondComponent(topicDetailPanel);
 
         add(actionToolBar(), BorderLayout.PAGE_START);
         add(splitPane);
@@ -97,14 +95,10 @@ public class ManagementPanel extends JPanel
         topicList.setCellRenderer(new TopicListCellRenderer<Topic>());
         topicList.addListSelectionListener(e -> {
             Topic topic = topicList.getSelectedValue();
-            Notifications.Bus.notify(
-                new Notification(
-                    "hoge",
-                    "TopicListSelectionListener",
-                    topic.name(),
-                    NotificationType.INFORMATION
-                )
-            );
+            if (selectedTopic == null || selectedTopic != topic) {
+                selectedTopic = topic;
+                topicDetailPanel.setTopic(topic);
+            }
         });
     }
 
