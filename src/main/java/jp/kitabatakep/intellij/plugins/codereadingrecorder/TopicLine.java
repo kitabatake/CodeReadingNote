@@ -1,6 +1,5 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.vfs.VirtualFile;
 
 public class TopicLine
@@ -14,12 +13,12 @@ public class TopicLine
         this.line = line;
     }
 
-    public VirtualFile getFile()
+    public VirtualFile file()
     {
         return file;
     }
 
-    public int getLine() { return line; }
+    public int line() { return line; }
 
 
 }

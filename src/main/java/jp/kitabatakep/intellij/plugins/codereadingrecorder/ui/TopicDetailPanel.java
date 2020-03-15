@@ -1,7 +1,9 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBList;
+import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
@@ -21,6 +23,7 @@ class TopicDetailPanel extends JPanel
     {
         super(new BorderLayout());
         topicLineList = new JBList<>();
+        topicLineList.setCellRenderer(new TopicLineListCellRenderer<>());
 
         JBSplitter splitPane = new JBSplitter(0.3f);
         splitPane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanel.splitter");
@@ -34,11 +37,36 @@ class TopicDetailPanel extends JPanel
         myLabel.setText(topic.name());
 
         topicLineListModel = new DefaultListModel<>();
-        Iterator<TopicLine> iterator = topic.getLinesIterator();
+        Iterator<TopicLine> iterator = topic.linesIterator();
         while (iterator.hasNext()) {
             topicLineListModel.addElement(iterator.next());
         }
 
         topicLineList.setModel(topicLineListModel);
+    }
+
+    private static class TopicLineListCellRenderer<T> extends JLabel implements ListCellRenderer<T>
+    {
+        private TopicLineListCellRenderer()
+        {
+            setOpaque(true);
+        }
+
+        public Component getListCellRendererComponent(
+            JList list,
+            Object value,
+            int index,
+            boolean isSelected,
+            boolean cellHasFocus)
+        {
+            TopicLine topicLine = (TopicLine) value;
+            VirtualFile file = topicLine.file();
+
+            setText(file.getName() + ":" + topicLine.line());
+
+            setForeground(UIUtil.getListSelectionForeground(isSelected));
+            setBackground(UIUtil.getListSelectionBackground(isSelected));
+            return this;
+        }
     }
 }

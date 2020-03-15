@@ -42,7 +42,7 @@ public class Topic implements Comparable<Topic>
         lines.add(line);
     }
 
-    public Iterator<TopicLine> getLinesIterator()
+    public Iterator<TopicLine> linesIterator()
     {
         return lines.iterator();
     }

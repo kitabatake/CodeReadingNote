@@ -63,7 +63,8 @@ public class TopicList
                 continue;
             }
 
-            for (Element topicLineElement : topicsElement.getChildren("topicLines")) {
+            Element topicLinesElement = topicElement.getChild("topicLines");
+            for (Element topicLineElement : topicLinesElement.getChildren("topicLine")) {
                 String url = topicLineElement.getAttributeValue("url");
                 String lineString = topicLineElement.getAttributeValue("line");
                 int line = Integer.parseInt(lineString);
@@ -95,13 +96,13 @@ public class TopicList
             topicsElement.addContent(topicElement);
 
             Element topicLinesElement = new Element("topicLines");
-            Iterator<TopicLine> linesIterator = topic.getLinesIterator();
+            Iterator<TopicLine> linesIterator = topic.linesIterator();
             while (linesIterator.hasNext()) {
                 TopicLine topicLine = linesIterator.next();
 
                 Element topicLineElement = new Element("topicLine");
-                topicLineElement.setAttribute("line", String.valueOf(topicLine.getLine()));
-                topicLineElement.setAttribute("url", topicLine.getFile().getUrl());
+                topicLineElement.setAttribute("line", String.valueOf(topicLine.line()));
+                topicLineElement.setAttribute("url", topicLine.file().getUrl());
                 topicLinesElement.addContent(topicLineElement);
             }
 
