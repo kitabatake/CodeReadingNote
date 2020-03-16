@@ -40,8 +40,8 @@ public class ManagementPanel extends JPanel
         this.project = project;
         this.toolWindow = toolWindow;
         service = CodeReadingRecorderService.getInstance(project);
-        initTopicList();
         topicDetailPanel = new TopicDetailPanel(project);
+        initTopicList();
 
         JBSplitter splitPane = new JBSplitter(0.3f);
         splitPane.setSplitterProportionKey(AppConstants.appName + "ManagementPanel.splitter");
@@ -96,6 +96,8 @@ public class ManagementPanel extends JPanel
         }
 
         topicList = new JBList<>(topicListModel);
+        topicList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         topicList.setCellRenderer(new TopicListCellRenderer<Topic>());
         topicList.addListSelectionListener(e -> {
             Topic topic = topicList.getSelectedValue();
@@ -106,6 +108,10 @@ public class ManagementPanel extends JPanel
                 topicDetailPanel.setTopic(topic);
             }
         });
+
+        if (topicListModel.size() > 0) {
+            topicList.setSelectedIndex(0);
+        }
 
         topicList.addKeyListener(new KeyAdapter()
         {

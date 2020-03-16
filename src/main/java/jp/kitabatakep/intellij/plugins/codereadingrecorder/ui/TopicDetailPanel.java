@@ -81,6 +81,7 @@ class TopicDetailPanel extends JPanel
     private void initTopicLineList()
     {
         topicLineList = new JBList<>();
+        topicLineList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         topicLineList.setCellRenderer(new TopicLineListCellRenderer<>(project));
         topicLineList.addListSelectionListener(e -> {
             TopicLine topicLine = topicLineList.getSelectedValue();
