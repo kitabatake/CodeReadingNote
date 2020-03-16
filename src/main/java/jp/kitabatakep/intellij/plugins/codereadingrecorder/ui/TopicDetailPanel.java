@@ -67,6 +67,14 @@ class TopicDetailPanel extends JPanel
                     topicLineListModel.removeElement(_topicLine);
                 }
             }
+
+            @Override
+            public void lineAdded(Topic _topic, TopicLine _topicLine)
+            {
+                if (_topic == topic) {
+                    topicLineListModel.addElement(_topicLine);
+                }
+            }
         });
     }
 

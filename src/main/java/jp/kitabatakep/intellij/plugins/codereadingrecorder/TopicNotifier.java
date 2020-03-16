@@ -6,4 +6,5 @@ public interface TopicNotifier
         com.intellij.util.messages.Topic.create("topic notifier", TopicNotifier.class);
 
     void lineDeleted(Topic topic, TopicLine topicLine);
+    void lineAdded(Topic topic, TopicLine topicLine);
 }

@@ -44,6 +44,10 @@ public class Topic implements Comparable<Topic>
     public void addLine(TopicLine line)
     {
         lines.add(line);
+
+        MessageBus messageBus = project.getMessageBus();
+        TopicNotifier publisher = messageBus.syncPublisher(TopicNotifier.TOPIC_NOTIFIER_TOPIC);
+        publisher.lineAdded(this, line);
     }
 
     public void deleteLine(TopicLine line)
@@ -53,8 +57,6 @@ public class Topic implements Comparable<Topic>
         MessageBus messageBus = project.getMessageBus();
         TopicNotifier publisher = messageBus.syncPublisher(TopicNotifier.TOPIC_NOTIFIER_TOPIC);
         publisher.lineDeleted(this, line);
-
-
     }
 
     public Iterator<TopicLine> linesIterator()
