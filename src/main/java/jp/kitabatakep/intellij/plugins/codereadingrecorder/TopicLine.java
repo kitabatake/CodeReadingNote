@@ -19,6 +19,4 @@ public class TopicLine
     }
 
     public int line() { return line; }
-
-
 }

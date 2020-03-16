@@ -24,7 +24,6 @@ import java.util.Iterator;
 
 public class ManagementPanel extends JPanel
 {
-    private ToolWindow toolWindow;
     private Project project;
 
     private CodeReadingRecorderService service;
@@ -34,11 +33,10 @@ public class ManagementPanel extends JPanel
     private Topic selectedTopic;
     private TopicDetailPanel topicDetailPanel;
 
-    public ManagementPanel(Project project, final ToolWindow toolWindow)
+    public ManagementPanel(Project project)
     {
         super(new BorderLayout());
         this.project = project;
-        this.toolWindow = toolWindow;
         service = CodeReadingRecorderService.getInstance(project);
         topicDetailPanel = new TopicDetailPanel(project);
         initTopicList();

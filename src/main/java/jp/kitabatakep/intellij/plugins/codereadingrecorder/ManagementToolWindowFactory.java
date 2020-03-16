@@ -15,7 +15,7 @@ public class ManagementToolWindowFactory implements ToolWindowFactory
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow)
     {
-        ManagementPanel panel = new ManagementPanel(project, toolWindow);
+        ManagementPanel panel = new ManagementPanel(project);
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(panel, "", false);
         toolWindow.getContentManager().addContent(content);
