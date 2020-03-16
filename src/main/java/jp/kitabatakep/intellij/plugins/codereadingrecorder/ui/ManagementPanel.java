@@ -3,6 +3,7 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBSplitter;
@@ -12,6 +13,7 @@ import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.*;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicDeleteAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,6 +73,9 @@ public class ManagementPanel extends JPanel
     {
         DefaultActionGroup actions = new DefaultActionGroup();
         actions.add(new TopicAddAction());
+        actions.add(new TopicDeleteAction(project, (v) -> {
+            return topicList.getSelectedValue();
+        }));
 
         ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(AppConstants.appName, actions, true);
         actionToolbar.setReservePlaceAutoPopupIcon(false);
@@ -109,7 +114,10 @@ public class ManagementPanel extends JPanel
             {
                 if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     Topic topic = topicList.getSelectedValue();
-                    service.getTopicList().deleteTopic(topic);
+                    ActionUtil.performActionDumbAware(
+                        new TopicDeleteAction(project, (v) -> { return topic; }),
+                        ActionUtil.createEmptyEvent()
+                    );
                 }
             }
         });
