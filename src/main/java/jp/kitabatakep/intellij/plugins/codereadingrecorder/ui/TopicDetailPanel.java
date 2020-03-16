@@ -1,11 +1,10 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
+import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
@@ -20,6 +19,7 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicNotifier;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineDeleteAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -90,15 +90,9 @@ class TopicDetailPanel extends JPanel
             {
                 if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     TopicLine topicLine = topicLineList.getSelectedValue();
-                    topic.deleteLine(topicLine);
-
-                    Notifications.Bus.notify(
-                        new Notification(
-                            "hoge",
-                            "DeleteKey",
-                            topicLine.file().getName(),
-                            NotificationType.INFORMATION
-                        )
+                    ActionUtil.performActionDumbAware(
+                        new TopicLineDeleteAction(project, (v) -> { return new Pair<>(topic, topicLine); }),
+                        ActionUtil.createEmptyEvent()
                     );
                 }
             }
