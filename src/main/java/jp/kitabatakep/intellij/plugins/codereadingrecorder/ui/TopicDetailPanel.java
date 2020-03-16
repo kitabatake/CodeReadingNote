@@ -4,6 +4,8 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.popup.util.DetailView;
@@ -22,6 +24,7 @@ import java.util.Iterator;
 
 class TopicDetailPanel extends JPanel
 {
+    private Project project;
     private final JLabel myLabel = new JLabel();
 
     private JBList<TopicLine> topicLineList;
@@ -34,8 +37,9 @@ class TopicDetailPanel extends JPanel
     public TopicDetailPanel(Project project)
     {
         super(new BorderLayout());
-        initTopicLineList();
+        this.project = project;
 
+        initTopicLineList();
         detailView = new MyDetailView(project);
 
         JBSplitter splitPane = new JBSplitter(0.3f);
@@ -50,7 +54,7 @@ class TopicDetailPanel extends JPanel
     private void initTopicLineList()
     {
         topicLineList = new JBList<>();
-        topicLineList.setCellRenderer(new TopicLineListCellRenderer<>());
+        topicLineList.setCellRenderer(new TopicLineListCellRenderer<>(project));
         topicLineList.addListSelectionListener(e -> {
             TopicLine topicLine = topicLineList.getSelectedValue();
             if (selectedTopicLine == null || topicLine != selectedTopicLine) {
@@ -90,8 +94,11 @@ class TopicDetailPanel extends JPanel
 
     private static class TopicLineListCellRenderer<T> extends JLabel implements ListCellRenderer<T>
     {
-        private TopicLineListCellRenderer()
+        private Project project;
+
+        private TopicLineListCellRenderer(Project project)
         {
+            this.project = project;
             setOpaque(true);
         }
 
@@ -104,6 +111,13 @@ class TopicDetailPanel extends JPanel
         {
             TopicLine topicLine = (TopicLine) value;
             VirtualFile file = topicLine.file();
+
+            PsiElement fileOrDir = PsiUtilCore.findFileSystemItem(project, file);
+            if (fileOrDir != null) {
+                setIcon(fileOrDir.getIcon(0));
+            }
+
+
 
             setText(file.getName() + ":" + topicLine.line());
 
