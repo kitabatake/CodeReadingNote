@@ -1,5 +1,7 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
+import com.intellij.openapi.project.Project;
+import com.intellij.util.messages.MessageBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -12,8 +14,10 @@ public class Topic implements Comparable<Topic>
     private String name;
     private Date createdAt;
     private ArrayList<TopicLine> lines = new ArrayList<>();
+    private Project project;
 
-    public Topic(int id, String name, Date createdAt) {
+    public Topic(Project project, int id, String name, Date createdAt) {
+        this.project = project;
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
@@ -40,6 +44,17 @@ public class Topic implements Comparable<Topic>
     public void addLine(TopicLine line)
     {
         lines.add(line);
+    }
+
+    public void deleteLine(TopicLine line)
+    {
+        lines.remove(line);
+
+        MessageBus messageBus = project.getMessageBus();
+        TopicNotifier publisher = messageBus.syncPublisher(TopicNotifier.TOPIC_NOTIFIER_TOPIC);
+        publisher.lineDeleted(this, line);
+
+
     }
 
     public Iterator<TopicLine> linesIterator()

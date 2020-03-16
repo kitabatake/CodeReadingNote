@@ -27,7 +27,7 @@ public class TopicList
 
     public void addTopic(String name)
     {
-        Topic topic = new Topic(nextTopicId, name, new Date());
+        Topic topic = new Topic(project, nextTopicId, name, new Date());
         topics.add(topic);
         nextTopicId++;
 
@@ -57,7 +57,7 @@ public class TopicList
 
             Topic topic;
             try {
-                topic = new Topic(id, name, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(createdAtString));
+                topic = new Topic(project, id, name, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(createdAtString));
             } catch (ParseException e) {
                 Logger.getInstance(AppConstants.appName).error(e.getMessage());
                 continue;
