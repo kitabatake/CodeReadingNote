@@ -10,14 +10,13 @@ import com.intellij.ui.components.JBList;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListNotifier;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.*;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
@@ -63,7 +62,7 @@ public class ManagementPanel extends JPanel
             @Override
             public void topicDeleted(Topic topic)
             {
-
+                topicListModel.removeElement(topic);
             }
         });
     }
@@ -95,9 +94,23 @@ public class ManagementPanel extends JPanel
         topicList.setCellRenderer(new TopicListCellRenderer<Topic>());
         topicList.addListSelectionListener(e -> {
             Topic topic = topicList.getSelectedValue();
-            if (selectedTopic == null || selectedTopic != topic) {
+            if (topic == null) {
+                topicDetailPanel.clear();
+            } else if (selectedTopic == null || selectedTopic != topic) {
                 selectedTopic = topic;
                 topicDetailPanel.setTopic(topic);
+            }
+        });
+
+        topicList.addKeyListener(new KeyAdapter()
+        {
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    Topic topic = topicList.getSelectedValue();
+                    service.getTopicList().deleteTopic(topic);
+                }
             }
         });
     }

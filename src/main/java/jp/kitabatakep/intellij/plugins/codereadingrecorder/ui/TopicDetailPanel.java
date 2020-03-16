@@ -120,6 +120,12 @@ class TopicDetailPanel extends JPanel
         }
     }
 
+    void clear()
+    {
+        myLabel.setText("");
+        topicLineListModel.clear();
+    }
+
     void setTopic(Topic topic)
     {
         this.topic = topic;

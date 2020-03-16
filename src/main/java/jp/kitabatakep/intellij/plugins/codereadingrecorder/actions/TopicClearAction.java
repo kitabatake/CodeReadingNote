@@ -3,7 +3,6 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicList;
 import org.jetbrains.annotations.NotNull;
 
 public class TopicClearAction extends AnAction

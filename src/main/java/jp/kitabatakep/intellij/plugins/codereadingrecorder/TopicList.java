@@ -36,6 +36,14 @@ public class TopicList
         publisher.topicAdded(topic);
     }
 
+    public void deleteTopic(Topic topic)
+    {
+        topics.remove(topic);
+        MessageBus messageBus = project.getMessageBus();
+        TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
+        publisher.topicDeleted(topic);
+    }
+
     public Iterator<Topic> iterator()
     {
         return topics.iterator();
