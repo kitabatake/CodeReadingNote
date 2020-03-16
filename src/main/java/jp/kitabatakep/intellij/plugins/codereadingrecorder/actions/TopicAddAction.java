@@ -3,6 +3,7 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicList;
@@ -27,7 +28,17 @@ public class TopicAddAction extends AnAction
             "Create New Topic",
             Messages.getQuestionIcon(),
             "",
-            null
+            new InputValidator()
+            {
+                @Override
+                public boolean checkInput(String inputString)
+                {
+                    return !inputString.strip().equals("");
+                }
+
+                @Override
+                public boolean canClose(String inputString) { return true; }
+            }
         );
 
         CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(e.getProject());
