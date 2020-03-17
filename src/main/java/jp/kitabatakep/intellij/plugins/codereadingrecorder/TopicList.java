@@ -46,6 +46,7 @@ public class TopicList
 
     public Iterator<Topic> iterator()
     {
+        Collections.sort(topics);
         return topics.iterator();
     }
 
