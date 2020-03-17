@@ -141,7 +141,7 @@ public class ManagementPanel extends JPanel
             boolean cellHasFocus)
         {
             Topic topic = (Topic) value;
-            setText(topic.name() + "(" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.createdAt()) + ")");
+            setText(topic.name() + "(" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.updatedAt()) + ")");
 
             setForeground(UIUtil.getListSelectionForeground(isSelected));
             setBackground(UIUtil.getListSelectionBackground(isSelected));

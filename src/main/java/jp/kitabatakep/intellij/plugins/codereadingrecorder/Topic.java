@@ -12,15 +12,15 @@ public class Topic implements Comparable<Topic>
 {
     private int id;
     private String name;
-    private Date createdAt;
+    private Date updatedAt;
     private ArrayList<TopicLine> lines = new ArrayList<>();
     private Project project;
 
-    public Topic(Project project, int id, String name, Date createdAt) {
+    public Topic(Project project, int id, String name, Date updatedAt) {
         this.project = project;
         this.id = id;
         this.name = name;
-        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public int id()
@@ -33,12 +33,12 @@ public class Topic implements Comparable<Topic>
         return name;
     }
 
-    public Date createdAt() { return createdAt; }
+    public Date updatedAt() { return updatedAt; }
 
     @Override
     public int compareTo(@NotNull Topic topic)
     {
-        return topic.createdAt().compareTo(createdAt);
+        return topic.updatedAt().compareTo(updatedAt);
     }
 
     public void addLine(TopicLine line)

@@ -61,11 +61,11 @@ public class TopicList
         for (Element topicElement : topicsElement.getChildren("topic")) {
             int id = Integer.valueOf(topicElement.getAttributeValue("id")).intValue();
             String name = topicElement.getAttributeValue("name");
-            String createdAtString = topicElement.getAttributeValue("createdAt");
+            String updatedAtString = topicElement.getAttributeValue("updatedAt");
 
             Topic topic;
             try {
-                topic = new Topic(project, id, name, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(createdAtString));
+                topic = new Topic(project, id, name, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(updatedAtString));
             } catch (ParseException e) {
                 Logger.getInstance(AppConstants.appName).error(e.getMessage());
                 continue;
@@ -99,7 +99,7 @@ public class TopicList
             Element topicElement = new Element("topic");
             topicElement.setAttribute("id", Integer.toString(topic.id()));
             topicElement.setAttribute("name", topic.name());
-            topicElement.setAttribute("createdAt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.createdAt()));
+            topicElement.setAttribute("updatedAt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.updatedAt()));
 
             topicsElement.addContent(topicElement);
 
