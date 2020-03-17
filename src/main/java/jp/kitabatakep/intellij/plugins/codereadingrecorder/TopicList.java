@@ -78,7 +78,10 @@ public class TopicList
                 String lineString = topicLineElement.getAttributeValue("line");
                 int line = Integer.parseInt(lineString);
                 VirtualFile file = VirtualFileManager.getInstance().findFileByUrl(url);
-                topic.addLine(new TopicLine(file, line));
+
+                TopicLine topicLine = new TopicLine(file, line);
+                topicLine.setOrder(Integer.parseInt(topicLineElement.getAttributeValue("order")));
+                topic.addLine(topicLine);
             }
             topics.add(topic);
         }
@@ -112,6 +115,7 @@ public class TopicList
                 Element topicLineElement = new Element("topicLine");
                 topicLineElement.setAttribute("line", String.valueOf(topicLine.line()));
                 topicLineElement.setAttribute("url", topicLine.file().getUrl());
+                topicLineElement.setAttribute("order", String.valueOf(topicLine.order()));
                 topicLinesElement.addContent(topicLineElement);
             }
 

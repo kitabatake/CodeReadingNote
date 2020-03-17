@@ -1,5 +1,8 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -9,10 +12,12 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.JBSplitter;
+import com.intellij.ui.RowsDnDSupport;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.popup.util.DetailView;
 import com.intellij.ui.popup.util.DetailViewImpl;
 import com.intellij.util.messages.MessageBus;
+import com.intellij.util.ui.EditableModel;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
@@ -35,12 +40,31 @@ class TopicDetailPanel extends JPanel
     private final JLabel myLabel = new JLabel();
 
     private JBList<TopicLine> topicLineList;
-    private DefaultListModel<TopicLine> topicLineListModel;
+    private TopicLineListModel<TopicLine> topicLineListModel = new TopicLineListModel<>();
 
     private MyDetailView detailView;
 
     private Topic topic;
     private TopicLine selectedTopicLine;
+
+    private static class TopicLineListModel<T> extends DefaultListModel<T> implements EditableModel
+    {
+        public void addRow() {}
+        public void removeRow(int i) {}
+        public boolean canExchangeRows(int oldIndex, int newIndex) { return true; }
+
+        public void exchangeRows(int oldIndex, int newIndex)
+        {
+            TopicLine a = (TopicLine) get(oldIndex);
+            a.setOrder(newIndex);
+
+            TopicLine b = (TopicLine) get(newIndex);
+            b.setOrder(oldIndex);
+
+            set(newIndex, (T)a);
+            set(oldIndex, (T)b);
+        }
+    }
 
     public TopicDetailPanel(Project project)
     {
@@ -106,6 +130,10 @@ class TopicDetailPanel extends JPanel
                 }
             }
         });
+
+        topicLineList.setDragEnabled(true);
+        RowsDnDSupport.install(topicLineList, topicLineListModel);
+
     }
 
     private static class MyDetailView extends DetailViewImpl
@@ -134,7 +162,7 @@ class TopicDetailPanel extends JPanel
         this.topic = topic;
         myLabel.setText(topic.name());
 
-        topicLineListModel = new DefaultListModel<>();
+        topicLineListModel.clear();
         Iterator<TopicLine> iterator = topic.linesIterator();
         while (iterator.hasNext()) {
             topicLineListModel.addElement(iterator.next());
@@ -167,8 +195,6 @@ class TopicDetailPanel extends JPanel
             if (fileOrDir != null) {
                 setIcon(fileOrDir.getIcon(0));
             }
-
-
 
             setText(file.getName() + ":" + topicLine.line());
 

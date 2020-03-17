@@ -5,6 +5,7 @@ import com.intellij.util.messages.MessageBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -43,9 +44,16 @@ public class Topic implements Comparable<Topic>
 
     public void addLine(TopicLine line)
     {
-        lines.add(line);
         updatedAt = new Date();
 
+        Collections.sort(lines);
+        if (lines.size() > 0) {
+            line.setOrder(lines.get(lines.size()-1).order() + 1);
+        } else {
+            line.setOrder(0);
+        }
+
+        lines.add(line);
         MessageBus messageBus = project.getMessageBus();
         TopicNotifier publisher = messageBus.syncPublisher(TopicNotifier.TOPIC_NOTIFIER_TOPIC);
         publisher.lineAdded(this, line);
@@ -63,6 +71,7 @@ public class Topic implements Comparable<Topic>
 
     public Iterator<TopicLine> linesIterator()
     {
+        Collections.sort(lines);
         return lines.iterator();
     }
 }
