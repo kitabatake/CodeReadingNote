@@ -1,8 +1,5 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -29,6 +26,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -38,6 +38,7 @@ class TopicDetailPanel extends JPanel
 {
     private Project project;
     private final JLabel myLabel = new JLabel();
+    private final JTextArea memoArea = new JTextArea();
 
     private JBList<TopicLine> topicLineList;
     private TopicLineListModel<TopicLine> topicLineListModel = new TopicLineListModel<>();
@@ -47,24 +48,6 @@ class TopicDetailPanel extends JPanel
     private Topic topic;
     private TopicLine selectedTopicLine;
 
-    private static class TopicLineListModel<T> extends DefaultListModel<T> implements EditableModel
-    {
-        public void addRow() {}
-        public void removeRow(int i) {}
-        public boolean canExchangeRows(int oldIndex, int newIndex) { return true; }
-
-        public void exchangeRows(int oldIndex, int newIndex)
-        {
-            TopicLine a = (TopicLine) get(oldIndex);
-            a.setOrder(newIndex);
-
-            TopicLine b = (TopicLine) get(newIndex);
-            b.setOrder(oldIndex);
-
-            set(newIndex, (T)a);
-            set(oldIndex, (T)b);
-        }
-    }
 
     public TopicDetailPanel(Project project)
     {
@@ -79,7 +62,10 @@ class TopicDetailPanel extends JPanel
         splitPane.setFirstComponent(topicLineList);
         splitPane.setSecondComponent(detailView);
 
-        add(myLabel);
+//        add(myLabel);
+        memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));
+        add(memoArea, BorderLayout.NORTH);
+
         add(splitPane);
 
         MessageBus messageBus = project.getMessageBus();
@@ -100,6 +86,36 @@ class TopicDetailPanel extends JPanel
                 }
             }
         });
+    }
+
+    private static class MemoAreaListener implements DocumentListener
+    {
+        TopicDetailPanel topicDetailPanel;
+
+        private MemoAreaListener(TopicDetailPanel topicDetailPanel)
+        {
+            this.topicDetailPanel = topicDetailPanel;
+        }
+
+        public void insertUpdate(DocumentEvent e) {
+            javax.swing.text.Document doc = e.getDocument();
+            try {
+                topicDetailPanel.topic.setMemo(doc.getText(0, doc.getLength()));
+            } catch (BadLocationException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+            javax.swing.text.Document doc = e.getDocument();
+            try {
+                topicDetailPanel.topic.setMemo(doc.getText(0, doc.getLength()));
+            } catch (BadLocationException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        public void changedUpdate(DocumentEvent e) {}
     }
 
     private void initTopicLineList()
@@ -154,6 +170,7 @@ class TopicDetailPanel extends JPanel
     void clear()
     {
         myLabel.setText("");
+        memoArea.setText("");
         topicLineListModel.clear();
     }
 
@@ -161,6 +178,7 @@ class TopicDetailPanel extends JPanel
     {
         this.topic = topic;
         myLabel.setText(topic.name());
+        memoArea.setText(topic.memo());
 
         topicLineListModel.clear();
         Iterator<TopicLine> iterator = topic.linesIterator();
@@ -201,6 +219,25 @@ class TopicDetailPanel extends JPanel
             setForeground(UIUtil.getListSelectionForeground(isSelected));
             setBackground(UIUtil.getListSelectionBackground(isSelected));
             return this;
+        }
+    }
+
+    private static class TopicLineListModel<T> extends DefaultListModel<T> implements EditableModel
+    {
+        public void addRow() {}
+        public void removeRow(int i) {}
+        public boolean canExchangeRows(int oldIndex, int newIndex) { return true; }
+
+        public void exchangeRows(int oldIndex, int newIndex)
+        {
+            TopicLine a = (TopicLine) get(oldIndex);
+            a.setOrder(newIndex);
+
+            TopicLine b = (TopicLine) get(newIndex);
+            b.setOrder(oldIndex);
+
+            set(newIndex, (T)a);
+            set(oldIndex, (T)b);
         }
     }
 }

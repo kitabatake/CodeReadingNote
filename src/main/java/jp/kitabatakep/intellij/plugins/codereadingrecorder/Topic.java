@@ -13,6 +13,7 @@ public class Topic implements Comparable<Topic>
 {
     private int id;
     private String name;
+    private String memo;
     private Date updatedAt;
     private ArrayList<TopicLine> lines = new ArrayList<>();
     private Project project;
@@ -33,6 +34,14 @@ public class Topic implements Comparable<Topic>
     {
         return name;
     }
+    public String memo() {
+        return memo != null ? memo : "";
+    }
+
+    public void setMemo(String memo)
+    {
+        this.memo = memo;
+    }
 
     public Date updatedAt() { return updatedAt; }
 
@@ -42,9 +51,11 @@ public class Topic implements Comparable<Topic>
         return topic.updatedAt().compareTo(updatedAt);
     }
 
-    public void addLine(TopicLine line)
+    public void addLine(TopicLine line, Boolean doUpdate)
     {
-        updatedAt = new Date();
+        if (doUpdate) {
+            updatedAt = new Date();
+        }
 
         Collections.sort(lines);
         if (lines.size() > 0) {

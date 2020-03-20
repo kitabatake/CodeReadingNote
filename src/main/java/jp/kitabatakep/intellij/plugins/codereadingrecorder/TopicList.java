@@ -72,6 +72,8 @@ public class TopicList
                 continue;
             }
 
+            topic.setMemo(topicElement.getAttributeValue("memo"));
+
             Element topicLinesElement = topicElement.getChild("topicLines");
             for (Element topicLineElement : topicLinesElement.getChildren("topicLine")) {
                 String url = topicLineElement.getAttributeValue("url");
@@ -81,7 +83,7 @@ public class TopicList
 
                 TopicLine topicLine = new TopicLine(file, line);
                 topicLine.setOrder(Integer.parseInt(topicLineElement.getAttributeValue("order")));
-                topic.addLine(topicLine);
+                topic.addLine(topicLine, false);
             }
             topics.add(topic);
         }
@@ -103,6 +105,7 @@ public class TopicList
             Element topicElement = new Element("topic");
             topicElement.setAttribute("id", Integer.toString(topic.id()));
             topicElement.setAttribute("name", topic.name());
+            topicElement.setAttribute("memo", topic.memo());
             topicElement.setAttribute("updatedAt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.updatedAt()));
 
             topicsElement.addContent(topicElement);
