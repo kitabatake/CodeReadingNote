@@ -37,7 +37,6 @@ import java.util.Iterator;
 class TopicDetailPanel extends JPanel
 {
     private Project project;
-    private final JLabel myLabel = new JLabel();
     private final JTextArea memoArea = new JTextArea();
 
     private JBList<TopicLine> topicLineList;
@@ -62,7 +61,6 @@ class TopicDetailPanel extends JPanel
         splitPane.setFirstComponent(topicLineList);
         splitPane.setSecondComponent(detailView);
 
-//        add(myLabel);
         memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));
         add(memoArea, BorderLayout.NORTH);
 
@@ -169,7 +167,6 @@ class TopicDetailPanel extends JPanel
 
     void clear()
     {
-        myLabel.setText("");
         memoArea.setText("");
         topicLineListModel.clear();
     }
@@ -177,7 +174,6 @@ class TopicDetailPanel extends JPanel
     void setTopic(Topic topic)
     {
         this.topic = topic;
-        myLabel.setText(topic.name());
         memoArea.setText(topic.memo());
 
         topicLineListModel.clear();
