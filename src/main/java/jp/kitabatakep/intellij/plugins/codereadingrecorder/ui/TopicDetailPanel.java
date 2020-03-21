@@ -1,13 +1,19 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
+import com.google.wireless.android.sdk.stats.IntellijProjectSizeStats;
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.impl.EditorFactoryImpl;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
+import com.intellij.ui.EditorTextField;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.RowsDnDSupport;
 import com.intellij.ui.components.JBList;
@@ -27,17 +33,17 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import com.intellij.openapi.editor.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 
-class TopicDetailPanel extends JPanel
+class TopicDetailPanel extends JPanel implements Disposable
 {
     private Project project;
-    private final JTextArea memoArea = new JTextArea();
+    private final EditorTextField memoArea = new EditorTextField();
 
     private JBList<TopicLine> topicLineList;
     private TopicLineListModel<TopicLine> topicLineListModel = new TopicLineListModel<>();
@@ -51,6 +57,8 @@ class TopicDetailPanel extends JPanel
     public TopicDetailPanel(Project project)
     {
         super(new BorderLayout());
+        Disposer.register(project, this);
+
         this.project = project;
 
         initTopicLineList();
@@ -62,6 +70,7 @@ class TopicDetailPanel extends JPanel
         splitPane.setSecondComponent(detailView);
 
         memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));
+//        memoArea.setFileType(IntellijProjectSizeStats.FileType.UNKNOWN_FILE_TYPE);
         add(memoArea, BorderLayout.NORTH);
 
         add(splitPane);
@@ -86,6 +95,14 @@ class TopicDetailPanel extends JPanel
         });
     }
 
+    @Override
+    public void dispose()
+    {
+        if (memoArea.getEditor() != null) {
+            EditorFactory.getInstance().releaseEditor(memoArea.getEditor());
+        }
+    }
+
     private static class MemoAreaListener implements DocumentListener
     {
         TopicDetailPanel topicDetailPanel;
@@ -95,25 +112,11 @@ class TopicDetailPanel extends JPanel
             this.topicDetailPanel = topicDetailPanel;
         }
 
-        public void insertUpdate(DocumentEvent e) {
-            javax.swing.text.Document doc = e.getDocument();
-            try {
-                topicDetailPanel.topic.setMemo(doc.getText(0, doc.getLength()));
-            } catch (BadLocationException ex) {
-                ex.printStackTrace();
-            }
+        public void documentChanged(com.intellij.openapi.editor.event.DocumentEvent e)
+        {
+            Document doc = e.getDocument();
+            topicDetailPanel.topic.setMemo(doc.getText());
         }
-
-        public void removeUpdate(DocumentEvent e) {
-            javax.swing.text.Document doc = e.getDocument();
-            try {
-                topicDetailPanel.topic.setMemo(doc.getText(0, doc.getLength()));
-            } catch (BadLocationException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        public void changedUpdate(DocumentEvent e) {}
     }
 
     private void initTopicLineList()
@@ -174,7 +177,14 @@ class TopicDetailPanel extends JPanel
     void setTopic(Topic topic)
     {
         this.topic = topic;
+
+//        if (topic.memo().equals("")) {
+//            memoArea.setPlaceholder("memo input area");
+//        } else {
+//            memoArea.setText(topic.memo());
+//        }
         memoArea.setText(topic.memo());
+        memoArea.setOneLineMode(false);
 
         topicLineListModel.clear();
         Iterator<TopicLine> iterator = topic.linesIterator();
