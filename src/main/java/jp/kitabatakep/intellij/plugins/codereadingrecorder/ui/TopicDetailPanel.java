@@ -7,6 +7,8 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.impl.EditorFactoryImpl;
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.Pair;
@@ -28,6 +30,7 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicNotifier;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineDeleteAction;
+import kotlin.reflect.jvm.internal.impl.load.java.components.JavaAnnotationMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,10 +43,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 
-class TopicDetailPanel extends JPanel implements Disposable
+class TopicDetailPanel extends JPanel
 {
     private Project project;
-    private final EditorTextField memoArea = new EditorTextField();
+    private EditorTextField memoArea;
 
     private JBList<TopicLine> topicLineList;
     private TopicLineListModel<TopicLine> topicLineListModel = new TopicLineListModel<>();
@@ -57,9 +60,11 @@ class TopicDetailPanel extends JPanel implements Disposable
     public TopicDetailPanel(Project project)
     {
         super(new BorderLayout());
-        Disposer.register(project, this);
 
         this.project = project;
+
+        memoArea = new EditorTextField(project, FileTypes.PLAIN_TEXT);
+        memoArea.setOneLineMode(false);
 
         initTopicLineList();
         detailView = new MyDetailView(project);
@@ -69,10 +74,7 @@ class TopicDetailPanel extends JPanel implements Disposable
         splitPane.setFirstComponent(topicLineList);
         splitPane.setSecondComponent(detailView);
 
-        memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));
-//        memoArea.setFileType(IntellijProjectSizeStats.FileType.UNKNOWN_FILE_TYPE);
         add(memoArea, BorderLayout.NORTH);
-
         add(splitPane);
 
         MessageBus messageBus = project.getMessageBus();
@@ -96,12 +98,21 @@ class TopicDetailPanel extends JPanel implements Disposable
     }
 
     @Override
-    public void dispose()
+    public void removeNotify()
     {
+        super.removeNotify();
         if (memoArea.getEditor() != null) {
             EditorFactory.getInstance().releaseEditor(memoArea.getEditor());
         }
     }
+
+//    @Override
+//    public void dispose()
+//    {
+//        if (memoArea.getEditor() != null) {
+//            EditorFactory.getInstance().releaseEditor(memoArea.getEditor());
+//        }
+//    }
 
     private static class MemoAreaListener implements DocumentListener
     {
@@ -178,13 +189,11 @@ class TopicDetailPanel extends JPanel implements Disposable
     {
         this.topic = topic;
 
-//        if (topic.memo().equals("")) {
-//            memoArea.setPlaceholder("memo input area");
-//        } else {
-//            memoArea.setText(topic.memo());
-//        }
-        memoArea.setText(topic.memo());
-        memoArea.setOneLineMode(false);
+        if (topic.memo().equals("")) {
+            memoArea.setPlaceholder("memo input area");
+        }
+        memoArea.setDocument(EditorFactory.getInstance().createDocument(topic.memo()));
+        memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));
 
         topicLineListModel.clear();
         Iterator<TopicLine> iterator = topic.linesIterator();
