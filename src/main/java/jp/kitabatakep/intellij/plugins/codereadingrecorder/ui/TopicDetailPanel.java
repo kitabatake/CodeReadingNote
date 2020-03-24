@@ -63,19 +63,23 @@ class TopicDetailPanel extends JPanel
 
         this.project = project;
 
+        JBSplitter contentPane = new JBSplitter(true, 0.3f);
+        contentPane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelContentPane.splitter");
+
         memoArea = new EditorTextField(project, FileTypes.PLAIN_TEXT);
         memoArea.setOneLineMode(false);
+        contentPane.setFirstComponent(memoArea);
 
         initTopicLineList();
         detailView = new MyDetailView(project);
 
-        JBSplitter splitPane = new JBSplitter(0.3f);
-        splitPane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanel.splitter");
-        splitPane.setFirstComponent(topicLineList);
-        splitPane.setSecondComponent(detailView);
+        JBSplitter topicLinePane = new JBSplitter(0.3f);
+        topicLinePane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelTopicLinePane.splitter");
+        topicLinePane.setFirstComponent(topicLineList);
+        topicLinePane.setSecondComponent(detailView);
 
-        add(memoArea, BorderLayout.NORTH);
-        add(splitPane);
+        contentPane.setSecondComponent(topicLinePane);
+        add(contentPane);
 
         MessageBus messageBus = project.getMessageBus();
         messageBus.connect().subscribe(TopicNotifier.TOPIC_NOTIFIER_TOPIC, new TopicNotifier(){
