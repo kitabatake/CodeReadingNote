@@ -6,11 +6,8 @@ import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.impl.EditorFactoryImpl;
-import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -30,14 +27,11 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicNotifier;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineDeleteAction;
-import kotlin.reflect.jvm.internal.impl.load.java.components.JavaAnnotationMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
-import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -109,14 +103,6 @@ class TopicDetailPanel extends JPanel
             EditorFactory.getInstance().releaseEditor(memoArea.getEditor());
         }
     }
-
-//    @Override
-//    public void dispose()
-//    {
-//        if (memoArea.getEditor() != null) {
-//            EditorFactory.getInstance().releaseEditor(memoArea.getEditor());
-//        }
-//    }
 
     private static class MemoAreaListener implements DocumentListener
     {
