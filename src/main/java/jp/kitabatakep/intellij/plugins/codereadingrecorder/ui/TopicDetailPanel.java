@@ -1,7 +1,5 @@
 package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
-import com.google.wireless.android.sdk.stats.IntellijProjectSizeStats;
-import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;

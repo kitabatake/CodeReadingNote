@@ -8,6 +8,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBSplitter;
+import com.intellij.ui.SimpleColoredComponent;
+import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
@@ -44,6 +46,7 @@ public class ManagementPanel extends JPanel
 
         JBSplitter splitPane = new JBSplitter(0.3f);
         splitPane.setSplitterProportionKey(AppConstants.appName + "ManagementPanel.splitter");
+        splitPane.setHonorComponentsMinimumSize(false);
 
         splitPane.setFirstComponent(topicList);
         splitPane.setSecondComponent(topicDetailPanel);
@@ -128,7 +131,7 @@ public class ManagementPanel extends JPanel
         });
     }
 
-    private static class TopicListCellRenderer<T> extends JLabel implements ListCellRenderer<T>
+    private static class TopicListCellRenderer<T> extends SimpleColoredComponent implements ListCellRenderer<T>
     {
         private TopicListCellRenderer() {
             setOpaque(true);
@@ -141,8 +144,14 @@ public class ManagementPanel extends JPanel
             boolean isSelected,
             boolean cellHasFocus)
         {
+            clear();
+
             Topic topic = (Topic) value;
-            setText(topic.name());
+            append(topic.name());
+            append(
+                " (" + new SimpleDateFormat("yyyy/MM/dd HH:mm").format(topic.updatedAt()) + ")",
+                SimpleTextAttributes.GRAY_ATTRIBUTES
+            );
 
             setForeground(UIUtil.getListSelectionForeground(isSelected));
             setBackground(UIUtil.getListSelectionBackground(isSelected));
