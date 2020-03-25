@@ -168,7 +168,7 @@ class TopicDetailPanel extends JPanel
         this.topic = topic;
 
         if (topic.memo().equals("")) {
-            memoArea.setPlaceholder("memo input area");
+            memoArea.setPlaceholder("topic note input area");
         }
         memoArea.setDocument(EditorFactory.getInstance().createDocument(topic.memo()));
         memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));

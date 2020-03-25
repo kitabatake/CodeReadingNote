@@ -83,6 +83,8 @@ public class TopicList
 
                 TopicLine topicLine = new TopicLine(project, file, line);
                 topicLine.setOrder(Integer.parseInt(topicLineElement.getAttributeValue("order")));
+                topicLine.setMemo(topicLineElement.getAttributeValue("memo"));
+
                 topic.addLine(topicLine, false);
             }
             topics.add(topic);
@@ -118,6 +120,7 @@ public class TopicList
                 Element topicLineElement = new Element("topicLine");
                 topicLineElement.setAttribute("line", String.valueOf(topicLine.line()));
                 topicLineElement.setAttribute("url", topicLine.file().getUrl());
+                topicLineElement.setAttribute("memo", topicLine.memo());
                 topicLineElement.setAttribute("order", String.valueOf(topicLine.order()));
                 topicLinesElement.addContent(topicLineElement);
             }
