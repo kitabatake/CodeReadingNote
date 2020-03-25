@@ -56,13 +56,14 @@ public class Topic implements Comparable<Topic>
         return topic.updatedAt().compareTo(updatedAt);
     }
 
-    public void addLine(TopicLine line, Boolean doUpdate)
+    public void setLines(ArrayList<TopicLine> lines)
     {
-        if (doUpdate) {
-            updatedAt = new Date();
-        }
-
+        this.lines = lines;
         Collections.sort(lines);
+    }
+
+    public void addLine(TopicLine line)
+    {
         if (lines.size() > 0) {
             line.setOrder(lines.get(lines.size()-1).order() + 1);
         } else {

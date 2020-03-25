@@ -50,12 +50,6 @@ public class TopicList
         return topics.iterator();
     }
 
-    public void clearTopicList()
-    {
-        topics.clear();
-    }
-
-
     public void loadState(Element element)
     {
         Element topicsElement = element.getChild("topics");
@@ -74,6 +68,7 @@ public class TopicList
             topic.setMemo(topicElement.getAttributeValue("memo"));
 
             Element topicLinesElement = topicElement.getChild("topicLines");
+            ArrayList<TopicLine> topicLines = new ArrayList<>();
             for (Element topicLineElement : topicLinesElement.getChildren("topicLine")) {
                 String url = topicLineElement.getAttributeValue("url");
                 String lineString = topicLineElement.getAttributeValue("line");
@@ -85,8 +80,9 @@ public class TopicList
                     Integer.parseInt(topicLineElement.getAttributeValue("order")),
                     topicLineElement.getAttributeValue("memo")
                 );
-                topic.addLine(topicLine, false);
+                topicLines.add(topicLine);
             }
+            topic.setLines(topicLines);
             topics.add(topic);
         }
         Collections.sort(topics);
