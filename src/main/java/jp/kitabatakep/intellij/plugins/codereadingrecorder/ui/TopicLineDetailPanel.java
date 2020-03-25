@@ -51,7 +51,9 @@ public class TopicLineDetailPanel extends JPanel
 
     public void clear()
     {
+        topicLine = null;
         detailView.clearEditor();
+        memoArea.setDocument(EditorFactory.getInstance().createDocument(""));
     }
 
     public void setTopicLine(TopicLine topicLine)

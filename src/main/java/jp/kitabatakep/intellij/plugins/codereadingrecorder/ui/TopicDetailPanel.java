@@ -159,13 +159,16 @@ class TopicDetailPanel extends JPanel
 
     void clear()
     {
-        memoArea.setText("");
+        memoArea.setDocument(EditorFactory.getInstance().createDocument(""));
         topicLineListModel.clear();
+        topicLineDetailPanel.clear();
+        selectedTopicLine = null;
     }
 
     void setTopic(Topic topic)
     {
         this.topic = topic;
+        selectedTopicLine = null;
 
         if (topic.memo().equals("")) {
             memoArea.setPlaceholder("topic note input area");
