@@ -2,7 +2,6 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
@@ -13,20 +12,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
-import com.intellij.ui.popup.util.DetailView;
-import com.intellij.ui.popup.util.DetailViewImpl;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.EditableModel;
-import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicNotifier;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineDeleteAction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import javax.swing.*;
 import com.intellij.openapi.editor.event.DocumentListener;
 import java.awt.*;
@@ -40,15 +33,13 @@ class TopicDetailPanel extends JPanel
 {
     private Project project;
     private EditorTextField memoArea;
+    private TopicLineDetailPanel topicLineDetailPanel;
 
     private JBList<TopicLine> topicLineList;
     private TopicLineListModel<TopicLine> topicLineListModel = new TopicLineListModel<>();
 
-    private MyDetailView detailView;
-
     private Topic topic;
     private TopicLine selectedTopicLine;
-
 
     public TopicDetailPanel(Project project)
     {
@@ -64,12 +55,12 @@ class TopicDetailPanel extends JPanel
         contentPane.setFirstComponent(memoArea);
 
         initTopicLineList();
-        detailView = new MyDetailView(project);
+        topicLineDetailPanel = new TopicLineDetailPanel(project);
 
         JBSplitter topicLinePane = new JBSplitter(0.3f);
         topicLinePane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelTopicLinePane.splitter");
         topicLinePane.setFirstComponent(topicLineList);
-        topicLinePane.setSecondComponent(detailView);
+        topicLinePane.setSecondComponent(topicLineDetailPanel);
         topicLinePane.setHonorComponentsMinimumSize(false);
 
         contentPane.setSecondComponent(topicLinePane);
@@ -128,10 +119,10 @@ class TopicDetailPanel extends JPanel
         topicLineList.addListSelectionListener(e -> {
             TopicLine topicLine = topicLineList.getSelectedValue();
             if (topicLine == null) {
-                detailView.clearEditor();
+                topicLineDetailPanel.clear();
             } else if (selectedTopicLine == null || topicLine != selectedTopicLine) {
                 selectedTopicLine = topicLine;
-                detailView.navigateInPreviewEditor(DetailView.PreviewEditorState.create(topicLine.file(), topicLine.line()));
+                topicLineDetailPanel.setTopicLine(topicLine);
             }
         });
 
@@ -164,22 +155,6 @@ class TopicDetailPanel extends JPanel
 
         topicLineList.setDragEnabled(true);
         RowsDnDSupport.install(topicLineList, topicLineListModel);
-
-    }
-
-    private static class MyDetailView extends DetailViewImpl
-    {
-        MyDetailView(Project project) {
-            super(project);
-        }
-
-        @NotNull
-        @Override
-        protected Editor createEditor(@Nullable Project project, Document document, VirtualFile file) {
-            Editor editor = super.createEditor(project, document, file);
-            editor.setBorder(JBUI.Borders.empty());
-            return editor;
-        }
     }
 
     void clear()
