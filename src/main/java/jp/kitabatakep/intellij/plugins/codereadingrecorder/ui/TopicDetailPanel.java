@@ -13,9 +13,7 @@ import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
-import com.intellij.ui.EditorTextField;
-import com.intellij.ui.JBSplitter;
-import com.intellij.ui.RowsDnDSupport;
+import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.popup.util.DetailView;
 import com.intellij.ui.popup.util.DetailViewImpl;
@@ -211,7 +209,7 @@ class TopicDetailPanel extends JPanel
         topicLineList.setModel(topicLineListModel);
     }
 
-    private static class TopicLineListCellRenderer<T> extends JLabel implements ListCellRenderer<T>
+    private static class TopicLineListCellRenderer<T> extends SimpleColoredComponent implements ListCellRenderer<T>
     {
         private Project project;
 
@@ -236,7 +234,9 @@ class TopicDetailPanel extends JPanel
                 setIcon(fileOrDir.getIcon(0));
             }
 
-            setText(file.getName() + ":" + topicLine.line() + " (" + VfsUtilCore.getRelativeLocation(file, project.getBaseDir()) + ")");
+            clear();
+            append(file.getName() + ":" + topicLine.line());
+            append(" (" + VfsUtilCore.getRelativeLocation(file, project.getBaseDir()) + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
 
             setForeground(UIUtil.getListSelectionForeground(isSelected));
             setBackground(UIUtil.getListSelectionBackground(isSelected));
