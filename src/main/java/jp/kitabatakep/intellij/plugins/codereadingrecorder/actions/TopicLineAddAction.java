@@ -37,13 +37,13 @@ public class TopicLineAddAction extends AnAction
         Editor editor = event.getData(PlatformDataKeys.EDITOR);
         int line = editor.getCaretModel().getLogicalPosition().line;
 
-        Topic topic = topicSelectDialog(project);
+        Topic topic = topicSelectDialog(project,file.getName() + ":" + (line+1));
         if (topic != null) {
             topic.addLine(new TopicLine(project, file, line), true);
         }
     }
 
-    private Topic topicSelectDialog(Project project)
+    private Topic topicSelectDialog(Project project, String message)
     {
         CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
         TopicList topicList = service.getTopicList();
@@ -57,8 +57,8 @@ public class TopicLineAddAction extends AnAction
             topicStrings.add(topic.name());
         }
         int index = Messages.showChooseDialog(
-            "Choose Topic",
-            "Choose Topic",
+            message,
+            "Select Topic",
             topicStrings.toArray(new String[0]),
             topicStrings.get(0),
             Messages.getQuestionIcon()

@@ -235,7 +235,7 @@ class TopicDetailPanel extends JPanel
             }
 
             clear();
-            append(file.getName() + ":" + topicLine.line());
+            append(file.getName() + ":" + (topicLine.line()+1));
             append(" (" + VfsUtilCore.getRelativeLocation(file, project.getBaseDir()) + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
 
             setForeground(UIUtil.getListSelectionForeground(isSelected));
