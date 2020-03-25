@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
@@ -73,6 +74,7 @@ class TopicDetailPanel extends JPanel
         topicLinePane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelTopicLinePane.splitter");
         topicLinePane.setFirstComponent(topicLineList);
         topicLinePane.setSecondComponent(detailView);
+        topicLinePane.setHonorComponentsMinimumSize(false);
 
         contentPane.setSecondComponent(topicLinePane);
         add(contentPane);
@@ -234,7 +236,7 @@ class TopicDetailPanel extends JPanel
                 setIcon(fileOrDir.getIcon(0));
             }
 
-            setText(file.getName() + ":" + topicLine.line());
+            setText(file.getName() + ":" + topicLine.line() + " (" + VfsUtilCore.getRelativeLocation(file, project.getBaseDir()) + ")");
 
             setForeground(UIUtil.getListSelectionForeground(isSelected));
             setBackground(UIUtil.getListSelectionBackground(isSelected));
