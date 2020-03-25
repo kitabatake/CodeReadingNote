@@ -81,7 +81,7 @@ public class TopicList
                 int line = Integer.parseInt(lineString);
                 VirtualFile file = VirtualFileManager.getInstance().findFileByUrl(url);
 
-                TopicLine topicLine = new TopicLine(file, line);
+                TopicLine topicLine = new TopicLine(project, file, line);
                 topicLine.setOrder(Integer.parseInt(topicLineElement.getAttributeValue("order")));
                 topic.addLine(topicLine, false);
             }

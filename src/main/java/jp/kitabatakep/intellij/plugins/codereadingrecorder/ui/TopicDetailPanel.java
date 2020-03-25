@@ -35,6 +35,8 @@ import com.intellij.openapi.editor.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 
 class TopicDetailPanel extends JPanel
@@ -132,6 +134,19 @@ class TopicDetailPanel extends JPanel
             } else if (selectedTopicLine == null || topicLine != selectedTopicLine) {
                 selectedTopicLine = topicLine;
                 detailView.navigateInPreviewEditor(DetailView.PreviewEditorState.create(topicLine.file(), topicLine.line()));
+            }
+        });
+
+        topicLineList.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                if (e.getClickCount() >= 2) {
+                    int index = topicLineList.locationToIndex(e.getPoint());
+                    TopicLine topicLine = topicLineListModel.get(index);
+                    topicLine.navigate(true);
+                }
             }
         });
 
