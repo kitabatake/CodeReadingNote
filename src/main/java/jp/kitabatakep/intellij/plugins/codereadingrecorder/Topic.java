@@ -45,6 +45,11 @@ public class Topic implements Comparable<Topic>
 
     public Date updatedAt() { return updatedAt; }
 
+    public void touch()
+    {
+        updatedAt = new Date();
+    }
+
     @Override
     public int compareTo(@NotNull Topic topic)
     {

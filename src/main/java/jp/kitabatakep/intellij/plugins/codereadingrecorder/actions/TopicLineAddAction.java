@@ -39,7 +39,7 @@ public class TopicLineAddAction extends AnAction
 
         Topic topic = topicSelectDialog(project,file.getName() + ":" + (line+1));
         if (topic != null) {
-            topic.addLine(new TopicLine(project, file, line), true);
+            topic.addLine(new TopicLine(project, topic, file, line, 0, ""), true);
         }
     }
 

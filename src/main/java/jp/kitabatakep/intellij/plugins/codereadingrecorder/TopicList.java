@@ -71,20 +71,20 @@ public class TopicList
                 Logger.getInstance(AppConstants.appName).error(e.getMessage());
                 continue;
             }
-
             topic.setMemo(topicElement.getAttributeValue("memo"));
 
             Element topicLinesElement = topicElement.getChild("topicLines");
             for (Element topicLineElement : topicLinesElement.getChildren("topicLine")) {
                 String url = topicLineElement.getAttributeValue("url");
                 String lineString = topicLineElement.getAttributeValue("line");
-                int line = Integer.parseInt(lineString);
-                VirtualFile file = VirtualFileManager.getInstance().findFileByUrl(url);
-
-                TopicLine topicLine = new TopicLine(project, file, line);
-                topicLine.setOrder(Integer.parseInt(topicLineElement.getAttributeValue("order")));
-                topicLine.setMemo(topicLineElement.getAttributeValue("memo"));
-
+                TopicLine topicLine = new TopicLine(
+                    project,
+                    topic,
+                    VirtualFileManager.getInstance().findFileByUrl(url),
+                    Integer.parseInt(lineString),
+                    Integer.parseInt(topicLineElement.getAttributeValue("order")),
+                    topicLineElement.getAttributeValue("memo")
+                );
                 topic.addLine(topicLine, false);
             }
             topics.add(topic);

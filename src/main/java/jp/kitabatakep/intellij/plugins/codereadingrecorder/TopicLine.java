@@ -13,12 +13,16 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
     private int order;
     private String memo;
     private Project project;
+    private Topic topic;
 
-    public TopicLine(Project project, VirtualFile file, int line)
+    public TopicLine(Project project, Topic topic, VirtualFile file, int line, int order, String memo)
     {
         this.project = project;
+        this.topic = topic;
         this.file = file;
         this.line = line;
+        this.order = order;
+        this.memo = memo;
     }
 
     public VirtualFile file()
@@ -29,13 +33,20 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
     public int line() { return line; }
 
     public int order() { return order; }
+
     public void setOrder(int order)
     {
         this.order = order;
+        topic.touch();
     }
 
     public String memo() { return memo != null ? memo : ""; }
-    public void setMemo(String memo) { this.memo = memo; }
+
+    public void setMemo(String memo)
+    {
+        this.memo = memo;
+        topic.touch();
+    }
 
     private OpenFileDescriptor openFileDescriptor()
     {
