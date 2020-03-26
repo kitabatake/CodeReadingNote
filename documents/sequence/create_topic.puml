@@ -1,18 +1,31 @@
 @startuml
 /' definition '/
-participant ToolWindow
-participant NewTopicDialogOpenAction
-participant TopicList
+participant ManagementPanel
+participant TopicListModel
+participant ManagementPanelTopicListNotifier
+participant TopicAddAction
 participant Messages
+participant TopicList
 
+participant MessageBus
 
 /' flow '/
-ToolWindow -> NewTopicDialogOpenAction : perform
+ManagementPanel -> TopicListModel : init
+ManagementPanel -> MessageBus : subscribe TopicListNotifier Topic
 
-NewTopicDialogOpenAction -> Messages : showInputDialog
+...
+
+ManagementPanel -> TopicAddAction : invoke
+
+TopicAddAction -> Messages : showInputDialog
 return topic name
 
+TopicAddAction -> TopicList : addTopic(topicName)
 create Topic
-NewTopicDialogOpenAction -> Topic : new
-NewTopicDialogOpenAction -> TopicList : addTopic(topic)
+TopicList -> Topic : new
+TopicList -> MessageBus : syncPublisher
+return TopicListNotifier
+
+TopicList -> ManagementPanelTopicListNotifier : addTopic(topic)
+ManagementPanelTopicListNotifier -> TopicListModel : add(0, topic)
 @enduml
