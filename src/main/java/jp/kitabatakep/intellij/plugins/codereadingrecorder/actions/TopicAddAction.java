@@ -30,10 +30,7 @@ public class TopicAddAction extends AnAction
             new InputValidator()
             {
                 @Override
-                public boolean checkInput(String inputString)
-                {
-                    return !inputString.strip().equals("");
-                }
+                public boolean checkInput(String inputString) { return !inputString.trim().equals(""); }
 
                 @Override
                 public boolean canClose(String inputString) { return true; }
