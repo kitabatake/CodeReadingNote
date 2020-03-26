@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.JBSplitter;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.popup.util.DetailView;
 import com.intellij.ui.popup.util.DetailViewImpl;
 import com.intellij.util.messages.Topic;
@@ -44,7 +45,7 @@ public class TopicLineDetailPanel extends JPanel
 
         memoArea = new EditorTextField(project, FileTypes.PLAIN_TEXT);
         memoArea.setOneLineMode(false);
-        contentPane.setSecondComponent(memoArea);
+        contentPane.setSecondComponent(new JBScrollPane(memoArea));
 
         add(contentPane);
     }

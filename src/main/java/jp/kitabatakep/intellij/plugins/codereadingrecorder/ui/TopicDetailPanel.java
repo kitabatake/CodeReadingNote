@@ -12,6 +12,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.EditableModel;
 import com.intellij.util.ui.UIUtil;
@@ -52,7 +53,7 @@ class TopicDetailPanel extends JPanel
 
         memoArea = new EditorTextField(project, FileTypes.PLAIN_TEXT);
         memoArea.setOneLineMode(false);
-        contentPane.setFirstComponent(memoArea);
+        contentPane.setFirstComponent(new JBScrollPane(memoArea));
 
         initTopicLineList();
         topicLineDetailPanel = new TopicLineDetailPanel(project);
