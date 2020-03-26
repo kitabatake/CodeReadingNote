@@ -1,21 +1,4 @@
 @startuml
-class TopicLine {
-    - url
-    - line
-    - description
-}
-class Topic {
-    - name
-    - datetime
-}
-
-class TopicList {
-    - addTopicLine(Topic)
-    - removeTopicLine()
-    - addTopicLine()
-    - removeTopic()
-}
-
 class CodeReadingRecorderService {
   - project
   - topicList
@@ -37,38 +20,68 @@ note right of CodeReadingRecorderService
      - name
 end note
 
-class OpenFileDescriptor {
-    - getLine()
+class TopicList {
+    - addTopicLine(Topic)
+    - removeTopicLine()
+    - addTopicLine()
+    - removeTopic()
 }
 
-class StartupActivity
+class Topic {
+    - name
+    - datetime
+}
 
+class TopicLine {
+    - url
+    - line
+    - description
+}
+
+
+class StartupActivity
 
 package idea {
     class FileEditor
     class VirtualFile
 
-    class Document
-    class DocumentMarkupModel
-    class RangeHighLighter
-
     interface FileEditorManagerListener
-
-    Document o- DocumentMarkupModel
-    DocumentMarkupModel o- RangeHighLighter
-
-    VirtualFile ..> Document : load
 }
 
 package ui {
-    class ManagementPopupBuilder
+    class ManagementPanel {
+
+    }
+    class TopicDetailPanel {
+        - setTopic(Topic)
+        - clear()
+    }
+    class TopicLineDetailPanel {
+        - setTopicLine(TopicLine)
+    }
+
+    ManagementPanel o- TopicDetailPanel
+    TopicDetailPanel o- TopicLineDetailPanel
 }
 
 package actions {
-    class ToggleAction
-    class OpenToolWindowAction
+    class TopicAddAction
+    class TopicDeleteAction
+    class TopicLineAddAction
+    class TopicLineDeleteAction
 }
 
+
+/' message '/
+class com.intellij.util.messages.Topic
+interface TopicListNotifier
+interface TopicNotifier
+
+TopicList ..> com.intellij.util.messages.Topic : publish TopicListNotifier
+ManagementPanel ..> com.intellij.util.messages.Topic : subscribe TopicListNotifier
+
+Topic ..> com.intellij.util.messages.Topic : publish TopicNotifier
+TopicDetailPanel ..> com.intellij.util.messages.Topic : subscribe TopicNotifier
 
 /' relation '/
 StartupActivity ..> CodeReadingRecorderService : initialize
@@ -78,11 +91,10 @@ TopicList o-- Topic
 Topic o- TopicLine
 
 TopicLine -- VirtualFile
-TopicLine - OpenFileDescriptor
-TopicLine -- RangeHighLighter
 
-TopicLine -- TopicListView
+ManagementPanel o-- CodeReadingRecorderService
+ManagementPanel o-- TopicList
 
-OpenToolWindowAction ..> ToolWindow : open
-
+TopicDetailPanel o-- Topic
+TopicLineDetailPanel o-- TopicLine
 @enduml
