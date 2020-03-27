@@ -45,16 +45,6 @@ public class SaveAction extends AnAction
         }
 
         File file = wrapper.getFile();
-
-        if (!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return;
-            }
-        }
-
         FileOutputStream fileOutputStream;
         try {
             fileOutputStream = new FileOutputStream(file);
@@ -63,13 +53,10 @@ public class SaveAction extends AnAction
             return;
         }
 
-        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(e.getProject());
-
+        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
         XMLOutputter xmlOutput = new XMLOutputter();
         xmlOutput.setFormat(Format.getPrettyFormat());
-
         Element state = service.getTopicList().getState();
-
         try {
             xmlOutput.output(new Document(state), fileOutputStream);
         } catch (IOException ex) {

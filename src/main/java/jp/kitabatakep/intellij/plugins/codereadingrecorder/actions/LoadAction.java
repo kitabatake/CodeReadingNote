@@ -4,6 +4,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
 import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.project.Project;
@@ -37,28 +38,28 @@ public class LoadAction extends AnAction
     public void actionPerformed(@NotNull AnActionEvent e)
     {
         Project project = e.getProject();
-
         VirtualFile homeDir = LocalFileSystem.getInstance().findFileByPath(System.getProperty("user.home"));
 
-        FileChooserDescriptor fileChooserDescriptor = new FileChooserDescriptor(true, false, false, false, false, false);
-
+        FileChooserDescriptor fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("xml");
         VirtualFile[] files = FileChooserFactory.getInstance().
-            createFileChooser(fileChooserDescriptor, project, null).choose(project, homeDir);
+            createFileChooser(fileChooserDescriptor, project, null).
+            choose(project, homeDir);
 
+        if (files.length == 0) {
+            return;
+        }
 
-        File file = new File(files[0].getPath());
         SAXBuilder builder = new SAXBuilder();
-
         Document document = null;
         try {
-             document = builder.build((file));
+             document = builder.build(new File(files[0].getPath()));
         } catch (JDOMException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(e.getProject());
+        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
         service.getTopicList().loadState(document.getRootElement());
 
         MessageBus messageBus = project.getMessageBus();
