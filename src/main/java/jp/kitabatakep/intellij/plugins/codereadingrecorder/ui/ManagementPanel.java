@@ -16,6 +16,7 @@ import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.*;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.LoadAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.SaveAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicDeleteAction;
@@ -81,6 +82,7 @@ public class ManagementPanel extends JPanel
             return topicList.getSelectedValue();
         }));
         actions.add(new SaveAction());
+        actions.add(new LoadAction());
 
         ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(AppConstants.appName, actions, true);
         actionToolbar.setReservePlaceAutoPopupIcon(false);

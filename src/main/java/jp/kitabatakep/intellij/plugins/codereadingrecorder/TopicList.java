@@ -2,7 +2,6 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.messages.MessageBus;
 import org.jdom.Element;
