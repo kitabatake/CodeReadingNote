@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.testFramework.propertyBased.PsiIndexConsistencyTester;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
@@ -15,6 +16,7 @@ import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.*;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.SaveAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicDeleteAction;
 
@@ -78,6 +80,7 @@ public class ManagementPanel extends JPanel
         actions.add(new TopicDeleteAction(project, (v) -> {
             return topicList.getSelectedValue();
         }));
+        actions.add(new SaveAction());
 
         ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(AppConstants.appName, actions, true);
         actionToolbar.setReservePlaceAutoPopupIcon(false);
