@@ -51,6 +51,7 @@ public class TopicList
 
     public void loadState(Element element)
     {
+        topics = new ArrayList<>();
         Element topicsElement = element.getChild("topics");
         for (Element topicElement : topicsElement.getChildren("topic")) {
             int id = Integer.valueOf(topicElement.getAttributeValue("id")).intValue();

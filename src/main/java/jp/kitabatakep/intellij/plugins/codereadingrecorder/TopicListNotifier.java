@@ -7,4 +7,5 @@ public interface TopicListNotifier
 
      void topicAdded(Topic topic);
      void topicDeleted(Topic topic);
+     void topicsLoaded();
 }

@@ -71,6 +71,15 @@ public class ManagementPanel extends JPanel
             {
                 topicListModel.removeElement(topic);
             }
+
+            @Override
+            public void topicsLoaded() {
+                clear();
+                Iterator<Topic> iterator = service.getTopicList().iterator();
+                while (iterator.hasNext()) {
+                    topicListModel.addElement(iterator.next());
+                }
+            }
         });
     }
 
@@ -92,6 +101,13 @@ public class ManagementPanel extends JPanel
         toolBar.setBorder(JBUI.Borders.merge(toolBar.getBorder(), JBUI.Borders.emptyLeft(12), true));
         toolBar.setOpaque(false);
         return toolBar;
+    }
+
+    private void clear()
+    {
+        selectedTopic = null;
+        topicListModel.clear();
+        topicDetailPanel.clear();
     }
 
     private void initTopicList()

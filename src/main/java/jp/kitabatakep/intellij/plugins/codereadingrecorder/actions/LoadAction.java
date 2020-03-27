@@ -10,8 +10,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
+import com.intellij.util.messages.MessageBus;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListNotifier;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -58,5 +60,9 @@ public class LoadAction extends AnAction
 
         CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(e.getProject());
         service.getTopicList().loadState(document.getRootElement());
+
+        MessageBus messageBus = project.getMessageBus();
+        TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
+        publisher.topicsLoaded();
     }
 }
