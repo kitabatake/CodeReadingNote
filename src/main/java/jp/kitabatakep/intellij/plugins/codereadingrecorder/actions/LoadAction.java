@@ -8,6 +8,7 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
 import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
@@ -54,9 +55,10 @@ public class LoadAction extends AnAction
         try {
              document = builder.build(new File(files[0].getPath()));
         } catch (JDOMException ex) {
-            ex.printStackTrace();
+            Messages.showErrorDialog(project, "Fail to load action caused by specified illegal format file.", AppConstants.appName + "Load");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Messages.showErrorDialog(project, "Fail to load action. Please try again.", AppConstants.appName + "Load");
+            return;
         }
 
         CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
