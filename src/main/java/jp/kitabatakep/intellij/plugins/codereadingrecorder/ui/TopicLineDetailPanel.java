@@ -9,6 +9,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.*;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryUtil;
+import com.intellij.openapi.vfs.JarFileSystem;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.JBSplitter;
@@ -78,6 +81,14 @@ public class TopicLineDetailPanel extends JPanel
         ArrayList<String> rows = new ArrayList<>();
         rows.add("path: " + file.getPath());
 
+        VirtualFile projectBase = LocalFileSystem.getInstance().findFileByPath(project.getBasePath());
+        boolean inProject = VfsUtilCore.isAncestor(projectBase, file, true);
+        rows.add("inProject: " + inProject);
+
+        if (inProject) {
+            rows.add("projectRelativePath: " + VfsUtilCore.getRelativePath(file, projectBase));
+        }
+
         boolean isInLibrary = projectFileIndex.isInLibrary(file);
         rows.add("isInLibrary: " + isInLibrary);
         if (isInLibrary) {
@@ -87,10 +98,23 @@ public class TopicLineDetailPanel extends JPanel
                 Library lib = libraryOrderEntry.getLibrary();
                 rows.add("libName: " + libraryOrderEntry.getLibraryName());
                 rows.add("libLevel: " + libraryOrderEntry.getLibraryLevel());
+
+                for (VirtualFile f: lib.getFiles(OrderRootType.SOURCES)) {
+                    if (VfsUtilCore.isAncestor(f, file, true)) {
+                        rows.add("libRelativePath: " + VfsUtilCore.getRelativePath(file, f));
+                    }
+                }
+
             } else {
                 JdkOrderEntry jdkOrderEntry = (JdkOrderEntry)orderEntry;
                 rows.add("sdkName: " + jdkOrderEntry.getJdkName());
                 rows.add("sdkHomePath: " + jdkOrderEntry.getJdk().getHomePath());
+
+                VirtualFile jdkHome = LocalFileSystem.getInstance().findFileByPath(jdkOrderEntry.getJdk().getHomePath());
+                rows.add("sdkHomeVF: " +  jdkHome);
+
+                VirtualFile hogeFile = JarFileSystem.getInstance().getLocalVirtualFileFor(file);
+                rows.add("sdkRelativePath: " +  VfsUtilCore.getRelativePath(hogeFile, jdkHome));
             }
         }
 

@@ -24,10 +24,10 @@ intellij {
 
 }
 
-runIde {
-    ideDirectory '/Applications/RubyMine.app/Contents'
-}
 
+//runIde {
+//    ideDirectory '/Applications/RubyMine.app/Contents'
+//}
 patchPluginXml {
     changeNotes """
       Add change notes here.<br>
