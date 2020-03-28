@@ -6,6 +6,9 @@ import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.*;
+import com.intellij.openapi.roots.libraries.Library;
+import com.intellij.openapi.roots.libraries.LibraryUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.JBSplitter;
@@ -16,11 +19,13 @@ import com.intellij.util.messages.Topic;
 import com.intellij.util.ui.JBUI;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class TopicLineDetailPanel extends JPanel
 {
@@ -30,6 +35,8 @@ public class TopicLineDetailPanel extends JPanel
     private MyDetailView detailView;
 
     private TopicLine topicLine;
+
+    JTextArea tmpTextField;
 
     public TopicLineDetailPanel(Project project)
     {
@@ -45,9 +52,49 @@ public class TopicLineDetailPanel extends JPanel
 
         memoArea = new EditorTextField(project, FileTypes.PLAIN_TEXT);
         memoArea.setOneLineMode(false);
-        contentPane.setSecondComponent(new JBScrollPane(memoArea));
+
+//        JBScrollPane tmpPane =  new JBScrollPane();
+//        tmpPane.add(memoArea);
+
+
+//        JButton jButton = new JButton("inspect");
+//        tmpPanel.add(jButton);
+
+        tmpTextField = new JTextArea(20, 50);
+        JBScrollPane tmpPanel = new JBScrollPane(tmpTextField);
+//        tmpPanel.add(tmpTextField);
+
+        contentPane.setSecondComponent(tmpPanel);
+//        contentPane.setSecondComponent(new JBScrollPane(memoArea));
 
         add(contentPane);
+    }
+
+    private String tmpInspection()
+    {
+        ProjectFileIndex projectFileIndex = ProjectRootManager.getInstance(project).getFileIndex();
+        VirtualFile file = topicLine.file();
+
+        ArrayList<String> rows = new ArrayList<>();
+        rows.add("path: " + file.getPath());
+
+        boolean isInLibrary = projectFileIndex.isInLibrary(file);
+        rows.add("isInLibrary: " + isInLibrary);
+        if (isInLibrary) {
+            OrderEntry orderEntry = LibraryUtil.findLibraryEntry(file, project);
+            if (orderEntry instanceof LibraryOrderEntry) {
+                LibraryOrderEntry libraryOrderEntry = (LibraryOrderEntry)orderEntry;
+                Library lib = libraryOrderEntry.getLibrary();
+                rows.add("libName: " + libraryOrderEntry.getLibraryName());
+                rows.add("libLevel: " + libraryOrderEntry.getLibraryLevel());
+            } else {
+                JdkOrderEntry jdkOrderEntry = (JdkOrderEntry)orderEntry;
+                rows.add("sdkName: " + jdkOrderEntry.getJdkName());
+                rows.add("sdkHomePath: " + jdkOrderEntry.getJdk().getHomePath());
+            }
+        }
+
+        return StringUtils.join(rows, "\n");
     }
 
     public void clear()
@@ -67,6 +114,13 @@ public class TopicLineDetailPanel extends JPanel
         }
         memoArea.setDocument(EditorFactory.getInstance().createDocument(topicLine.memo()));
         memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));
+
+        VirtualFile file = topicLine.file();
+        ProjectFileIndex projectFileIndex = ProjectRootManager.getInstance(project).getFileIndex();
+        OrderEntry orderEntry = LibraryUtil.findLibraryEntry(file, project);
+//        orderEntry.getPresentableName();
+
+        tmpTextField.setText(tmpInspection());
     }
 
 
