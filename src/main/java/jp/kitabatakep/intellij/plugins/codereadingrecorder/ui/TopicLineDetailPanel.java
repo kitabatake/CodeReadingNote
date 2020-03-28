@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.*;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryUtil;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.JarFileSystem;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -110,11 +111,13 @@ public class TopicLineDetailPanel extends JPanel
                 rows.add("sdkName: " + jdkOrderEntry.getJdkName());
                 rows.add("sdkHomePath: " + jdkOrderEntry.getJdk().getHomePath());
 
-                VirtualFile jdkHome = LocalFileSystem.getInstance().findFileByPath(jdkOrderEntry.getJdk().getHomePath());
+                VirtualFile jdkHome = JarFileSystem.getInstance().getRootByEntry(file);
+                String filePath = file.getPath();≠
                 rows.add("sdkHomeVF: " +  jdkHome);
 
-                VirtualFile hogeFile = JarFileSystem.getInstance().getLocalVirtualFileFor(file);
-                rows.add("sdkRelativePath: " +  VfsUtilCore.getRelativePath(hogeFile, jdkHome));
+                JarFileSystem jarFileSystem = JarFileSystem.getInstance();
+                String hoge = file.getPath().substring(jdkHome.getPath().length());
+                rows.add("sdkRelativePath: " +  StringUtil.trimLeading(hoge, '/'));
             }
         }
 
