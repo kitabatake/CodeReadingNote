@@ -112,7 +112,7 @@ public class TopicLineDetailPanel extends JPanel
                 rows.add("sdkHomePath: " + jdkOrderEntry.getJdk().getHomePath());
 
                 VirtualFile jdkHome = JarFileSystem.getInstance().getRootByEntry(file);
-                String filePath = file.getPath();≠
+                String filePath = file.getPath();
                 rows.add("sdkHomeVF: " +  jdkHome);
 
                 JarFileSystem jarFileSystem = JarFileSystem.getInstance();
