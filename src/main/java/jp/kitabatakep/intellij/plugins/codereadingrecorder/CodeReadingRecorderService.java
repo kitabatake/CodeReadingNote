@@ -45,18 +45,19 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
 
             final List<String> libraryNames = new ArrayList<String>();
             ModuleRootManager.getInstance(module).orderEntries().forEachLibrary(library -> {
-                libraryNames.add(library.getName());
+                libraryNames.add(moduleName + "!! " + library.getName());
                 return true;
             });
 
             libNames = StringUtil.join("\n", libraryNames);
         }
+//
+//        VirtualFile[] libroots = LibraryUtil.getLibraryRoots(project);
+//
+//        Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
+//        String projectSDKName = ProjectRootManager.getInstance(project).getProjectSdkName();
+//        System.out.println(libNames);
 
-        VirtualFile[] libroots = LibraryUtil.getLibraryRoots(project);
-
-        Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
-        String projectSDKName = ProjectRootManager.getInstance(project).getProjectSdkName();
-        System.out.println(libNames);
     }
 
     public static CodeReadingRecorderService getInstance(@NotNull Project project)
