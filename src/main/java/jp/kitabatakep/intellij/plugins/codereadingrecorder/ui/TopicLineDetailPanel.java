@@ -61,8 +61,12 @@ public class TopicLineDetailPanel extends JPanel
     public void setTopicLine(TopicLine topicLine)
     {
         this.topicLine = topicLine;
-        DetailView.PreviewEditorState state = DetailView.PreviewEditorState.create(topicLine.file(), topicLine.line());
-        detailView.navigateInPreviewEditor(state);
+
+        if (topicLine.isValid()) {
+            detailView.navigateInPreviewEditor(DetailView.PreviewEditorState.create(topicLine.file(), topicLine.line()));
+        } else {
+            detailView.clearEditor();
+        }
 
         if (topicLine.memo().equals("")) {
             memoArea.setPlaceholder("code note input area");

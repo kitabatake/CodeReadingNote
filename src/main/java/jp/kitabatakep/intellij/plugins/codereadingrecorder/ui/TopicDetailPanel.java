@@ -214,11 +214,12 @@ class TopicDetailPanel extends JPanel
                 setIcon(fileOrDir.getIcon(0));
             }
 
-            SimpleTextAttributes textAttributes = topicLine.isValid() ?
-                SimpleTextAttributes.REGULAR_ATTRIBUTES : SimpleTextAttributes.ERROR_ATTRIBUTES;
-
-            append(file.getName() + ":" + (topicLine.line()+1), textAttributes);
-            append(" (" + VfsUtilCore.getRelativeLocation(file, project.getBaseDir()) + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
+            if (topicLine.isValid()) {
+                append(file.getName() + ":" + (topicLine.line()+1));
+                append(" (" + VfsUtilCore.getRelativeLocation(file, project.getBaseDir()) + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
+            } else {
+                append(topicLine.url() + ":" + (topicLine.line()+1), SimpleTextAttributes.ERROR_ATTRIBUTES);
+            }
 
             setForeground(UIUtil.getListSelectionForeground(isSelected));
             setBackground(UIUtil.getListSelectionBackground(isSelected));

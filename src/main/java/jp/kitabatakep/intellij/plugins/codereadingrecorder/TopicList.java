@@ -75,7 +75,7 @@ public class TopicList
                 TopicLine topicLine = new TopicLine(
                     project,
                     topic,
-                    VirtualFileManager.getInstance().findFileByUrl(url),
+                    url,
                     Integer.parseInt(lineString),
                     Integer.parseInt(topicLineElement.getAttributeValue("order")),
                     topicLineElement.getAttributeValue("memo")
@@ -115,7 +115,7 @@ public class TopicList
 
                 Element topicLineElement = new Element("topicLine");
                 topicLineElement.setAttribute("line", String.valueOf(topicLine.line()));
-                topicLineElement.setAttribute("url", topicLine.file().getUrl());
+                topicLineElement.setAttribute("url", topicLine.url());
                 topicLineElement.setAttribute("memo", topicLine.memo());
                 topicLineElement.setAttribute("order", String.valueOf(topicLine.order()));
                 topicLinesElement.addContent(topicLineElement);

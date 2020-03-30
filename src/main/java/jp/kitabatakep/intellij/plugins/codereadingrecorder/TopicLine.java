@@ -3,6 +3,7 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.pom.Navigatable;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,19 +11,21 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
 {
     private int line;
     private VirtualFile file;
+    private String url;
     private int order;
     private String memo;
     private Project project;
     private Topic topic;
 
-    public TopicLine(Project project, Topic topic, VirtualFile file, int line, int order, String memo)
+    public TopicLine(Project project, Topic topic, String url, int line, int order, String memo)
     {
         this.project = project;
         this.topic = topic;
-        this.file = file;
         this.line = line;
         this.order = order;
         this.memo = memo;
+        this.url = url;
+        this.file = VirtualFileManager.getInstance().findFileByUrl(url);
     }
 
     public VirtualFile file()
@@ -48,7 +51,18 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         topic.touch();
     }
 
-    public boolean isValid() { return file.isValid(); }
+    public String url()
+    {
+        if (isValid()) {
+            return file.getUrl();
+        } else {
+            return url;
+        }
+    }
+
+    public boolean isValid() {
+        return file != null && file.isValid();
+    }
 
     private OpenFileDescriptor openFileDescriptor()
     {
