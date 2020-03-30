@@ -23,7 +23,7 @@
                 id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
                 class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
                 text="Add to Topic">
-            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <add-to-group group-id="EditorPopupMenu" />
         </action>
     </actions>
 </idea-plugin>

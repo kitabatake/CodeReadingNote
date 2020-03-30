@@ -27,7 +27,7 @@ import java.io.IOException;
 public class LoadAction extends AnAction
 {
     public LoadAction() {
-        super("Load", "Load", AllIcons.General.ArrowUp);
+        super("Import", "Import", AllIcons.ToolbarDecorator.Import);
     }
 
     @Override

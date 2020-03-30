@@ -18,7 +18,7 @@ public class TopicDeleteAction extends AnAction
 
     public TopicDeleteAction(Project project, Function<Void, Topic> topicFetcher)
     {
-        super("DeleteTopic", "DeleteTopic", AllIcons.General.Remove);
+        super("Remove Topic", "RemoveTopic", AllIcons.General.Remove);
         this.project = project;
         this.topicFetcher = topicFetcher;
     }

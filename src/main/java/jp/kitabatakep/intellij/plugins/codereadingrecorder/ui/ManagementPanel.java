@@ -90,8 +90,10 @@ public class ManagementPanel extends JPanel
         actions.add(new TopicDeleteAction(project, (v) -> {
             return topicList.getSelectedValue();
         }));
+        actions.addSeparator();
         actions.add(new SaveAction());
         actions.add(new LoadAction());
+
 
         ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(AppConstants.appName, actions, true);
         actionToolbar.setReservePlaceAutoPopupIcon(false);

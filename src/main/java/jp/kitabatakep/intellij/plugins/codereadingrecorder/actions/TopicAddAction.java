@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class TopicAddAction extends AnAction
 {
     public TopicAddAction() {
-        super("AddTopic", "AddTopic", AllIcons.General.Add);
+        super("New Topic", "NewTopic", AllIcons.General.Add);
     }
 
     @Override

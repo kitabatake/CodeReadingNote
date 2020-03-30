@@ -23,7 +23,7 @@ import java.io.*;
 public class SaveAction extends AnAction
 {
     public SaveAction() {
-        super("Save", "Save", AllIcons.General.ArrowDown);
+        super("Export", "Export", AllIcons.ToolbarDecorator.Export);
     }
 
     @Override
