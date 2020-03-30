@@ -48,6 +48,8 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         topic.touch();
     }
 
+    public boolean isValid() { return file.isValid(); }
+
     private OpenFileDescriptor openFileDescriptor()
     {
         return new OpenFileDescriptor(project, file, line, -1, true);

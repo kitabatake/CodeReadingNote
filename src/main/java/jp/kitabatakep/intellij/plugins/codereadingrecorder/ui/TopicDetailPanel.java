@@ -205,6 +205,7 @@ class TopicDetailPanel extends JPanel
             boolean isSelected,
             boolean cellHasFocus)
         {
+            clear();
             TopicLine topicLine = (TopicLine) value;
             VirtualFile file = topicLine.file();
 
@@ -213,8 +214,10 @@ class TopicDetailPanel extends JPanel
                 setIcon(fileOrDir.getIcon(0));
             }
 
-            clear();
-            append(file.getName() + ":" + (topicLine.line()+1));
+            SimpleTextAttributes textAttributes = topicLine.isValid() ?
+                SimpleTextAttributes.REGULAR_ATTRIBUTES : SimpleTextAttributes.ERROR_ATTRIBUTES;
+
+            append(file.getName() + ":" + (topicLine.line()+1), textAttributes);
             append(" (" + VfsUtilCore.getRelativeLocation(file, project.getBaseDir()) + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
 
             setForeground(UIUtil.getListSelectionForeground(isSelected));
