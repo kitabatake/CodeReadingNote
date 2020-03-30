@@ -23,6 +23,8 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicNotifier;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineDeleteAction;
 import javax.swing.*;
 import com.intellij.openapi.editor.event.DocumentListener;
+import org.intellij.plugins.markdown.lang.MarkdownFileType;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -51,7 +53,7 @@ class TopicDetailPanel extends JPanel
         JBSplitter contentPane = new JBSplitter(true, 0.3f);
         contentPane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelContentPane.splitter");
 
-        memoArea = new EditorTextField(project, FileTypes.PLAIN_TEXT);
+        memoArea = new EditorTextField(project, MarkdownFileType.INSTANCE);
         memoArea.setOneLineMode(false);
         contentPane.setFirstComponent(new JBScrollPane(memoArea));
 

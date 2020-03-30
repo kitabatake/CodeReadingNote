@@ -20,7 +20,7 @@ dependencies {
 intellij {
     type 'IU'
     version '2019.3.3'
-    plugins ['org.jetbrains.plugins.ruby:193.6494.35']
+    plugins = ['markdown']
 
 }
 

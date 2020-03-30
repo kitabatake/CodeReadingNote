@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.event.DocumentListener;
+import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -16,6 +17,7 @@ import com.intellij.util.messages.Topic;
 import com.intellij.util.ui.JBUI;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
+import org.intellij.plugins.markdown.lang.MarkdownFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +36,6 @@ public class TopicLineDetailPanel extends JPanel
     public TopicLineDetailPanel(Project project)
     {
         super(new BorderLayout());
-
         this.project = project;
 
         JBSplitter contentPane = new JBSplitter(true, 0.8f);
@@ -43,7 +44,7 @@ public class TopicLineDetailPanel extends JPanel
         detailView = new MyDetailView(project);
         contentPane.setFirstComponent(detailView);
 
-        memoArea = new EditorTextField(project, FileTypes.PLAIN_TEXT);
+        memoArea = new EditorTextField(project, MarkdownFileType.INSTANCE);
         memoArea.setOneLineMode(false);
         contentPane.setSecondComponent(new JBScrollPane(memoArea));
 
