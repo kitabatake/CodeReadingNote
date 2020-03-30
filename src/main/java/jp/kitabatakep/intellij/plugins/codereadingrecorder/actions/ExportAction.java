@@ -20,9 +20,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 
-public class SaveAction extends AnAction
+public class ExportAction extends AnAction
 {
-    public SaveAction() {
+    public ExportAction() {
         super("Export", "Export", AllIcons.ToolbarDecorator.Export);
     }
 

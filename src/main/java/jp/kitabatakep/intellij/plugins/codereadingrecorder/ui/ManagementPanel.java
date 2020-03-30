@@ -4,10 +4,7 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.testFramework.propertyBased.PsiIndexConsistencyTester;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
@@ -16,8 +13,8 @@ import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.*;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.LoadAction;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.SaveAction;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ImportAction;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ExportAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicDeleteAction;
 
@@ -91,8 +88,8 @@ public class ManagementPanel extends JPanel
             return topicList.getSelectedValue();
         }));
         actions.addSeparator();
-        actions.add(new SaveAction());
-        actions.add(new LoadAction());
+        actions.add(new ExportAction());
+        actions.add(new ImportAction());
 
 
         ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(AppConstants.appName, actions, true);
