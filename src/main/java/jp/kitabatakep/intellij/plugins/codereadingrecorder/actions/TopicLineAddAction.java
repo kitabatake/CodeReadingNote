@@ -20,9 +20,16 @@ public class TopicLineAddAction extends AnAction
     public void update(AnActionEvent event) {
         Project project = event.getProject();
         DataContext dataContext = event.getDataContext();
-        event.getPresentation().setEnabled(project != null &&
-            (CommonDataKeys.EDITOR.getData(dataContext) != null ||
-                CommonDataKeys.VIRTUAL_FILE.getData(dataContext) != null));
+
+        if (project == null) {
+            event.getPresentation().setEnabled(false);
+        } else {
+            CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
+            event.getPresentation().setEnabled(
+                service.getTopicList().iterator().hasNext() &&
+                (CommonDataKeys.EDITOR.getData(dataContext) != null ||
+                    CommonDataKeys.VIRTUAL_FILE.getData(dataContext) != null));
+        }
 
         event.getPresentation().setText("Add to Topic");
     }
