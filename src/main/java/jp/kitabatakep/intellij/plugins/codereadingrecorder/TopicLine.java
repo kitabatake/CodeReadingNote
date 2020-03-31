@@ -2,6 +2,8 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.pom.Navigatable;
@@ -20,15 +22,18 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
 
     public static TopicLine createByAction(Project project, Topic topic, VirtualFile file, int line)
     {
-        return new TopicLine(project, topic, file.getUrl(), line, 0, "");
+        VirtualFile projectBase = LocalFileSystem.getInstance().findFileByPath(project.getBasePath());
+        boolean inProject = VfsUtilCore.isAncestor(projectBase, file, true);
+
+        return new TopicLine(project, topic, file.getUrl(), line, 0, "", inProject);
     }
 
-    public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String memo)
+    public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String memo, boolean inProject)
     {
-        return new TopicLine(project, topic, url, line, order, memo);
+        return new TopicLine(project, topic, url, line, order, memo, inProject);
     }
 
-    private TopicLine(Project project, Topic topic, String url, int line, int order, String memo)
+    private TopicLine(Project project, Topic topic, String url, int line, int order, String memo, boolean inProject)
     {
         this.project = project;
         this.topic = topic;
@@ -37,6 +42,7 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         this.memo = memo;
         this.url = url;
         this.file = VirtualFileManager.getInstance().findFileByUrl(url);
+        this.inProject = inProject;
     }
 
     public VirtualFile file()
@@ -70,6 +76,8 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
             return url;
         }
     }
+
+    public boolean inProject() { return inProject; }
 
     public boolean isValid() {
         return file != null && file.isValid();

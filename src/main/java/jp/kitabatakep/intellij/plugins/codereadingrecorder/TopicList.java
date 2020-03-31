@@ -71,13 +71,15 @@ public class TopicList
             for (Element topicLineElement : topicLinesElement.getChildren("topicLine")) {
                 String url = topicLineElement.getAttributeValue("url");
                 String lineString = topicLineElement.getAttributeValue("line");
+                String inProject = topicLineElement.getAttributeValue("inProject");
                 TopicLine topicLine = TopicLine.createByImport(
                     project,
                     topic,
                     url,
                     Integer.parseInt(lineString),
                     Integer.parseInt(topicLineElement.getAttributeValue("order")),
-                    topicLineElement.getAttributeValue("memo")
+                    topicLineElement.getAttributeValue("memo"),
+                    inProject.equals("true")
                 );
                 topicLines.add(topicLine);
             }
@@ -117,6 +119,7 @@ public class TopicList
                 topicLineElement.setAttribute("url", topicLine.url());
                 topicLineElement.setAttribute("memo", topicLine.memo());
                 topicLineElement.setAttribute("order", String.valueOf(topicLine.order()));
+                topicLineElement.setAttribute("inProject", String.valueOf(topicLine.inProject()));
                 topicLinesElement.addContent(topicLineElement);
             }
 
