@@ -5,7 +5,6 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
@@ -218,9 +217,9 @@ class TopicDetailPanel extends JPanel
 
             if (topicLine.isValid()) {
                 append(file.getName() + ":" + (topicLine.line()+1));
-                append(" (" + VfsUtilCore.getRelativeLocation(file, project.getBaseDir()) + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
+                append(" (" + topicLine.pathForDisplay() + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
             } else {
-                append(topicLine.url() + ":" + (topicLine.line()+1), SimpleTextAttributes.ERROR_ATTRIBUTES);
+                append(topicLine.pathForDisplay() + ":" + (topicLine.line()+1), SimpleTextAttributes.ERROR_ATTRIBUTES);
             }
 
             setForeground(UIUtil.getListSelectionForeground(isSelected));

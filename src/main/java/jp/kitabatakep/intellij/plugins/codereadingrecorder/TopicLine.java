@@ -21,13 +21,15 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
     private Topic topic;
     private boolean inProject;
     private String relativePath;
+    private String url;
 
     public static TopicLine createByAction(Project project, Topic topic, VirtualFile file, int line)
     {
         VirtualFile projectBase = LocalFileSystem.getInstance().findFileByPath(project.getBasePath());
         boolean inProject = VfsUtilCore.isAncestor(projectBase, file, true);
 
-        return new TopicLine(project, topic, file, line, 0, "", inProject, VfsUtilCore.getRelativePath(file, projectBase));
+        return new TopicLine(project, topic, file, line, 0, "", inProject,
+            VfsUtilCore.getRelativePath(file, projectBase), file.getUrl());
     }
 
     public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String memo, boolean inProject, String relativePath)
@@ -38,10 +40,10 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         } else {
             file = VirtualFileManager.getInstance().findFileByUrl(url);
         }
-        return new TopicLine(project, topic, file, line, order, memo, inProject, relativePath);
+        return new TopicLine(project, topic, file, line, order, memo, inProject, relativePath, url);
     }
 
-    private TopicLine(Project project, Topic topic, VirtualFile file, int line, int order, String memo, boolean inProject, String relativePath)
+    private TopicLine(Project project, Topic topic, VirtualFile file, int line, int order, String memo, boolean inProject, String relativePath, String url)
     {
         this.project = project;
         this.topic = topic;
@@ -51,6 +53,7 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         this.file = file;
         this.inProject = inProject;
         this.relativePath = relativePath;
+        this.url = url;
     }
 
     public VirtualFile file()
@@ -83,7 +86,18 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         if (isValid()) {
             return file.getUrl();
         } else {
-            return "";
+            return url;
+        }
+    }
+
+    public String pathForDisplay()
+    {
+        if (inProject) {
+            return relativePath;
+        } else if (isValid()) {
+            return file.getPath();
+        } else {
+            return url;
         }
     }
 
@@ -97,16 +111,6 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
     {
         return new OpenFileDescriptor(project, file, line, -1, true);
     }
-
-    public String label()
-    {
-        if (inProject) {
-            return relativePath;
-        } else {
-            return file.getPath();
-        }
-    }
-
 
     @Override
     public int compareTo(@NotNull TopicLine topicLine)
@@ -126,6 +130,8 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
 
     @Override
     public void navigate(boolean requestFocus) {
-        openFileDescriptor().navigate(requestFocus);
+        if (canNavigate()) {
+            openFileDescriptor().navigate(requestFocus);
+        }
     }
 }

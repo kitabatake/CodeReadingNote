@@ -81,7 +81,7 @@ public class TopicLineDetailPanel extends JPanel
             detailView.clearEditor();
         }
 
-        label.setText(topicLine.label());
+        label.setText(topicLine.pathForDisplay());
         memoArea.setEnabled(true);
         if (topicLine.memo().equals("")) {
             memoArea.setPlaceholder("code note input area");
