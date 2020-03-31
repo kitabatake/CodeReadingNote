@@ -34,13 +34,18 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     @Override
     public Element getState()
     {
-        return topicList.getState();
+        Element container = new Element(AppConstants.appName);
+        container.addContent(topicList.getState());
+        Element state = new Element("state");
+        state.setAttribute("nextTopicId", "hoge");
+        container.addContent(state);
+        return container;
     }
 
     @Override
     public void loadState(@NotNull Element element)
     {
-        topicList.loadState(element);
+        topicList.loadState(element.getChild("topics"));
     }
 
     public TopicList getTopicList()

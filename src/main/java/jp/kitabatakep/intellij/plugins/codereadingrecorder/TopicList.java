@@ -46,10 +46,9 @@ public class TopicList
         return topics.iterator();
     }
 
-    public void loadState(Element element)
+    public void loadState(Element topicsElement)
     {
         topics = new ArrayList<>();
-        Element topicsElement = element.getChild("topics");
         for (Element topicElement : topicsElement.getChildren("topic")) {
             String name = topicElement.getAttributeValue("name");
             String updatedAtString = topicElement.getAttributeValue("updatedAt");
@@ -84,13 +83,10 @@ public class TopicList
             topics.add(topic);
         }
         Collections.sort(topics);
-
-        Element stateElement = element.getChild("state");
     }
 
     public Element getState()
     {
-        Element container = new Element(AppConstants.appName);
         Element topicsElement = new Element("topics");
         for (Topic topic : topics) {
             Element topicElement = new Element("topic");
@@ -117,11 +113,6 @@ public class TopicList
 
             topicElement.addContent(topicLinesElement);
         }
-        container.addContent(topicsElement);
-
-        Element state = new Element("state");
-        state.setAttribute("nextTopicId", "hoge");
-        container.addContent(state);
-        return container;
+        return topicsElement;
     }
 }
