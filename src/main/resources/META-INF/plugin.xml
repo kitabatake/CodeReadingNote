@@ -14,7 +14,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService" />
-        <toolWindow id="CodeReadingRecorder" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementToolWindowFactory" />
+        <toolWindow id="Code Reading Recorder" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementToolWindowFactory" />
 
     </extensions>
 
