@@ -35,17 +35,29 @@ public class ExportAction extends AnAction
     public void actionPerformed(@NotNull AnActionEvent e)
     {
         Project project = e.getProject();
+        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
         FileSaverDescriptor fsd = new FileSaverDescriptor("Save", "Please choose where to save", "xml");
 
-        VirtualFile homeDir = LocalFileSystem.getInstance().findFileByPath(System.getProperty("user.home"));
+        VirtualFile baseDir;
+        if (!service.lastExportDir().equals("")) {
+            baseDir = LocalFileSystem.getInstance().findFileByPath(service.lastExportDir());
+        } else {
+            baseDir = LocalFileSystem.getInstance().findFileByPath(System.getProperty("user.home"));
+        }
         final VirtualFileWrapper wrapper = FileChooserFactory.getInstance().createSaveFileDialog(
-            fsd, project).save(homeDir, AppConstants.appName + ".xml");
+            fsd, project).save(baseDir, AppConstants.appName + ".xml");
 
         if (wrapper == null) {
             return;
         }
 
         File file = wrapper.getFile();
+
+        File parentDir = file.getParentFile();
+        if (parentDir != null && parentDir.exists()) {
+            service.setLastExportDir(LocalFileSystem.getInstance().refreshAndFindFileByIoFile(parentDir).getPath());
+        }
+
         FileOutputStream fileOutputStream;
         try {
             fileOutputStream = new FileOutputStream(file);
@@ -55,7 +67,6 @@ public class ExportAction extends AnAction
             return;
         }
 
-        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
         XMLOutputter xmlOutput = new XMLOutputter();
         xmlOutput.setFormat(Format.getPrettyFormat());
         Element state = service.getTopicList().getState();

@@ -20,6 +20,8 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     Project project;
     TopicList topicList;
 
+    String lastExportDir = "";
+
     public CodeReadingRecorderService(@NotNull Project project)
     {
         this.project = project;
@@ -37,7 +39,7 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
         Element container = new Element(AppConstants.appName);
         container.addContent(topicList.getState());
         Element state = new Element("state");
-        state.setAttribute("nextTopicId", "hoge");
+        state.setAttribute("lastExportDir", lastExportDir != null ? lastExportDir : "");
         container.addContent(state);
         return container;
     }
@@ -46,10 +48,15 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     public void loadState(@NotNull Element element)
     {
         topicList.loadState(element.getChild("topics"));
+        Element stateElement = element.getChild("state");
+        lastExportDir = stateElement.getAttributeValue("lastExportDir");
     }
 
     public TopicList getTopicList()
     {
         return this.topicList;
     }
+
+    public String lastExportDir() { return lastExportDir != null ? lastExportDir : ""; }
+    public void setLastExportDir(String lastExportDir) { this.lastExportDir = lastExportDir; }
 }
