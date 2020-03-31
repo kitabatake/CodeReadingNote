@@ -39,15 +39,27 @@ public class ImportAction extends AnAction
     public void actionPerformed(@NotNull AnActionEvent e)
     {
         Project project = e.getProject();
-        VirtualFile homeDir = LocalFileSystem.getInstance().findFileByPath(System.getProperty("user.home"));
+        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
+
+        VirtualFile baseDir;
+        if (!service.lastImportDir().equals("")) {
+            baseDir = LocalFileSystem.getInstance().findFileByPath(service.lastImportDir());
+        } else {
+            baseDir = LocalFileSystem.getInstance().findFileByPath(System.getProperty("user.home"));
+        }
 
         FileChooserDescriptor fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("xml");
         VirtualFile[] files = FileChooserFactory.getInstance().
             createFileChooser(fileChooserDescriptor, project, null).
-            choose(project, homeDir);
+            choose(project, baseDir);
 
         if (files.length == 0) {
             return;
+        }
+
+        VirtualFile parentDir = files[0].getParent();
+        if (parentDir != null && parentDir.exists()) {
+            service.setLastImportDir(parentDir.getPath());
         }
 
         SAXBuilder builder = new SAXBuilder();
@@ -61,9 +73,7 @@ public class ImportAction extends AnAction
             return;
         }
 
-        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
         service.getTopicList().loadState(document.getRootElement());
-
         MessageBus messageBus = project.getMessageBus();
         TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
         publisher.topicsLoaded();

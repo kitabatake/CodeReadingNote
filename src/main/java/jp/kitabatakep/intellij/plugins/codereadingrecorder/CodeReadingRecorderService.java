@@ -21,6 +21,7 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     TopicList topicList;
 
     String lastExportDir = "";
+    String lastImportDir = "";
 
     public CodeReadingRecorderService(@NotNull Project project)
     {
@@ -39,7 +40,8 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
         Element container = new Element(AppConstants.appName);
         container.addContent(topicList.getState());
         Element state = new Element("state");
-        state.setAttribute("lastExportDir", lastExportDir != null ? lastExportDir : "");
+        state.setAttribute("lastExportDir", lastExportDir());
+        state.setAttribute("lastImportDir", lastImportDir());
         container.addContent(state);
         return container;
     }
@@ -50,6 +52,7 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
         topicList.loadState(element.getChild("topics"));
         Element stateElement = element.getChild("state");
         lastExportDir = stateElement.getAttributeValue("lastExportDir");
+        lastImportDir = stateElement.getAttributeValue("lastImportDir");
     }
 
     public TopicList getTopicList()
@@ -59,4 +62,7 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
 
     public String lastExportDir() { return lastExportDir != null ? lastExportDir : ""; }
     public void setLastExportDir(String lastExportDir) { this.lastExportDir = lastExportDir; }
+
+    public String lastImportDir() { return lastImportDir != null ? lastImportDir : ""; }
+    public void setLastImportDir(String lastImportDir) { this.lastImportDir = lastImportDir; }
 }
