@@ -69,13 +69,12 @@ public class TopicList
             Element topicLinesElement = topicElement.getChild("topicLines");
             ArrayList<TopicLine> topicLines = new ArrayList<>();
             for (Element topicLineElement : topicLinesElement.getChildren("topicLine")) {
-                String url = topicLineElement.getAttributeValue("url");
                 String lineString = topicLineElement.getAttributeValue("line");
                 String inProject = topicLineElement.getAttributeValue("inProject");
                 TopicLine topicLine = TopicLine.createByImport(
                     project,
                     topic,
-                    url,
+                    topicLineElement.getAttributeValue("url"),
                     Integer.parseInt(lineString),
                     Integer.parseInt(topicLineElement.getAttributeValue("order")),
                     topicLineElement.getAttributeValue("memo"),
