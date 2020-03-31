@@ -77,7 +77,7 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
 
     @Override
     public boolean canNavigate() {
-        return openFileDescriptor().canNavigate();
+        return isValid() && openFileDescriptor().canNavigate();
     }
 
     @Override
