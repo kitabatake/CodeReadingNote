@@ -79,7 +79,8 @@ public class TopicList
                     Integer.parseInt(lineString),
                     Integer.parseInt(topicLineElement.getAttributeValue("order")),
                     topicLineElement.getAttributeValue("memo"),
-                    inProject.equals("true")
+                    inProject.equals("true"),
+                    topicLineElement.getAttributeValue("relativePath")
                 );
                 topicLines.add(topicLine);
             }
@@ -120,6 +121,7 @@ public class TopicList
                 topicLineElement.setAttribute("memo", topicLine.memo());
                 topicLineElement.setAttribute("order", String.valueOf(topicLine.order()));
                 topicLineElement.setAttribute("inProject", String.valueOf(topicLine.inProject()));
+                topicLineElement.setAttribute("relativePath", topicLine.inProject() ? topicLine.relativePath() : "");
                 topicLinesElement.addContent(topicLineElement);
             }
 
