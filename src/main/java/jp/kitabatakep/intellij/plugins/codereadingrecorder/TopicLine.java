@@ -16,8 +16,19 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
     private String memo;
     private Project project;
     private Topic topic;
+    private boolean inProject;
 
-    public TopicLine(Project project, Topic topic, String url, int line, int order, String memo)
+    public static TopicLine createByAction(Project project, Topic topic, VirtualFile file, int line)
+    {
+        return new TopicLine(project, topic, file.getUrl(), line, 0, "");
+    }
+
+    public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String memo)
+    {
+        return new TopicLine(project, topic, url, line, order, memo);
+    }
+
+    private TopicLine(Project project, Topic topic, String url, int line, int order, String memo)
     {
         this.project = project;
         this.topic = topic;

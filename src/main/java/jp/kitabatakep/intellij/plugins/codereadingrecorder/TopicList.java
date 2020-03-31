@@ -71,7 +71,7 @@ public class TopicList
             for (Element topicLineElement : topicLinesElement.getChildren("topicLine")) {
                 String url = topicLineElement.getAttributeValue("url");
                 String lineString = topicLineElement.getAttributeValue("line");
-                TopicLine topicLine = new TopicLine(
+                TopicLine topicLine = TopicLine.createByImport(
                     project,
                     topic,
                     url,
