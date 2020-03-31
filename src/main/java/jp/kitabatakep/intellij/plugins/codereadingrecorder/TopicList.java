@@ -16,7 +16,6 @@ public class TopicList
 {
     private Project project;
     private ArrayList<Topic> topics = new ArrayList<>();
-    private Integer nextTopicId = 1;
 
     public TopicList(Project project)
     {
@@ -25,9 +24,8 @@ public class TopicList
 
     public void addTopic(String name)
     {
-        Topic topic = new Topic(project, nextTopicId, name, new Date());
+        Topic topic = new Topic(project, name, new Date());
         topics.add(topic);
-        nextTopicId++;
 
         MessageBus messageBus = project.getMessageBus();
         TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
@@ -53,13 +51,12 @@ public class TopicList
         topics = new ArrayList<>();
         Element topicsElement = element.getChild("topics");
         for (Element topicElement : topicsElement.getChildren("topic")) {
-            int id = Integer.valueOf(topicElement.getAttributeValue("id")).intValue();
             String name = topicElement.getAttributeValue("name");
             String updatedAtString = topicElement.getAttributeValue("updatedAt");
 
             Topic topic;
             try {
-                topic = new Topic(project, id, name, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(updatedAtString));
+                topic = new Topic(project, name, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(updatedAtString));
             } catch (ParseException e) {
                 Logger.getInstance(AppConstants.appName).error(e.getMessage());
                 continue;
@@ -89,11 +86,6 @@ public class TopicList
         Collections.sort(topics);
 
         Element stateElement = element.getChild("state");
-        if (stateElement != null) {
-            nextTopicId = Integer.valueOf(stateElement.getAttributeValue("nextTopicId"));
-        } else {
-            nextTopicId = 1;
-        }
     }
 
     public Element getState()
@@ -102,7 +94,6 @@ public class TopicList
         Element topicsElement = new Element("topics");
         for (Topic topic : topics) {
             Element topicElement = new Element("topic");
-            topicElement.setAttribute("id", Integer.toString(topic.id()));
             topicElement.setAttribute("name", topic.name());
             topicElement.setAttribute("memo", topic.memo());
             topicElement.setAttribute("updatedAt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.updatedAt()));
@@ -129,7 +120,7 @@ public class TopicList
         container.addContent(topicsElement);
 
         Element state = new Element("state");
-        state.setAttribute("nextTopicId", Integer.toString(nextTopicId));
+        state.setAttribute("nextTopicId", "hoge");
         container.addContent(state);
         return container;
     }

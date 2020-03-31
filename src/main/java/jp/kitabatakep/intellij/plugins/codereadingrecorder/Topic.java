@@ -11,23 +11,16 @@ import java.util.Iterator;
 
 public class Topic implements Comparable<Topic>
 {
-    private int id;
     private String name;
     private String memo;
     private Date updatedAt;
     private ArrayList<TopicLine> lines = new ArrayList<>();
     private Project project;
 
-    public Topic(Project project, int id, String name, Date updatedAt) {
+    public Topic(Project project, String name, Date updatedAt) {
         this.project = project;
-        this.id = id;
         this.name = name;
         this.updatedAt = updatedAt;
-    }
-
-    public int id()
-    {
-        return id;
     }
 
     public String name()
