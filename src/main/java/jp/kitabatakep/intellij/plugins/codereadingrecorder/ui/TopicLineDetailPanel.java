@@ -46,6 +46,7 @@ public class TopicLineDetailPanel extends JPanel
 
         memoArea = new EditorTextField(project, MarkdownFileType.INSTANCE);
         memoArea.setOneLineMode(false);
+        memoArea.setEnabled(false);
         contentPane.setSecondComponent(new JBScrollPane(memoArea));
 
         add(contentPane);
@@ -56,6 +57,7 @@ public class TopicLineDetailPanel extends JPanel
         topicLine = null;
         detailView.clearEditor();
         memoArea.setDocument(EditorFactory.getInstance().createDocument(""));
+        memoArea.setEnabled(false);
     }
 
     public void setTopicLine(TopicLine topicLine)
@@ -68,6 +70,7 @@ public class TopicLineDetailPanel extends JPanel
             detailView.clearEditor();
         }
 
+        memoArea.setEnabled(true);
         if (topicLine.memo().equals("")) {
             memoArea.setPlaceholder("code note input area");
         }
