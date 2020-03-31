@@ -9,11 +9,12 @@ import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.pom.Navigatable;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+
 public class TopicLine implements Comparable<TopicLine>, Navigatable
 {
     private int line;
     private VirtualFile file;
-    private String url;
     private int order;
     private String memo;
     private Project project;
@@ -26,23 +27,28 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         VirtualFile projectBase = LocalFileSystem.getInstance().findFileByPath(project.getBasePath());
         boolean inProject = VfsUtilCore.isAncestor(projectBase, file, true);
 
-        return new TopicLine(project, topic, file.getUrl(), line, 0, "", inProject, VfsUtilCore.getRelativePath(file, projectBase));
+        return new TopicLine(project, topic, file, line, 0, "", inProject, VfsUtilCore.getRelativePath(file, projectBase));
     }
 
     public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String memo, boolean inProject, String relativePath)
     {
-        return new TopicLine(project, topic, url, line, order, memo, inProject, relativePath);
+        VirtualFile file;
+        if (inProject) {
+            file = LocalFileSystem.getInstance().findFileByPath(project.getBasePath() + File.separator + relativePath);
+        } else {
+            file = VirtualFileManager.getInstance().findFileByUrl(url);
+        }
+        return new TopicLine(project, topic, file, line, order, memo, inProject, relativePath);
     }
 
-    private TopicLine(Project project, Topic topic, String url, int line, int order, String memo, boolean inProject, String relativePath)
+    private TopicLine(Project project, Topic topic, VirtualFile file, int line, int order, String memo, boolean inProject, String relativePath)
     {
         this.project = project;
         this.topic = topic;
         this.line = line;
         this.order = order;
         this.memo = memo;
-        this.url = url;
-        this.file = VirtualFileManager.getInstance().findFileByUrl(url);
+        this.file = file;
         this.inProject = inProject;
         this.relativePath = relativePath;
     }
@@ -77,7 +83,7 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         if (isValid()) {
             return file.getUrl();
         } else {
-            return url;
+            return "";
         }
     }
 
