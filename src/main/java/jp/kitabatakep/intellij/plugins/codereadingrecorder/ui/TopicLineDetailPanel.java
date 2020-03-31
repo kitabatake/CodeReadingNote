@@ -31,7 +31,7 @@ public class TopicLineDetailPanel extends JPanel
 {
     private Project project;
 
-    private EditorTextField memoArea;
+    private MyEditorTextField memoArea;
     private MyDetailView detailView;
     private JBLabel label;
 
@@ -54,10 +54,10 @@ public class TopicLineDetailPanel extends JPanel
 
         contentPane.setFirstComponent(firstPanel);
 
-        memoArea = new EditorTextField(project, MarkdownFileType.INSTANCE);
+        memoArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
         memoArea.setOneLineMode(false);
         memoArea.setEnabled(false);
-        contentPane.setSecondComponent(new JBScrollPane(memoArea));
+        contentPane.setSecondComponent(memoArea);
 
         add(contentPane);
     }

@@ -3,6 +3,7 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -33,7 +34,7 @@ import java.util.Iterator;
 class TopicDetailPanel extends JPanel
 {
     private Project project;
-    private EditorTextField memoArea;
+    private MyEditorTextField memoArea;
     private TopicLineDetailPanel topicLineDetailPanel;
 
     private JBList<TopicLine> topicLineList;
@@ -51,10 +52,11 @@ class TopicDetailPanel extends JPanel
         JBSplitter contentPane = new JBSplitter(true, 0.3f);
         contentPane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelContentPane.splitter");
 
-        memoArea = new EditorTextField(project, MarkdownFileType.INSTANCE);
+        memoArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
         memoArea.setOneLineMode(false);
         memoArea.setEnabled(false);
-        contentPane.setFirstComponent(new JBScrollPane(memoArea));
+
+        contentPane.setFirstComponent(memoArea);
 
         initTopicLineList();
         topicLineDetailPanel = new TopicLineDetailPanel(project);
