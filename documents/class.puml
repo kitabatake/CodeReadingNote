@@ -66,9 +66,9 @@ package ui {
 
 package actions {
     class TopicAddAction
-    class TopicDeleteAction
+    class TopicRemoveAction
     class TopicLineAddAction
-    class TopicLineDeleteAction
+    class TopicLineRemoveAction
 }
 
 

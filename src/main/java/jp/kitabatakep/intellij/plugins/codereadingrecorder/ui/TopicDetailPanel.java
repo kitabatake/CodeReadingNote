@@ -3,7 +3,6 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -20,7 +19,7 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicNotifier;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineDeleteAction;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineRemoveAction;
 import javax.swing.*;
 import com.intellij.openapi.editor.event.DocumentListener;
 import org.intellij.plugins.markdown.lang.MarkdownFileType;
@@ -72,7 +71,7 @@ class TopicDetailPanel extends JPanel
         MessageBus messageBus = project.getMessageBus();
         messageBus.connect().subscribe(TopicNotifier.TOPIC_NOTIFIER_TOPIC, new TopicNotifier(){
             @Override
-            public void lineDeleted(Topic _topic, TopicLine _topicLine)
+            public void lineRemoved(Topic _topic, TopicLine _topicLine)
             {
                 if (_topic == topic) {
                     topicLineListModel.removeElement(_topicLine);
@@ -149,7 +148,7 @@ class TopicDetailPanel extends JPanel
                 if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     TopicLine topicLine = topicLineList.getSelectedValue();
                     ActionUtil.performActionDumbAware(
-                        new TopicLineDeleteAction(project, (v) -> { return new Pair<>(topic, topicLine); }),
+                        new TopicLineRemoveAction(project, (v) -> { return new Pair<>(topic, topicLine); }),
                         ActionUtil.createEmptyEvent()
                     );
                 }

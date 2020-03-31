@@ -76,14 +76,14 @@ public class Topic implements Comparable<Topic>
         publisher.lineAdded(this, line);
     }
 
-    public void deleteLine(TopicLine line)
+    public void removeLine(TopicLine line)
     {
         lines.remove(line);
         updatedAt = new Date();
 
         MessageBus messageBus = project.getMessageBus();
         TopicNotifier publisher = messageBus.syncPublisher(TopicNotifier.TOPIC_NOTIFIER_TOPIC);
-        publisher.lineDeleted(this, line);
+        publisher.lineRemoved(this, line);
     }
 
     public Iterator<TopicLine> linesIterator()

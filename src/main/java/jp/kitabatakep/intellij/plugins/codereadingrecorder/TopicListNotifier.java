@@ -6,6 +6,6 @@ public interface TopicListNotifier
         com.intellij.util.messages.Topic.create("topic list notifier", TopicListNotifier.class);
 
      void topicAdded(Topic topic);
-     void topicDeleted(Topic topic);
+     void topicRemoved(Topic topic);
      void topicsLoaded();
 }

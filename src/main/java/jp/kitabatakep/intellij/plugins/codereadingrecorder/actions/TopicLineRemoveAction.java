@@ -11,15 +11,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-public class TopicLineDeleteAction extends AnAction
+public class TopicLineRemoveAction extends AnAction
 {
     Function<Void, Pair<Topic, TopicLine>> fetcher;
 
     Project project;
 
-    public TopicLineDeleteAction(Project project, Function<Void, Pair<Topic, TopicLine>> fetcher)
+    public TopicLineRemoveAction(Project project, Function<Void, Pair<Topic, TopicLine>> fetcher)
     {
-        super("DeleteTopicLine", "DeleteTopicLine", AllIcons.General.Remove);
+        super("RemoveTopicLine", "RemoveTopicLine", AllIcons.General.Remove);
         this.project = project;
         this.fetcher = fetcher;
     }
@@ -35,6 +35,6 @@ public class TopicLineDeleteAction extends AnAction
         Pair<Topic, TopicLine> payload = fetcher.apply(null);
 
         if (payload.getSecond() == null) { return; }
-        payload.getFirst().deleteLine(payload.getSecond());
+        payload.getFirst().removeLine(payload.getSecond());
     }
 }

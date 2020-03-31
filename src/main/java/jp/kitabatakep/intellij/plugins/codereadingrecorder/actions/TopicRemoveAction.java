@@ -11,12 +11,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-public class TopicDeleteAction extends AnAction
+public class TopicRemoveAction extends AnAction
 {
     Function<Void, Topic> topicFetcher;
     Project project;
 
-    public TopicDeleteAction(Project project, Function<Void, Topic> topicFetcher)
+    public TopicRemoveAction(Project project, Function<Void, Topic> topicFetcher)
     {
         super("Remove Topic", "RemoveTopic", AllIcons.General.Remove);
         this.project = project;
@@ -36,13 +36,13 @@ public class TopicDeleteAction extends AnAction
         if (topic == null) { return; }
 
         int confirmationResult = Messages.showYesNoCancelDialog(
-            "Are you sure you want to delete [" + topic.name() + "]",
-            "TopicDeleteConfirmation",
+            "Are you sure you want to remove `" + topic.name() + "`",
+            "TopicRemoveConfirmation",
             Messages.getQuestionIcon()
         );
 
         if (confirmationResult == Messages.YES) {
-            service.getTopicList().deleteTopic(topic);
+            service.getTopicList().removeTopic(topic);
         }
     }
 }

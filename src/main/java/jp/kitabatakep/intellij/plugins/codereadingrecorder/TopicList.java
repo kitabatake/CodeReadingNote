@@ -2,7 +2,6 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.messages.MessageBus;
 import org.jdom.Element;
 
@@ -35,12 +34,12 @@ public class TopicList
         publisher.topicAdded(topic);
     }
 
-    public void deleteTopic(Topic topic)
+    public void removeTopic(Topic topic)
     {
         topics.remove(topic);
         MessageBus messageBus = project.getMessageBus();
         TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
-        publisher.topicDeleted(topic);
+        publisher.topicRemoved(topic);
     }
 
     public Iterator<Topic> iterator()

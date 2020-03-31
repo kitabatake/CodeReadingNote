@@ -16,7 +16,7 @@ import jp.kitabatakep.intellij.plugins.codereadingrecorder.*;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ImportAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ExportAction;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicDeleteAction;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicRemoveAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +64,7 @@ public class ManagementPanel extends JPanel
             }
 
             @Override
-            public void topicDeleted(Topic topic)
+            public void topicRemoved(Topic topic)
             {
                 topicListModel.removeElement(topic);
             }
@@ -84,7 +84,7 @@ public class ManagementPanel extends JPanel
     {
         DefaultActionGroup actions = new DefaultActionGroup();
         actions.add(new TopicAddAction());
-        actions.add(new TopicDeleteAction(project, (v) -> {
+        actions.add(new TopicRemoveAction(project, (v) -> {
             return topicList.getSelectedValue();
         }));
         actions.addSeparator();
@@ -143,7 +143,7 @@ public class ManagementPanel extends JPanel
                 if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     Topic topic = topicList.getSelectedValue();
                     ActionUtil.performActionDumbAware(
-                        new TopicDeleteAction(project, (v) -> { return topic; }),
+                        new TopicRemoveAction(project, (v) -> { return topic; }),
                         ActionUtil.createEmptyEvent()
                     );
                 }
