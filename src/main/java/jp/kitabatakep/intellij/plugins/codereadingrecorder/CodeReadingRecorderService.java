@@ -49,7 +49,7 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     @Override
     public void loadState(@NotNull Element element)
     {
-        topicList.loadState(element.getChild("topics"));
+        topicList.setTopics(TopicListImporter.importElement(project, element.getChild("topics")));
         Element stateElement = element.getChild("state");
         lastExportDir = stateElement.getAttributeValue("lastExportDir");
         lastImportDir = stateElement.getAttributeValue("lastImportDir");
