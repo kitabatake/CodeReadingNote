@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ImportAction extends AnAction
 {
@@ -74,10 +75,23 @@ public class ImportAction extends AnAction
             return;
         }
 
-//        service.getTopicList().loadState(document.getRootElement());
-        service.getTopicList().setTopics(TopicListImporter.importElement(project, document.getRootElement()));
-        MessageBus messageBus = project.getMessageBus();
-        TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
-        publisher.topicsLoaded();
+        if (document == null) {
+            return;
+        }
+
+        try {
+            service.getTopicList().setTopics(TopicListImporter.importElement(project, document.getRootElement()));
+            MessageBus messageBus = project.getMessageBus();
+            TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
+            publisher.topicsLoaded();
+        } catch (TopicListImporter.FormatException _) {
+            Messages.showErrorDialog(
+                project,
+                "Fail to load action caused by illegal format file content.",
+                AppConstants.appName + "Load"
+            );
+        }
+
+
     }
 }

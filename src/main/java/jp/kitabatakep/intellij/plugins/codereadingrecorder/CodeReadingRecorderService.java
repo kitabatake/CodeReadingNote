@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import org.jdom.Element;
 
+import java.util.ArrayList;
+
 @State(
     name = AppConstants.appName,
     storages = {
@@ -49,7 +51,12 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     @Override
     public void loadState(@NotNull Element element)
     {
-        topicList.setTopics(TopicListImporter.importElement(project, element.getChild("topics")));
+        try {
+            topicList.setTopics(TopicListImporter.importElement(project, element.getChild("topics")));
+        } catch (TopicListImporter.FormatException e) {
+            topicList.setTopics(new ArrayList<>());
+        }
+
         Element stateElement = element.getChild("state");
         lastExportDir = stateElement.getAttributeValue("lastExportDir");
         lastImportDir = stateElement.getAttributeValue("lastImportDir");
