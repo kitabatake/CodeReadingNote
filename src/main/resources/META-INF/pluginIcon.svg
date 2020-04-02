@@ -1,34 +1,33 @@
-<svg id="lines" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+<svg id="グループ_1" data-name="グループ 1" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
   <defs>
     <style>
       .cls-1 {
-        fill: #8c631b;
+        fill: #40b6e0;
       }
 
-      .cls-1, .cls-2 {
+      .cls-1, .cls-2, .cls-3 {
         fill-rule: evenodd;
       }
 
-      .cls-2, .cls-4 {
-        fill: #714e0f;
+      .cls-2 {
+        fill: #f4d83d;
+        stroke: #40b6e0;
+        stroke-width: 1px;
       }
 
       .cls-3 {
-        fill: #d9a343;
-      }
-
-      .cls-5 {
         fill: #3f3f3f;
       }
     </style>
   </defs>
-  <path id="長方形_3" data-name="長方形 3" class="cls-1" d="M24.782,4.151l7.068,7.074L24.068,19,17,11.926Z"/>
-  <path id="長方形_3-2" data-name="長方形 3" class="cls-2" d="M14.782,4.151l7.068,7.074L14.068,19,7,11.926Z"/>
-  <rect id="角丸長方形_1" data-name="角丸長方形 1" class="cls-3" x="7" y="7" width="25" height="30" rx="4" ry="4"/>
-  <rect id="長方形_4" data-name="長方形 4" class="cls-4" x="13" y="11" width="3" height="3"/>
-  <rect id="長方形_4-2" data-name="長方形 4" class="cls-4" x="23" y="11" width="3" height="3"/>
-  <rect id="長方形_5" data-name="長方形 5" class="cls-5" x="10" y="19" width="16" height="1"/>
-  <rect id="長方形_6" data-name="長方形 6" class="cls-5" x="10" y="23" width="11" height="1"/>
-  <rect id="長方形_7" data-name="長方形 7" class="cls-5" x="10" y="27" width="14" height="1"/>
-  <rect id="長方形_8" data-name="長方形 8" class="cls-5" x="10" y="31" width="10" height="1"/>
+  <path id="長方形_3" data-name="長方形 3" class="cls-1" d="M25.064,2.994l7.578,7.539L24.3,18.818,16.721,11.28Z"/>
+  <path id="長方形_3-2" data-name="長方形 3" class="cls-1" d="M14.343,2.994l7.578,7.539-8.343,8.285L6,11.28Z"/>
+  <path id="角丸長方形_1" data-name="角丸長方形 1" class="cls-2" d="M10,6.03H28.8a4,4,0,0,1,4,4V34a4,4,0,0,1-4,4H10a4,4,0,0,1-4-4V10.03A4,4,0,0,1,10,6.03Z"/>
+  <path id="長方形_4" data-name="長方形 4" class="cls-1" d="M12.433,9.227h3.216v3.2H12.433v-3.2Z"/>
+  <path id="長方形_4-2" data-name="長方形 4" class="cls-1" d="M23.154,9.227h3.216v3.2H23.154v-3.2Z"/>
+  <g id="lines">
+    <path id="長方形_5" data-name="長方形 5" class="cls-3" d="M9.216,18.818H26.371v1.066H9.216V18.818Z"/>
+    <path id="長方形_6" data-name="長方形 6" class="cls-3" d="M9.216,23.081H21.01v1.066H9.216V23.081Z"/>
+    <path id="長方形_7" data-name="長方形 7" class="cls-3" d="M9.216,27.344h15.01v1.066H9.216V27.344Z"/>
+  </g>
 </svg>
