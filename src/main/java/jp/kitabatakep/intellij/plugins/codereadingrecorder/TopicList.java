@@ -50,8 +50,8 @@ public class TopicList
     {
         topics = new ArrayList<>();
         for (Element topicElement : topicsElement.getChildren("topic")) {
-            String name = topicElement.getAttributeValue("name");
-            String updatedAtString = topicElement.getAttributeValue("updatedAt");
+            String name = topicElement.getChild("name").getText();
+            String updatedAtString = topicElement.getChild("updatedAt").getText();
 
             Topic topic;
             try {
@@ -60,22 +60,22 @@ public class TopicList
                 Logger.getInstance(AppConstants.appName).error(e.getMessage());
                 continue;
             }
-            topic.setMemo(topicElement.getAttributeValue("memo"));
+            topic.setMemo(topicElement.getChild("memo").getText());
 
             Element topicLinesElement = topicElement.getChild("topicLines");
             ArrayList<TopicLine> topicLines = new ArrayList<>();
             for (Element topicLineElement : topicLinesElement.getChildren("topicLine")) {
-                String lineString = topicLineElement.getAttributeValue("line");
-                String inProject = topicLineElement.getAttributeValue("inProject");
+                String lineString = topicLineElement.getChild("line").getText();
+                String inProject = topicLineElement.getChild("inProject").getText();
                 TopicLine topicLine = TopicLine.createByImport(
                     project,
                     topic,
-                    topicLineElement.getAttributeValue("url"),
+                    topicLineElement.getChild("url").getText(),
                     Integer.parseInt(lineString),
-                    Integer.parseInt(topicLineElement.getAttributeValue("order")),
-                    topicLineElement.getAttributeValue("memo"),
+                    Integer.parseInt(topicLineElement.getChild("order").getText()),
+                    topicLineElement.getChild("memo").getText(),
                     inProject.equals("true"),
-                    topicLineElement.getAttributeValue("relativePath")
+                    topicLineElement.getChild("relativePath").getText()
                 );
                 topicLines.add(topicLine);
             }
@@ -90,9 +90,12 @@ public class TopicList
         Element topicsElement = new Element("topics");
         for (Topic topic : topics) {
             Element topicElement = new Element("topic");
-            topicElement.setAttribute("name", topic.name());
-            topicElement.setAttribute("memo", topic.memo());
-            topicElement.setAttribute("updatedAt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.updatedAt()));
+            topicElement.addContent(new Element("name").addContent(topic.name()));
+            topicElement.addContent(new Element("memo").addContent(topic.memo()));
+            topicElement.addContent(
+                new Element("updatedAt").
+                    addContent(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.updatedAt()))
+            );
 
             topicsElement.addContent(topicElement);
 
@@ -100,14 +103,15 @@ public class TopicList
             Iterator<TopicLine> linesIterator = topic.linesIterator();
             while (linesIterator.hasNext()) {
                 TopicLine topicLine = linesIterator.next();
-
                 Element topicLineElement = new Element("topicLine");
-                topicLineElement.setAttribute("line", String.valueOf(topicLine.line()));
-                topicLineElement.setAttribute("url", topicLine.url());
-                topicLineElement.setAttribute("memo", topicLine.memo());
-                topicLineElement.setAttribute("order", String.valueOf(topicLine.order()));
-                topicLineElement.setAttribute("inProject", String.valueOf(topicLine.inProject()));
-                topicLineElement.setAttribute("relativePath", topicLine.inProject() ? topicLine.relativePath() : "");
+                topicLineElement.addContent(new Element("line").addContent(String.valueOf(topicLine.line())));
+                topicLineElement.addContent(new Element("order").addContent(String.valueOf(topicLine.order())));
+                topicLineElement.addContent(new Element("inProject").addContent(String.valueOf(topicLine.inProject())));
+                topicLineElement.addContent(new Element("url").addContent(topicLine.url()));
+                topicLineElement.addContent(new Element("memo").addContent(topicLine.memo()));
+                topicLineElement.addContent(
+                    new Element("relativePath").addContent(topicLine.inProject() ? topicLine.relativePath() : "")
+                );
                 topicLinesElement.addContent(topicLineElement);
             }
 
