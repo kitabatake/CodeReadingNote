@@ -35,8 +35,9 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
     public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String memo, boolean inProject, String relativePath)
     {
         VirtualFile file;
+        String projectBase = project.getBasePath();
         if (inProject) {
-            file = LocalFileSystem.getInstance().findFileByPath(project.getBasePath() + File.separator + relativePath);
+            file = LocalFileSystem.getInstance().findFileByPath(projectBase + File.separator + relativePath);
         } else {
             file = VirtualFileManager.getInstance().findFileByUrl(url);
         }
@@ -81,14 +82,7 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         topic.touch();
     }
 
-    public String url()
-    {
-        if (isValid()) {
-            return file.getUrl();
-        } else {
-            return url;
-        }
-    }
+    public String url() { return url; }
 
     public String pathForDisplay()
     {
