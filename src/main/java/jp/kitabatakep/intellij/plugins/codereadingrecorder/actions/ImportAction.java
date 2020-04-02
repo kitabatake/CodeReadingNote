@@ -67,7 +67,7 @@ public class ImportAction extends AnAction
         try {
              document = builder.build(new File(files[0].getPath()));
         } catch (JDOMException ex) {
-            Messages.showErrorDialog(project, "Fail to load action caused by specified illegal format file.", AppConstants.appName + "Load");
+            Messages.showErrorDialog(project, "Fail to load action caused by illegal format file content.", AppConstants.appName + "Load");
         } catch (IOException ex) {
             Messages.showErrorDialog(project, "Fail to load action. Please try again.", AppConstants.appName + "Load");
             return;
