@@ -3,7 +3,6 @@ package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -11,7 +10,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
-import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.EditableModel;
 import com.intellij.util.ui.UIUtil;
@@ -34,7 +32,7 @@ import java.util.Iterator;
 class TopicDetailPanel extends JPanel
 {
     private Project project;
-    private MyEditorTextField memoArea;
+    private MyEditorTextField noteArea;
     private TopicLineDetailPanel topicLineDetailPanel;
 
     private JBList<TopicLine> topicLineList;
@@ -52,11 +50,11 @@ class TopicDetailPanel extends JPanel
         JBSplitter contentPane = new JBSplitter(true, 0.3f);
         contentPane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelContentPane.splitter");
 
-        memoArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
-        memoArea.setOneLineMode(false);
-        memoArea.setEnabled(false);
+        noteArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
+        noteArea.setOneLineMode(false);
+        noteArea.setEnabled(false);
 
-        contentPane.setFirstComponent(memoArea);
+        contentPane.setFirstComponent(noteArea);
 
         initTopicLineList();
         topicLineDetailPanel = new TopicLineDetailPanel(project);
@@ -94,16 +92,16 @@ class TopicDetailPanel extends JPanel
     public void removeNotify()
     {
         super.removeNotify();
-        if (memoArea.getEditor() != null) {
-            EditorFactory.getInstance().releaseEditor(memoArea.getEditor());
+        if (noteArea.getEditor() != null) {
+            EditorFactory.getInstance().releaseEditor(noteArea.getEditor());
         }
     }
 
-    private static class MemoAreaListener implements DocumentListener
+    private static class NoteAreaListener implements DocumentListener
     {
         TopicDetailPanel topicDetailPanel;
 
-        private MemoAreaListener(TopicDetailPanel topicDetailPanel)
+        private NoteAreaListener(TopicDetailPanel topicDetailPanel)
         {
             this.topicDetailPanel = topicDetailPanel;
         }
@@ -111,7 +109,7 @@ class TopicDetailPanel extends JPanel
         public void documentChanged(com.intellij.openapi.editor.event.DocumentEvent e)
         {
             Document doc = e.getDocument();
-            topicDetailPanel.topic.setMemo(doc.getText());
+            topicDetailPanel.topic.setNote(doc.getText());
         }
     }
 
@@ -163,8 +161,8 @@ class TopicDetailPanel extends JPanel
 
     void clear()
     {
-        memoArea.setDocument(EditorFactory.getInstance().createDocument(""));
-        memoArea.setEnabled(false);
+        noteArea.setDocument(EditorFactory.getInstance().createDocument(""));
+        noteArea.setEnabled(false);
         topicLineListModel.clear();
         topicLineDetailPanel.clear();
         selectedTopicLine = null;
@@ -175,12 +173,12 @@ class TopicDetailPanel extends JPanel
         this.topic = topic;
         selectedTopicLine = null;
 
-        memoArea.setEnabled(true);
-        if (topic.memo().equals("")) {
-            memoArea.setPlaceholder("topic note input area");
+        noteArea.setEnabled(true);
+        if (topic.note().equals("")) {
+            noteArea.setPlaceholder("topic note input area");
         }
-        memoArea.setDocument(EditorFactory.getInstance().createDocument(topic.memo()));
-        memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));
+        noteArea.setDocument(EditorFactory.getInstance().createDocument(topic.note()));
+        noteArea.getDocument().addDocumentListener(new NoteAreaListener(this));
 
         topicLineListModel.clear();
         Iterator<TopicLine> iterator = topic.linesIterator();

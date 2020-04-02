@@ -4,18 +4,12 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.event.DocumentListener;
-import com.intellij.openapi.fileTypes.FileTypeManager;
-import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.EditorTextField;
 import com.intellij.ui.JBSplitter;
-import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.components.JBLabel;
-import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.popup.util.DetailView;
 import com.intellij.ui.popup.util.DetailViewImpl;
-import com.intellij.util.messages.Topic;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
@@ -31,7 +25,7 @@ public class TopicLineDetailPanel extends JPanel
 {
     private Project project;
 
-    private MyEditorTextField memoArea;
+    private MyEditorTextField noteArea;
     private MyDetailView detailView;
     private JBLabel label;
 
@@ -54,10 +48,10 @@ public class TopicLineDetailPanel extends JPanel
 
         contentPane.setFirstComponent(firstPanel);
 
-        memoArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
-        memoArea.setOneLineMode(false);
-        memoArea.setEnabled(false);
-        contentPane.setSecondComponent(memoArea);
+        noteArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
+        noteArea.setOneLineMode(false);
+        noteArea.setEnabled(false);
+        contentPane.setSecondComponent(noteArea);
 
         add(contentPane);
     }
@@ -67,8 +61,8 @@ public class TopicLineDetailPanel extends JPanel
         topicLine = null;
         label.setText("");
         detailView.clearEditor();
-        memoArea.setDocument(EditorFactory.getInstance().createDocument(""));
-        memoArea.setEnabled(false);
+        noteArea.setDocument(EditorFactory.getInstance().createDocument(""));
+        noteArea.setEnabled(false);
     }
 
     public void setTopicLine(TopicLine topicLine)
@@ -82,20 +76,20 @@ public class TopicLineDetailPanel extends JPanel
         }
 
         label.setText(topicLine.pathForDisplay());
-        memoArea.setEnabled(true);
-        if (topicLine.memo().equals("")) {
-            memoArea.setPlaceholder("code note input area");
+        noteArea.setEnabled(true);
+        if (topicLine.note().equals("")) {
+            noteArea.setPlaceholder("code note input area");
         }
-        memoArea.setDocument(EditorFactory.getInstance().createDocument(topicLine.memo()));
-        memoArea.getDocument().addDocumentListener(new MemoAreaListener(this));
+        noteArea.setDocument(EditorFactory.getInstance().createDocument(topicLine.note()));
+        noteArea.getDocument().addDocumentListener(new NoteAreaListener(this));
     }
 
 
-    private static class MemoAreaListener implements DocumentListener
+    private static class NoteAreaListener implements DocumentListener
     {
         TopicLineDetailPanel topicLineDetailPanel;
 
-        private MemoAreaListener(TopicLineDetailPanel topicLineDetailPanel)
+        private NoteAreaListener(TopicLineDetailPanel topicLineDetailPanel)
         {
             this.topicLineDetailPanel = topicLineDetailPanel;
         }
@@ -103,7 +97,7 @@ public class TopicLineDetailPanel extends JPanel
         public void documentChanged(com.intellij.openapi.editor.event.DocumentEvent e)
         {
             Document doc = e.getDocument();
-            topicLineDetailPanel.topicLine.setMemo(doc.getText());
+            topicLineDetailPanel.topicLine.setNote(doc.getText());
         }
     }
 

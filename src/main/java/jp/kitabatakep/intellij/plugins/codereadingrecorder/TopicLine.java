@@ -16,7 +16,7 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
     private int line;
     private VirtualFile file;
     private int order;
-    private String memo;
+    private String note;
     private Project project;
     private Topic topic;
     private boolean inProject;
@@ -32,7 +32,7 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
             VfsUtilCore.getRelativePath(file, projectBase), file.getUrl());
     }
 
-    public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String memo, boolean inProject, String relativePath)
+    public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String note, boolean inProject, String relativePath)
     {
         VirtualFile file;
         String projectBase = project.getBasePath();
@@ -41,16 +41,16 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         } else {
             file = VirtualFileManager.getInstance().findFileByUrl(url);
         }
-        return new TopicLine(project, topic, file, line, order, memo, inProject, relativePath, url);
+        return new TopicLine(project, topic, file, line, order, note, inProject, relativePath, url);
     }
 
-    private TopicLine(Project project, Topic topic, VirtualFile file, int line, int order, String memo, boolean inProject, String relativePath, String url)
+    private TopicLine(Project project, Topic topic, VirtualFile file, int line, int order, String note, boolean inProject, String relativePath, String url)
     {
         this.project = project;
         this.topic = topic;
         this.line = line;
         this.order = order;
-        this.memo = memo;
+        this.note = note;
         this.file = file;
         this.inProject = inProject;
         this.relativePath = relativePath;
@@ -74,11 +74,11 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         topic.touch();
     }
 
-    public String memo() { return memo != null ? memo : ""; }
+    public String note() { return note != null ? note : ""; }
 
-    public void setMemo(String memo)
+    public void setNote(String note)
     {
-        this.memo = memo;
+        this.note = note;
         topic.touch();
     }
 

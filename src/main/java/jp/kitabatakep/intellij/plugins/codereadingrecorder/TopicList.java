@@ -60,7 +60,7 @@ public class TopicList
                 Logger.getInstance(AppConstants.appName).error(e.getMessage());
                 continue;
             }
-            topic.setMemo(topicElement.getChild("memo").getText());
+            topic.setNote(topicElement.getChild("note").getText());
 
             Element topicLinesElement = topicElement.getChild("topicLines");
             ArrayList<TopicLine> topicLines = new ArrayList<>();
@@ -73,7 +73,7 @@ public class TopicList
                     topicLineElement.getChild("url").getText(),
                     Integer.parseInt(lineString),
                     Integer.parseInt(topicLineElement.getChild("order").getText()),
-                    topicLineElement.getChild("memo").getText(),
+                    topicLineElement.getChild("note").getText(),
                     inProject.equals("true"),
                     topicLineElement.getChild("relativePath").getText()
                 );
@@ -91,7 +91,7 @@ public class TopicList
         for (Topic topic : topics) {
             Element topicElement = new Element("topic");
             topicElement.addContent(new Element("name").addContent(topic.name()));
-            topicElement.addContent(new Element("memo").addContent(topic.memo()));
+            topicElement.addContent(new Element("note").addContent(topic.note()));
             topicElement.addContent(
                 new Element("updatedAt").
                     addContent(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(topic.updatedAt()))
@@ -108,7 +108,7 @@ public class TopicList
                 topicLineElement.addContent(new Element("order").addContent(String.valueOf(topicLine.order())));
                 topicLineElement.addContent(new Element("inProject").addContent(String.valueOf(topicLine.inProject())));
                 topicLineElement.addContent(new Element("url").addContent(topicLine.url()));
-                topicLineElement.addContent(new Element("memo").addContent(topicLine.memo()));
+                topicLineElement.addContent(new Element("note").addContent(topicLine.note()));
                 topicLineElement.addContent(
                     new Element("relativePath").addContent(topicLine.inProject() ? topicLine.relativePath() : "")
                 );

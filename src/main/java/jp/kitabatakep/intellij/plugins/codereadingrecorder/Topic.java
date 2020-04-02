@@ -12,7 +12,7 @@ import java.util.Iterator;
 public class Topic implements Comparable<Topic>
 {
     private String name;
-    private String memo;
+    private String note;
     private Date updatedAt;
     private ArrayList<TopicLine> lines = new ArrayList<>();
     private Project project;
@@ -27,13 +27,13 @@ public class Topic implements Comparable<Topic>
     {
         return name;
     }
-    public String memo() {
-        return memo != null ? memo : "";
+    public String note() {
+        return note != null ? note : "";
     }
 
-    public void setMemo(String memo)
+    public void setNote(String note)
     {
-        this.memo = memo;
+        this.note = note;
     }
 
     public Date updatedAt() { return updatedAt; }
