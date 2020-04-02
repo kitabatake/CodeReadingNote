@@ -1,0 +1,34 @@
+<svg id="lines" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #8c631b;
+      }
+
+      .cls-1, .cls-2 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-4 {
+        fill: #714e0f;
+      }
+
+      .cls-3 {
+        fill: #d9a343;
+      }
+
+      .cls-5 {
+        fill: #3f3f3f;
+      }
+    </style>
+  </defs>
+  <path id="長方形_3" data-name="長方形 3" class="cls-1" d="M24.782,4.151l7.068,7.074L24.068,19,17,11.926Z"/>
+  <path id="長方形_3-2" data-name="長方形 3" class="cls-2" d="M14.782,4.151l7.068,7.074L14.068,19,7,11.926Z"/>
+  <rect id="角丸長方形_1" data-name="角丸長方形 1" class="cls-3" x="7" y="7" width="25" height="30" rx="4" ry="4"/>
+  <rect id="長方形_4" data-name="長方形 4" class="cls-4" x="13" y="11" width="3" height="3"/>
+  <rect id="長方形_4-2" data-name="長方形 4" class="cls-4" x="23" y="11" width="3" height="3"/>
+  <rect id="長方形_5" data-name="長方形 5" class="cls-5" x="10" y="19" width="16" height="1"/>
+  <rect id="長方形_6" data-name="長方形 6" class="cls-5" x="10" y="23" width="11" height="1"/>
+  <rect id="長方形_7" data-name="長方形 7" class="cls-5" x="10" y="27" width="14" height="1"/>
+  <rect id="長方形_8" data-name="長方形 8" class="cls-5" x="10" y="31" width="10" height="1"/>
+</svg>

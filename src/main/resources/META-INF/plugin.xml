@@ -14,12 +14,13 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService" />
-        <toolWindow id="Code Reading Recorder" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementToolWindowFactory" />
+        <toolWindow icon="/icons/app.png" id="Code Reading Recorder" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementToolWindowFactory" />
 
     </extensions>
 
     <actions>
         <action
+                icon="/icons/app.png"
                 id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
                 class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
                 text="Add to Topic">
