@@ -12,6 +12,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListExporter;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
@@ -69,7 +70,7 @@ public class ExportAction extends AnAction
 
         XMLOutputter xmlOutput = new XMLOutputter();
         xmlOutput.setFormat(Format.getPrettyFormat());
-        Element state = service.getTopicList().getState();
+        Element state = TopicListExporter.export(service.getTopicList().iterator());
         try {
             xmlOutput.output(new Document(state), fileOutputStream);
         } catch (IOException ex) {

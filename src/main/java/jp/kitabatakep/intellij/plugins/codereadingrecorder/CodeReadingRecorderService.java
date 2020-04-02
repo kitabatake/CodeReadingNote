@@ -38,7 +38,7 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     public Element getState()
     {
         Element container = new Element(AppConstants.appName);
-        container.addContent(topicList.getState());
+        container.addContent(TopicListExporter.export(getTopicList().iterator()));
         Element state = new Element("state");
         state.setAttribute("lastExportDir", lastExportDir());
         state.setAttribute("lastImportDir", lastImportDir());
