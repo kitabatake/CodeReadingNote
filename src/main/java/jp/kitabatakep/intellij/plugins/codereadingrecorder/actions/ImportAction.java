@@ -84,7 +84,7 @@ public class ImportAction extends AnAction
             MessageBus messageBus = project.getMessageBus();
             TopicListNotifier publisher = messageBus.syncPublisher(TopicListNotifier.TOPIC_LIST_NOTIFIER_TOPIC);
             publisher.topicsLoaded();
-        } catch (TopicListImporter.FormatException _) {
+        } catch (TopicListImporter.FormatException e2) {
             Messages.showErrorDialog(
                 project,
                 "Fail to load action caused by illegal format file content.",
