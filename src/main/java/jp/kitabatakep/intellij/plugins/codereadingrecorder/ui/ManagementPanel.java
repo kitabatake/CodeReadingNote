@@ -13,10 +13,7 @@ import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingrecorder.*;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ImportAction;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.ExportAction;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicAddAction;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicRemoveAction;
+import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,6 +81,9 @@ public class ManagementPanel extends JPanel
     {
         DefaultActionGroup actions = new DefaultActionGroup();
         actions.add(new TopicAddAction());
+        actions.add(new TopicRenameAction((v) -> {
+            return topicList.getSelectedValue();
+        }));
         actions.add(new TopicRemoveAction(project, (v) -> {
             return topicList.getSelectedValue();
         }));

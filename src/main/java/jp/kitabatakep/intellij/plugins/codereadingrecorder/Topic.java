@@ -27,6 +27,8 @@ public class Topic implements Comparable<Topic>
     {
         return name;
     }
+    public void setName(String name) { this.name = name; }
+
     public String note() {
         return note != null ? note : "";
     }
