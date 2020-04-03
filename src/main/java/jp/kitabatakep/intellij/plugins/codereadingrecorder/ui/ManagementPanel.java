@@ -44,7 +44,7 @@ public class ManagementPanel extends JPanel
         topicDetailPanel = new TopicDetailPanel(project);
         initTopicList();
 
-        JBSplitter splitPane = new JBSplitter(0.3f);
+        JBSplitter splitPane = new JBSplitter(0.15f);
         splitPane.setSplitterProportionKey(AppConstants.appName + "ManagementPanel.splitter");
         splitPane.setHonorComponentsMinimumSize(false);
 

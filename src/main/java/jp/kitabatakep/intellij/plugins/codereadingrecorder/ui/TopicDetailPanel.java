@@ -47,7 +47,7 @@ class TopicDetailPanel extends JPanel
 
         this.project = project;
 
-        JBSplitter contentPane = new JBSplitter(true, 0.3f);
+        JBSplitter contentPane = new JBSplitter(true, 0.2f);
         contentPane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelContentPane.splitter");
 
         noteArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
@@ -59,7 +59,7 @@ class TopicDetailPanel extends JPanel
         initTopicLineList();
         topicLineDetailPanel = new TopicLineDetailPanel(project);
 
-        JBSplitter topicLinePane = new JBSplitter(0.3f);
+        JBSplitter topicLinePane = new JBSplitter(0.2f);
         topicLinePane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelTopicLinePane.splitter");
         topicLinePane.setFirstComponent(topicLineList);
         topicLinePane.setSecondComponent(topicLineDetailPanel);
