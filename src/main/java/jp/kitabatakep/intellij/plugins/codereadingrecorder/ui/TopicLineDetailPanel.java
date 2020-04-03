@@ -84,6 +84,14 @@ public class TopicLineDetailPanel extends JPanel
         noteArea.getDocument().addDocumentListener(new NoteAreaListener(this));
     }
 
+    @Override
+    public void addNotify()
+    {
+        super.addNotify();
+        if (topicLine != null && topicLine.isValid()) {
+            detailView.navigateInPreviewEditor(DetailView.PreviewEditorState.create(topicLine.file(), topicLine.line()));
+        }
+    }
 
     private static class NoteAreaListener implements DocumentListener
     {
