@@ -20,6 +20,8 @@ import org.jdom.output.XMLOutputter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ExportAction extends AnAction
 {
@@ -45,8 +47,12 @@ public class ExportAction extends AnAction
         } else {
             baseDir = LocalFileSystem.getInstance().findFileByPath(System.getProperty("user.home"));
         }
-        final VirtualFileWrapper wrapper = FileChooserFactory.getInstance().createSaveFileDialog(
-            fsd, project).save(baseDir, AppConstants.appName + ".xml");
+        final VirtualFileWrapper wrapper = FileChooserFactory.getInstance().
+            createSaveFileDialog(fsd, project).
+            save(
+                baseDir,
+                AppConstants.appName + "_" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xml"
+            );
 
         if (wrapper == null) {
             return;
