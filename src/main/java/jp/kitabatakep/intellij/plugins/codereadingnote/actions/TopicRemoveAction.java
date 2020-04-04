@@ -25,7 +25,10 @@ public class TopicRemoveAction extends AnAction
 
     @Override
     public void update(@NotNull AnActionEvent e) {
-        e.getPresentation().setEnabled(e.getProject() != null);
+        e.getPresentation().setEnabled(
+            e.getProject() != null &&
+                topicFetcher.apply(null) != null
+        );
     }
 
     @Override
