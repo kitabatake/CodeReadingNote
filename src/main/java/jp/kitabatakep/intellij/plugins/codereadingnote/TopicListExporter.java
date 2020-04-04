@@ -1,4 +1,4 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder;
+package jp.kitabatakep.intellij.plugins.codereadingnote;
 
 import org.jdom.Element;
 

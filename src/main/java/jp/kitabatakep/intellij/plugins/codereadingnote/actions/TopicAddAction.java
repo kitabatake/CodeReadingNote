@@ -1,11 +1,11 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
+package jp.kitabatakep.intellij.plugins.codereadingnote.actions;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
+import jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService;
 import org.jetbrains.annotations.NotNull;
 
 public class TopicAddAction extends AnAction
@@ -37,7 +37,7 @@ public class TopicAddAction extends AnAction
             }
         );
 
-        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(e.getProject());
+        CodeReadingNoteService service = CodeReadingNoteService.getInstance(e.getProject());
         service.getTopicList().addTopic(newTopicName);
     }
 }

@@ -1,4 +1,4 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
+package jp.kitabatakep.intellij.plugins.codereadingnote.ui;
 
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
@@ -12,8 +12,8 @@ import com.intellij.ui.components.JBList;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.*;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.*;
+import jp.kitabatakep.intellij.plugins.codereadingnote.*;
+import jp.kitabatakep.intellij.plugins.codereadingnote.actions.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class ManagementPanel extends JPanel
 {
     private Project project;
 
-    private CodeReadingRecorderService service;
+    private CodeReadingNoteService service;
     private JBList<Topic> topicList;
     private DefaultListModel<Topic> topicListModel;
 
@@ -37,7 +37,7 @@ public class ManagementPanel extends JPanel
     {
         super(new BorderLayout());
         this.project = project;
-        service = CodeReadingRecorderService.getInstance(project);
+        service = CodeReadingNoteService.getInstance(project);
         topicDetailPanel = new TopicDetailPanel(project);
         initTopicList();
 

@@ -1,6 +1,5 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder;
+package jp.kitabatakep.intellij.plugins.codereadingnote;
 
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import org.jdom.Element;
 

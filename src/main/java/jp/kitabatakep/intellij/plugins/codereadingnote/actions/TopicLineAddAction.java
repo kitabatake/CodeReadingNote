@@ -1,14 +1,14 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
+package jp.kitabatakep.intellij.plugins.codereadingnote.actions;
 
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicList;
+import jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService;
+import jp.kitabatakep.intellij.plugins.codereadingnote.Topic;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class TopicLineAddAction extends AnAction
         if (project == null) {
             event.getPresentation().setEnabled(false);
         } else {
-            CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
+            CodeReadingNoteService service = CodeReadingNoteService.getInstance(project);
             event.getPresentation().setEnabled(
                 service.getTopicList().iterator().hasNext() &&
                 (CommonDataKeys.EDITOR.getData(dataContext) != null ||
@@ -52,7 +52,7 @@ public class TopicLineAddAction extends AnAction
 
     private Topic topicSelectDialog(Project project, String message)
     {
-        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
+        CodeReadingNoteService service = CodeReadingNoteService.getInstance(project);
         TopicList topicList = service.getTopicList();
 
         Iterator<Topic> iterator = topicList.iterator();

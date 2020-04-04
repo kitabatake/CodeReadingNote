@@ -1,11 +1,11 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
+package jp.kitabatakep.intellij.plugins.codereadingnote.actions;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
+import jp.kitabatakep.intellij.plugins.codereadingnote.Topic;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder;
+package jp.kitabatakep.intellij.plugins.codereadingnote;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
         @Storage(AppConstants.appName + ".xml"),
     }
 )
-public class CodeReadingRecorderService implements PersistentStateComponent<Element>
+public class CodeReadingNoteService implements PersistentStateComponent<Element>
 {
     Project project;
     TopicList topicList;
@@ -25,15 +25,15 @@ public class CodeReadingRecorderService implements PersistentStateComponent<Elem
     String lastExportDir = "";
     String lastImportDir = "";
 
-    public CodeReadingRecorderService(@NotNull Project project)
+    public CodeReadingNoteService(@NotNull Project project)
     {
         this.project = project;
         topicList = new TopicList(project);
     }
 
-    public static CodeReadingRecorderService getInstance(@NotNull Project project)
+    public static CodeReadingNoteService getInstance(@NotNull Project project)
     {
-        return ServiceManager.getService(project, CodeReadingRecorderService.class);
+        return ServiceManager.getService(project, CodeReadingNoteService.class);
     }
 
     @Override

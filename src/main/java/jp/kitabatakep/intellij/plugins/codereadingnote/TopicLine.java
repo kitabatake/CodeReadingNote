@@ -1,4 +1,4 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder;
+package jp.kitabatakep.intellij.plugins.codereadingnote;
 
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;

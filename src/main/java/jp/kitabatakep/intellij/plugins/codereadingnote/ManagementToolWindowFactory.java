@@ -1,11 +1,11 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder;
+package jp.kitabatakep.intellij.plugins.codereadingnote;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.ui.ManagementPanel;
+import jp.kitabatakep.intellij.plugins.codereadingnote.ui.ManagementPanel;
 import org.jetbrains.annotations.NotNull;
 
 public class ManagementToolWindowFactory implements ToolWindowFactory

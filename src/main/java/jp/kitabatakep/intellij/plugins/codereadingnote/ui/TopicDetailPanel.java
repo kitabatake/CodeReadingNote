@@ -1,4 +1,4 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
+package jp.kitabatakep.intellij.plugins.codereadingnote.ui;
 
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
@@ -13,11 +13,11 @@ import com.intellij.ui.components.JBList;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.EditableModel;
 import com.intellij.util.ui.UIUtil;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicNotifier;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineRemoveAction;
+import jp.kitabatakep.intellij.plugins.codereadingnote.AppConstants;
+import jp.kitabatakep.intellij.plugins.codereadingnote.Topic;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicNotifier;
+import jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineRemoveAction;
 import javax.swing.*;
 import com.intellij.openapi.editor.event.DocumentListener;
 import org.intellij.plugins.markdown.lang.MarkdownFileType;

@@ -1,5 +1,5 @@
 @startuml
-class CodeReadingRecorderService {
+class CodeReadingNoteService {
   - project
   - topicList
   - JBPopup popup
@@ -8,7 +8,7 @@ class CodeReadingRecorderService {
   - loadState()
 }
 
-note right of CodeReadingRecorderService
+note right of CodeReadingNoteService
    state format is..
    topicLine
      - topicId
@@ -84,15 +84,15 @@ Topic ..> com.intellij.util.messages.Topic : publish TopicNotifier
 TopicDetailPanel ..> com.intellij.util.messages.Topic : subscribe TopicNotifier
 
 /' relation '/
-StartupActivity ..> CodeReadingRecorderService : initialize
-CodeReadingRecorderService o-- TopicList
+StartupActivity ..> CodeReadingNoteService : initialize
+CodeReadingNoteService o-- TopicList
 
 TopicList o-- Topic
 Topic o- TopicLine
 
 TopicLine -- VirtualFile
 
-ManagementPanel o-- CodeReadingRecorderService
+ManagementPanel o-- CodeReadingNoteService
 ManagementPanel o-- TopicList
 
 TopicDetailPanel o-- Topic

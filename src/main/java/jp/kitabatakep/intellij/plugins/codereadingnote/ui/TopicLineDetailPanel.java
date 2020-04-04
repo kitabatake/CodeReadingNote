@@ -1,4 +1,4 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.ui;
+package jp.kitabatakep.intellij.plugins.codereadingnote.ui;
 
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -12,8 +12,8 @@ import com.intellij.ui.popup.util.DetailView;
 import com.intellij.ui.popup.util.DetailViewImpl;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
+import jp.kitabatakep.intellij.plugins.codereadingnote.AppConstants;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
 import org.intellij.plugins.markdown.lang.MarkdownFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

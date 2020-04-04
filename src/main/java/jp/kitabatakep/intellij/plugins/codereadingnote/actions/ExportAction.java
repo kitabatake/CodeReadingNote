@@ -1,4 +1,4 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
+package jp.kitabatakep.intellij.plugins.codereadingnote.actions;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -10,9 +10,9 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListExporter;
+import jp.kitabatakep.intellij.plugins.codereadingnote.AppConstants;
+import jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicListExporter;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
@@ -38,7 +38,7 @@ public class ExportAction extends AnAction
     public void actionPerformed(@NotNull AnActionEvent e)
     {
         Project project = e.getProject();
-        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
+        CodeReadingNoteService service = CodeReadingNoteService.getInstance(project);
         FileSaverDescriptor fsd = new FileSaverDescriptor("Save", "Please choose where to save", "xml");
 
         VirtualFile baseDir;

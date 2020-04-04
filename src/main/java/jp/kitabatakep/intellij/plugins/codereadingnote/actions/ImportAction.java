@@ -1,4 +1,4 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
+package jp.kitabatakep.intellij.plugins.codereadingnote.actions;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -6,17 +6,15 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
-import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileWrapper;
 import com.intellij.util.messages.MessageBus;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.AppConstants;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListImporter;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicListNotifier;
+import jp.kitabatakep.intellij.plugins.codereadingnote.AppConstants;
+import jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicListImporter;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicListNotifier;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -24,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ImportAction extends AnAction
 {
@@ -41,7 +38,7 @@ public class ImportAction extends AnAction
     public void actionPerformed(@NotNull AnActionEvent e)
     {
         Project project = e.getProject();
-        CodeReadingRecorderService service = CodeReadingRecorderService.getInstance(project);
+        CodeReadingNoteService service = CodeReadingNoteService.getInstance(project);
 
         VirtualFile baseDir;
         if (!service.lastImportDir().equals("")) {

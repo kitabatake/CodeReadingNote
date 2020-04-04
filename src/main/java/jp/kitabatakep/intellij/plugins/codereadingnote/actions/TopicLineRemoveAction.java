@@ -1,12 +1,12 @@
-package jp.kitabatakep.intellij.plugins.codereadingrecorder.actions;
+package jp.kitabatakep.intellij.plugins.codereadingnote.actions;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.Topic;
-import jp.kitabatakep.intellij.plugins.codereadingrecorder.TopicLine;
+import jp.kitabatakep.intellij.plugins.codereadingnote.Topic;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;

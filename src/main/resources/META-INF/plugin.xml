@@ -1,6 +1,6 @@
 <idea-plugin>
-    <id>org.example.CodeReadingRecorder</id>
-    <name>Code Reading Recorder</name>
+    <id>org.example.CodeReadingNote</id>
+    <name>Code Reading Note</name>
     <vendor email="e2tod2@gmail.com" url="https://github.com/kitabatake">kitabatake</vendor>
 
     <description><![CDATA[
@@ -13,16 +13,16 @@
     <depends>org.intellij.plugins.markdown</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingrecorder.CodeReadingRecorderService" />
-        <toolWindow icon="/icons/app.png" id="Code Reading Recorder" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingrecorder.ManagementToolWindowFactory" />
+        <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService" />
+        <toolWindow icon="/icons/app.png" id="Code Reading Note" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingnote.ManagementToolWindowFactory" />
 
     </extensions>
 
     <actions>
         <action
                 icon="/icons/app.png"
-                id="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
-                class="jp.kitabatakep.intellij.plugins.codereadingrecorder.actions.TopicLineAddAction"
+                id="jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineAddAction"
+                class="jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineAddAction"
                 text="Add to Topic">
             <add-to-group group-id="EditorPopupMenu" />
         </action>
