@@ -1,2 +1,2 @@
 rootProject.name = 'CodeReadingNote'
-
+//startParameter.excludedTaskNames.add('buildSearchableOptions')
