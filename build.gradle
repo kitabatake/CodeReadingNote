@@ -3,8 +3,8 @@ plugins {
     id 'org.jetbrains.intellij' version '0.4.16'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'jp.kitabatakep'
+version '0.1.0'
 
 sourceCompatibility = 1.8
 
@@ -19,13 +19,13 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type 'IU'
-    version '2019.3.3'
+    version '2019.1'
 
 }
 
-runIde {
-    ideDirectory '/Applications/RubyMine.app/Contents'
-}
+//runIde {
+//    ideDirectory '/Applications/RubyMine.app/Contents'
+//}
 
 patchPluginXml {
     changeNotes """

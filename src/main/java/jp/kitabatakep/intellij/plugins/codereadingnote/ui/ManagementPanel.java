@@ -1,8 +1,6 @@
 package jp.kitabatakep.intellij.plugins.codereadingnote.ui;
 
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.ActionToolbar;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.JBSplitter;
@@ -144,7 +142,8 @@ public class ManagementPanel extends JPanel
                     Topic topic = topicList.getSelectedValue();
                     ActionUtil.performActionDumbAware(
                         new TopicRemoveAction(project, (v) -> { return topic; }),
-                        ActionUtil.createEmptyEvent()
+                        AnActionEvent.createFromDataContext(ActionPlaces.UNKNOWN, null, dataId -> null)
+//                        ActionUtil.createEmptyEvent()
                     );
                 }
             }

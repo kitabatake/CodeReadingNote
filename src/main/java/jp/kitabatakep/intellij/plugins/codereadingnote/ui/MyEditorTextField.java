@@ -9,7 +9,7 @@ public class MyEditorTextField extends EditorTextField
 {
     public MyEditorTextField(Project project, FileType fileType)
     {
-        super(project, fileType);
+        super("", project, fileType);
     }
 
     @Override
