@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.event.DocumentListener;
+import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.JBSplitter;
@@ -14,7 +15,6 @@ import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingnote.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,7 +48,7 @@ public class TopicLineDetailPanel extends JPanel
 
         contentPane.setFirstComponent(firstPanel);
 
-        noteArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
+        noteArea = new MyEditorTextField(project, FileTypeManager.getInstance().getStdFileType("Markdown"));
         noteArea.setOneLineMode(false);
         noteArea.setEnabled(false);
         contentPane.setSecondComponent(noteArea);

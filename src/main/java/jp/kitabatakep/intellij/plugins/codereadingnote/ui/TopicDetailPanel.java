@@ -3,6 +3,7 @@ package jp.kitabatakep.intellij.plugins.codereadingnote.ui;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -20,7 +21,6 @@ import jp.kitabatakep.intellij.plugins.codereadingnote.TopicNotifier;
 import jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineRemoveAction;
 import javax.swing.*;
 import com.intellij.openapi.editor.event.DocumentListener;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -50,7 +50,7 @@ class TopicDetailPanel extends JPanel
         JBSplitter contentPane = new JBSplitter(true, 0.2f);
         contentPane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelContentPane.splitter");
 
-        noteArea = new MyEditorTextField(project, MarkdownFileType.INSTANCE);
+        noteArea = new MyEditorTextField(project, FileTypeManager.getInstance().getStdFileType("Markdown"));
         noteArea.setOneLineMode(false);
         noteArea.setEnabled(false);
 
