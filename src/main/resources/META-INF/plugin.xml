@@ -2,11 +2,13 @@
     <id>jp.kitabatakep.intellij.plugins.CodeReadingNote</id>
     <name>Code Reading Note</name>
     <vendor email="kitabatake.programmer@gmail.com">kitabatakep</vendor>
-    <version>0.1.0</version>
+    <version>0.1.2</version>
 <!--    <idea-version since-build="193" />-->
 
     <description><![CDATA[
     A plugin support to your code reading work by providing noting down features related to your understanding about project's code.
+
+
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html

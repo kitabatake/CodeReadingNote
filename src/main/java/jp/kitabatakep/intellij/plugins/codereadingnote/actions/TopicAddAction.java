@@ -37,7 +37,9 @@ public class TopicAddAction extends AnAction
             }
         );
 
-        CodeReadingNoteService service = CodeReadingNoteService.getInstance(e.getProject());
-        service.getTopicList().addTopic(newTopicName);
+        if (newTopicName != null) {
+            CodeReadingNoteService service = CodeReadingNoteService.getInstance(e.getProject());
+            service.getTopicList().addTopic(newTopicName);
+        }
     }
 }
