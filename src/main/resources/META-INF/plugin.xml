@@ -15,13 +15,13 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService" />
-        <toolWindow icon="/icons/app.png" id="Code Reading Note" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingnote.ManagementToolWindowFactory" />
+        <toolWindow icon="/META-INF/pluginIcon.svg" id="Code Reading Note" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingnote.ManagementToolWindowFactory" />
 
     </extensions>
 
     <actions>
         <action
-                icon="/icons/app.png"
+                icon="/META-INF/pluginIcon.svg"
                 id="jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineAddAction"
                 class="jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineAddAction"
                 text="Add to Topic">
