@@ -176,7 +176,7 @@ class TopicDetailPanel extends JPanel
 
         noteArea.setEnabled(true);
         if (topic.note().equals("")) {
-            noteArea.setPlaceholder("topic note input area");
+            noteArea.setPlaceholder(" Topic note input area (Markdown)");
         }
         noteArea.setDocument(EditorFactory.getInstance().createDocument(topic.note()));
         noteArea.getDocument().addDocumentListener(new NoteAreaListener(this));

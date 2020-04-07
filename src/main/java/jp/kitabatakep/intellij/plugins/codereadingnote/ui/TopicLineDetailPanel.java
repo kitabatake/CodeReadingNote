@@ -78,7 +78,7 @@ public class TopicLineDetailPanel extends JPanel
         label.setText(topicLine.pathForDisplay());
         noteArea.setEnabled(true);
         if (topicLine.note().equals("")) {
-            noteArea.setPlaceholder("code note input area");
+            noteArea.setPlaceholder(" Code line note input area (Markdown)");
         }
         noteArea.setDocument(EditorFactory.getInstance().createDocument(topicLine.note()));
         noteArea.getDocument().addDocumentListener(new NoteAreaListener(this));
