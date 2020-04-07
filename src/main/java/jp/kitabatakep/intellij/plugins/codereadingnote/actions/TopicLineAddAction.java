@@ -4,13 +4,21 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.ui.popup.JBPopup;
+import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.ui.SimpleColoredComponent;
+import com.intellij.ui.SimpleTextAttributes;
+import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService;
 import jp.kitabatakep.intellij.plugins.codereadingnote.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingnote.TopicList;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -40,41 +48,61 @@ public class TopicLineAddAction extends AnAction
         Project project = event.getProject();
         if (project == null) return;
 
+        CodeReadingNoteService service = CodeReadingNoteService.getInstance(project);
+
         VirtualFile file = event.getData(PlatformDataKeys.VIRTUAL_FILE);
         Editor editor = event.getData(PlatformDataKeys.EDITOR);
         int line = editor.getCaretModel().getLogicalPosition().line;
 
-        Topic topic = topicSelectDialog(project,file.getName() + ":" + (line+1));
-        if (topic != null) {
-            topic.addLine(TopicLine.createByAction(project, topic, file, line));
-        }
-    }
-
-    private Topic topicSelectDialog(Project project, String message)
-    {
-        CodeReadingNoteService service = CodeReadingNoteService.getInstance(project);
         TopicList topicList = service.getTopicList();
-
         Iterator<Topic> iterator = topicList.iterator();
         ArrayList<Topic> topics = new ArrayList<>();
-        ArrayList<String> topicStrings = new ArrayList<>();
         while (iterator.hasNext()) {
             Topic topic = iterator.next();
             topics.add(topic);
-            topicStrings.add(topic.name());
         }
-        int index = Messages.showChooseDialog(
-            message,
-            "Select Topic",
-            topicStrings.toArray(new String[0]),
-            topicStrings.get(0),
-            Messages.getQuestionIcon()
-        );
 
-        if (index == -1) {
-            return null;
-        } else {
-            return topics.get(index);
+        JBPopup popup =
+            JBPopupFactory.getInstance().createPopupChooserBuilder(topics)
+                .setTitle("Select Topic")
+                .setRenderer(new MyCellRenderer<Topic>())
+                .setResizable(true)
+                .setItemChosenCallback((topic) -> {
+                    if (topic != null) {
+                        topic.addLine(TopicLine.createByAction(project, topic, file, line));
+                    }
+                })
+                .createPopup();
+
+        popup.showInBestPositionFor(editor);
+    }
+
+    private static class MyCellRenderer<T> extends SimpleColoredComponent implements ListCellRenderer<T>
+    {
+        private MyCellRenderer()
+        {
+            setOpaque(true);
+        }
+
+        public Component getListCellRendererComponent(
+            JList list,
+            Object value,
+            int index,
+            boolean isSelected,
+            boolean cellHasFocus)
+        {
+            clear();
+            Topic topic = (Topic) value;
+            append(topic.name());
+
+            append(
+                " (" + new SimpleDateFormat("yyyy/MM/dd HH:mm").format(topic.updatedAt()) + ")",
+                SimpleTextAttributes.GRAY_ATTRIBUTES
+            );
+
+            setForeground(UIUtil.getListSelectionForeground(isSelected));
+            setBackground(UIUtil.getListSelectionBackground(isSelected));
+            return this;
         }
     }
 }
