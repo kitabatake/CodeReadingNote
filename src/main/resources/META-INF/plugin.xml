@@ -13,20 +13,27 @@
 
     <change-notes><![CDATA[
         <html>
-        <body>
-            <h1>0.1.2</h1>
-            <p>Fix bug.</p>
+<body>
+    <h1>0.1.3</h1>
+    <ul>
+        <li>Avoid using deprecated API</li>
+        <li>Set change notes</li>
+        <li>Fix details</li>
+    </ul>
 
-            <h1>0.1.1</h1>
-            <p>Set icon.</p>
+    <h1>0.1.2</h1>
+    <p>Fix bug.</p>
 
-            <h1>0.1.0</h1>
-            <p>
-                First version of this plugin.
-                Implements core features.
-            </p>
-        </body>
-        </html>
+    <h1>0.1.1</h1>
+    <p>Set icon.</p>
+
+    <h1>0.1.0</h1>
+    <p>
+        First version of this plugin.
+        Implements core features.
+    </p>
+</body>
+</html>
     ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
