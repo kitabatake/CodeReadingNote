@@ -7,6 +7,7 @@ import com.intellij.ui.JBSplitter;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.components.JBList;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
@@ -43,7 +44,7 @@ public class ManagementPanel extends JPanel
         splitPane.setSplitterProportionKey(AppConstants.appName + "ManagementPanel.splitter");
         splitPane.setHonorComponentsMinimumSize(false);
 
-        splitPane.setFirstComponent(topicList);
+        splitPane.setFirstComponent(new JBScrollPane(topicList));
         splitPane.setSecondComponent(topicDetailPanel);
 
         add(actionToolBar(), BorderLayout.PAGE_START);

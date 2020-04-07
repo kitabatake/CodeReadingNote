@@ -11,6 +11,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.EditableModel;
 import com.intellij.util.ui.UIUtil;
@@ -61,7 +62,7 @@ class TopicDetailPanel extends JPanel
 
         JBSplitter topicLinePane = new JBSplitter(0.2f);
         topicLinePane.setSplitterProportionKey(AppConstants.appName + "TopicDetailPanelTopicLinePane.splitter");
-        topicLinePane.setFirstComponent(topicLineList);
+        topicLinePane.setFirstComponent(new JBScrollPane(topicLineList));
         topicLinePane.setSecondComponent(topicLineDetailPanel);
         topicLinePane.setHonorComponentsMinimumSize(false);
 
