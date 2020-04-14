@@ -48,6 +48,8 @@ public class TopicRenameAction extends AnAction
             }
         );
 
-        topic.setName(newTopicName);
+        if (newTopicName != null) {
+            topic.setName(newTopicName);
+        }
     }
 }
