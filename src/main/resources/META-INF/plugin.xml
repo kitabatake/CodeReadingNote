@@ -14,6 +14,12 @@
     <change-notes><![CDATA[
         <html>
 <body>
+    <h1>0.1.4</h1>
+    <ul>
+        <li>Describe plugin description</li>
+        <li>Adjust code line sorting behavior</li>
+        <li>Fix bug</li>
+    </ul>
     <h1>0.1.3</h1>
     <ul>
         <li>Avoid using deprecated API</li>
@@ -22,10 +28,10 @@
     </ul>
 
     <h1>0.1.2</h1>
-    <p>Fix bug.</p>
+    <p>Fix bug</p>
 
     <h1>0.1.1</h1>
-    <p>Set icon.</p>
+    <p>Set icon</p>
 
     <h1>0.1.0</h1>
     <p>
