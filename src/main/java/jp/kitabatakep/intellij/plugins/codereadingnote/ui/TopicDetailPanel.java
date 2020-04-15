@@ -229,7 +229,7 @@ class TopicDetailPanel extends JPanel
         }
     }
 
-    private static class TopicLineListModel<T> extends DefaultListModel<T> implements EditableModel
+    private class TopicLineListModel<T> extends DefaultListModel<T> implements EditableModel
     {
         public void addRow() {}
         public void removeRow(int i) {}
@@ -237,14 +237,10 @@ class TopicDetailPanel extends JPanel
 
         public void exchangeRows(int oldIndex, int newIndex)
         {
-            TopicLine a = (TopicLine) get(oldIndex);
-            a.setOrder(newIndex);
-
-            TopicLine b = (TopicLine) get(newIndex);
-            b.setOrder(oldIndex);
-
-            set(newIndex, (T)a);
-            set(oldIndex, (T)b);
+            TopicLine target = (TopicLine) get(oldIndex);
+            remove(oldIndex);
+            add(newIndex, (T)target);
+            topic.changeLineOrder(target, newIndex);
         }
     }
 }

@@ -28,7 +28,6 @@ public class TopicListExporter
                 TopicLine topicLine = linesIterator.next();
                 Element topicLineElement = new Element("topicLine");
                 topicLineElement.addContent(new Element("line").addContent(String.valueOf(topicLine.line())));
-                topicLineElement.addContent(new Element("order").addContent(String.valueOf(topicLine.order())));
                 topicLineElement.addContent(new Element("inProject").addContent(String.valueOf(topicLine.inProject())));
                 topicLineElement.addContent(new Element("url").addContent(topicLine.url()));
                 topicLineElement.addContent(new Element("note").addContent(topicLine.note()));

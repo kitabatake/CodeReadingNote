@@ -36,7 +36,6 @@ public class TopicListImporter
                         topic,
                         topicLineElement.getChild("url").getText(),
                         Integer.parseInt(lineString),
-                        Integer.parseInt(topicLineElement.getChild("order").getText()),
                         topicLineElement.getChild("note").getText(),
                         inProject.equals("true"),
                         topicLineElement.getChild("relativePath").getText()

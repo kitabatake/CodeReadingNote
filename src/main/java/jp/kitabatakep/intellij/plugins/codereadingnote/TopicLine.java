@@ -11,11 +11,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
-public class TopicLine implements Comparable<TopicLine>, Navigatable
+public class TopicLine implements Navigatable
 {
     private int line;
     private VirtualFile file;
-    private int order;
     private String note;
     private Project project;
     private Topic topic;
@@ -28,11 +27,11 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         VirtualFile projectBase = LocalFileSystem.getInstance().findFileByPath(project.getBasePath());
         boolean inProject = VfsUtilCore.isAncestor(projectBase, file, true);
 
-        return new TopicLine(project, topic, file, line, 0, "", inProject,
+        return new TopicLine(project, topic, file, line, "", inProject,
             VfsUtilCore.getRelativePath(file, projectBase), file.getUrl());
     }
 
-    public static TopicLine createByImport(Project project, Topic topic, String url, int line, int order, String note, boolean inProject, String relativePath)
+    public static TopicLine createByImport(Project project, Topic topic, String url, int line, String note, boolean inProject, String relativePath)
     {
         VirtualFile file;
         String projectBase = project.getBasePath();
@@ -41,15 +40,14 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
         } else {
             file = VirtualFileManager.getInstance().findFileByUrl(url);
         }
-        return new TopicLine(project, topic, file, line, order, note, inProject, relativePath, url);
+        return new TopicLine(project, topic, file, line, note, inProject, relativePath, url);
     }
 
-    private TopicLine(Project project, Topic topic, VirtualFile file, int line, int order, String note, boolean inProject, String relativePath, String url)
+    private TopicLine(Project project, Topic topic, VirtualFile file, int line, String note, boolean inProject, String relativePath, String url)
     {
         this.project = project;
         this.topic = topic;
         this.line = line;
-        this.order = order;
         this.note = note;
         this.file = file;
         this.inProject = inProject;
@@ -64,15 +62,7 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
 
     public int line() { return line; }
 
-    public int order() { return order; }
-
     public String relativePath() { return relativePath; }
-
-    public void setOrder(int order)
-    {
-        this.order = order;
-        topic.touch();
-    }
 
     public String note() { return note != null ? note : ""; }
 
@@ -104,12 +94,6 @@ public class TopicLine implements Comparable<TopicLine>, Navigatable
     private OpenFileDescriptor openFileDescriptor()
     {
         return new OpenFileDescriptor(project, file, line, -1, true);
-    }
-
-    @Override
-    public int compareTo(@NotNull TopicLine topicLine)
-    {
-        return order <= topicLine.order() ? -1 : 1;
     }
 
     @Override

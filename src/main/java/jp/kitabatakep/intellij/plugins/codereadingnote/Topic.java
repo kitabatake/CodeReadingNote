@@ -54,17 +54,10 @@ public class Topic implements Comparable<Topic>
     public void setLines(ArrayList<TopicLine> lines)
     {
         this.lines = lines;
-        Collections.sort(lines);
     }
 
     public void addLine(TopicLine line)
     {
-        if (lines.size() > 0) {
-            line.setOrder(lines.get(lines.size()-1).order() + 1);
-        } else {
-            line.setOrder(0);
-        }
-
         lines.add(line);
         MessageBus messageBus = project.getMessageBus();
         TopicNotifier publisher = messageBus.syncPublisher(TopicNotifier.TOPIC_NOTIFIER_TOPIC);
@@ -83,7 +76,12 @@ public class Topic implements Comparable<Topic>
 
     public Iterator<TopicLine> linesIterator()
     {
-        Collections.sort(lines);
         return lines.iterator();
+    }
+
+    public void changeLineOrder(TopicLine line, int index)
+    {
+        lines.remove(line);
+        lines.add(index, line);
     }
 }
