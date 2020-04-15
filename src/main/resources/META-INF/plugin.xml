@@ -6,9 +6,20 @@
 <!--    <idea-version since-build="193" />-->
 
     <description><![CDATA[
-    A plugin support to your code reading work by providing noting down features related to your understanding about project's code.
+    Write down that you understood in the code reading work in a place that has a high affinity with code!<br><br>
 
-
+    <b>Features</b>
+    <ul>
+        <li>Organize your notes by Topic</li>
+        <li>
+            Combine the code line you want to keep to Topic.
+            This makes you always open the code line from note. (like Bookmark feature)
+        </li>
+        <li>
+            Arrange code lines to meaningful order by drag and drop.
+            For example, priority or process flows.
+        </li>
+    </ul>
     ]]></description>
 
     <change-notes><![CDATA[
