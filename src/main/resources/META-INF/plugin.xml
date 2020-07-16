@@ -2,9 +2,9 @@
     <id>jp.kitabatakep.intellij.plugins.CodeReadingNote</id>
     <name>Code Reading Note</name>
     <vendor email="kitabatake.programmer@gmail.com">kitabatakep</vendor>
-    <version>0.1.4</version>
+    <version>2019.1.1</version>
 <!--    <idea-version since-build="193" />-->
-
+    <idea-version since-build="193"/>
     <description><![CDATA[
     Write down that you understood in the code reading work in a place that has a high affinity with code!<br><br>
 
@@ -20,35 +20,22 @@
             For example, priority or process flows.
         </li>
     </ul>
-    ]]></description>
+
+    <p>
+        This plugin may not be suitable for projects that change frequently
+        because a point that links with note is static(ex. file path and line number) .
+    </p>
+    ]]>
+    </description>
 
     <change-notes><![CDATA[
         <html>
 <body>
-    <h1>0.1.4</h1>
     <ul>
-        <li>Describe plugin description</li>
-        <li>Adjust code line sorting behavior</li>
-        <li>Fix bug</li>
+        <li>Assign shortcut to open tool window command</li>
+        <li>Improve plugin description</li>
+        <li>Extend Intellij version compatibility</li>
     </ul>
-    <h1>0.1.3</h1>
-    <ul>
-        <li>Avoid using deprecated API</li>
-        <li>Set change notes</li>
-        <li>Fix details</li>
-    </ul>
-
-    <h1>0.1.2</h1>
-    <p>Fix bug</p>
-
-    <h1>0.1.1</h1>
-    <p>Set icon</p>
-
-    <h1>0.1.0</h1>
-    <p>
-        First version of this plugin.
-        Implements core features.
-    </p>
 </body>
 </html>
     ]]></change-notes>
