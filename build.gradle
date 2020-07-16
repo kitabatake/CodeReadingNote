@@ -30,7 +30,6 @@ patchPluginXml {
       <html>
 <body>
     <ul>
-        <li>Assign shortcut to open tool window command</li>
         <li>Improve plugin description</li>
         <li>Extend Intellij version compatibility</li>
     </ul>
