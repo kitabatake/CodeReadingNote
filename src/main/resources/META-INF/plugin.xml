@@ -2,9 +2,9 @@
     <id>jp.kitabatakep.intellij.plugins.CodeReadingNote</id>
     <name>Code Reading Note</name>
     <vendor email="kitabatake.programmer@gmail.com">kitabatakep</vendor>
-    <version>2019.1.1</version>
+    <version>2020.1.1</version>
 <!--    <idea-version since-build="193" />-->
-    <idea-version since-build="193"/>
+    <idea-version since-build="201"/>
     <description><![CDATA[
     Write down that you understood in the code reading work in a place that has a high affinity with code!<br><br>
 
@@ -32,8 +32,7 @@
         <html>
 <body>
     <ul>
-        <li>Improve plugin description</li>
-        <li>Extend Intellij version compatibility</li>
+        <li>Supports 2020.1 version</li>
     </ul>
 </body>
 </html>
