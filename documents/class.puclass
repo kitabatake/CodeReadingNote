@@ -1,23 +1,23 @@
 @startuml
 class CodeReadingNoteService {
-  - project
-  - topicList
-  - JBPopup popup
+    - project
+    - topicList
+    - JBPopup popup
 
-  - getState()
-  - loadState()
+    - getState()
+    - loadState()
 }
 
 note right of CodeReadingNoteService
-   state format is..
-   topicLine
-     - topicId
-     - url
-     - line
-     - description
-   topic
-     - id
-     - name
+    state format is..
+    topicLine
+    - topicId
+    - url
+    - line
+    - description
+    topic
+    - id
+    - name
 end note
 
 class TopicList {
