@@ -26,11 +26,11 @@ intellij {
 //}
 
 patchPluginXml {
-    changeNotes """
-      <html>
-<body>
-    <ul>
-        <li>Support 2020.1 version</li>
-    </ul>
-</body>"""
+    def stripTag = { text, tag -> text.replace("<${tag}>", "").replace("</${tag}>", "") }
+    def bodyInnerHTML = { path ->
+        stripTag(stripTag(file(path).text, "html"), "body")
+    }
+
+    pluginDescription bodyInnerHTML("src/main/resources/META-INF/description.html")
+    changeNotes bodyInnerHTML("src/main/resources/META-INF/changeNotes.html")
 }

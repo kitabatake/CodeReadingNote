@@ -3,40 +3,7 @@
     <name>Code Reading Note</name>
     <vendor email="kitabatake.programmer@gmail.com">kitabatakep</vendor>
     <version>2020.1.1</version>
-<!--    <idea-version since-build="193" />-->
     <idea-version since-build="201"/>
-    <description><![CDATA[
-    Write down that you understood in the code reading work in a place that has a high affinity with code!<br><br>
-
-    <b>Features</b>
-    <ul>
-        <li>Organize your notes by Topic</li>
-        <li>
-            Combine the code line you want to keep to Topic.
-            This makes you always open the code line from note. (like Bookmark feature)
-        </li>
-        <li>
-            Arrange code lines to meaningful order by drag and drop.
-            For example, priority or process flows.
-        </li>
-    </ul>
-
-    <p>
-        This plugin may not be suitable for projects that change frequently
-        because a point that links with note is static(ex. file path and line number) .
-    </p>
-    ]]>
-    </description>
-
-    <change-notes><![CDATA[
-        <html>
-<body>
-    <ul>
-        <li>Supports 2020.1 version</li>
-    </ul>
-</body>
-</html>
-    ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
