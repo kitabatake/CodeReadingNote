@@ -45,13 +45,13 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService" />
-        <toolWindow icon="/META-INF/pluginIcon.svg" id="Code Reading Note" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingnote.ManagementToolWindowFactory" />
+        <toolWindow icon="MyIcons.PLUGIN" id="Code Reading Note" anchor="bottom" factoryClass="jp.kitabatakep.intellij.plugins.codereadingnote.ManagementToolWindowFactory" />
 
     </extensions>
 
     <actions>
         <action
-                icon="/META-INF/pluginIcon.svg"
+                icon="MyIcons.PLUGIN"
                 id="jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineAddAction"
                 class="jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineAddAction"
                 text="Add to Topic">
