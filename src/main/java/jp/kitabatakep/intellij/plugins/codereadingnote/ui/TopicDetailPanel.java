@@ -151,7 +151,7 @@ class TopicDetailPanel extends JPanel
                 if (SwingUtilities.isRightMouseButton(e)) {
                     DefaultActionGroup actions = new DefaultActionGroup();
                     actions.add(new TopicLineRemoveAction(project, (v) -> new Pair<>(topic, topicLine)));
-                    actions.add(new TopicLineMoveToGroupAction());
+                    actions.add(new TopicLineMoveToGroupAction(topicLine));
                     JBPopupFactory.getInstance().createActionGroupPopup(
                         null,
                         actions,
