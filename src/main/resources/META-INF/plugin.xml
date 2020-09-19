@@ -2,7 +2,7 @@
     <id>jp.kitabatakep.intellij.plugins.CodeReadingNote</id>
     <name>Code Reading Note</name>
     <vendor email="kitabatake.programmer@gmail.com">kitabatakep</vendor>
-    <version>2019.1.1</version>
+    <version>2019.1.2</version>
 <!--    <idea-version since-build="193" />-->
     <idea-version since-build="193"/>
     <description><![CDATA[
