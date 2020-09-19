@@ -84,6 +84,8 @@ public class TopicLine implements Navigatable
         }
     }
 
+    public Topic topic() { return topic; }
+
     public boolean inProject() { return inProject; }
 
     public boolean isValid() {
