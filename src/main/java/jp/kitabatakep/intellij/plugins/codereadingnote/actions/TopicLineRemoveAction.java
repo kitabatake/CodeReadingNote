@@ -19,7 +19,7 @@ public class TopicLineRemoveAction extends AnAction
 
     public TopicLineRemoveAction(Project project, Function<Void, Pair<Topic, TopicLine>> fetcher)
     {
-        super("RemoveTopicLine", "RemoveTopicLine", AllIcons.General.Remove);
+        super("Remove TopicLine", "RemoveTopicLine", AllIcons.General.Remove);
         this.project = project;
         this.fetcher = fetcher;
     }
