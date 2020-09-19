@@ -67,7 +67,7 @@ public class TopicLineAddAction extends AnAction
 
         PopupChooserBuilder<Topic> builder = new PopupChooserBuilder<Topic>(new JList<>(topics.toArray(new Topic[0])));
         builder
-            .setTitle("Select Topic")
+            .setTitle("Select Topic With Note")
             .setRenderer(new MyCellRenderer<Topic>())
             .setResizable(true)
             .setItemChosenCallback((topic) -> {
@@ -75,18 +75,19 @@ public class TopicLineAddAction extends AnAction
                     topic.addLine(TopicLine.createByAction(project, topic, file, line, noteInputField.getText()));
                 }
             })
+            .setMovable(true)
             .createPopup();
 
 
         noteInputField.setOneLineMode(false);
-        noteInputField.setPlaceholder(" Code line note input area");
+        noteInputField.setPlaceholder("[Optional] note input area");
         noteInputField.setPreferredSize(
             new JBDimension(
-                (int)builder.getChooserComponent().getPreferredSize().getWidth(),
-                100
+                240,
+                (int)builder.getChooserComponent().getPreferredSize().getHeight()
             )
         );
-        builder.setSouthComponent(noteInputField);
+        builder.setEastComponent(noteInputField);
 
         builder.createPopup().showInBestPositionFor(editor);
     }
