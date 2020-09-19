@@ -2,18 +2,19 @@ package jp.kitabatakep.intellij.plugins.codereadingnote.actions;
 
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.popup.JBPopup;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
+import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
+import com.intellij.util.ui.JBDimension;
 import com.intellij.util.ui.UIUtil;
 import jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService;
 import jp.kitabatakep.intellij.plugins.codereadingnote.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingnote.TopicList;
+import jp.kitabatakep.intellij.plugins.codereadingnote.ui.MyEditorTextField;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -62,19 +63,33 @@ public class TopicLineAddAction extends AnAction
             topics.add(topic);
         }
 
-        JBPopup popup =
-            JBPopupFactory.getInstance().createPopupChooserBuilder(topics)
-                .setTitle("Select Topic")
-                .setRenderer(new MyCellRenderer<Topic>())
-                .setResizable(true)
-                .setItemChosenCallback((topic) -> {
-                    if (topic != null) {
-                        topic.addLine(TopicLine.createByAction(project, topic, file, line));
-                    }
-                })
-                .createPopup();
+        MyEditorTextField noteInputField = new MyEditorTextField(project, FileTypeManager.getInstance().getStdFileType("Markdown"));
 
-        popup.showInBestPositionFor(editor);
+        PopupChooserBuilder<Topic> builder = new PopupChooserBuilder<Topic>(new JList<>(topics.toArray(new Topic[0])));
+        builder
+            .setTitle("Select Topic With Note")
+            .setRenderer(new MyCellRenderer<Topic>())
+            .setResizable(true)
+            .setItemChosenCallback((topic) -> {
+                if (topic != null) {
+                    topic.addLine(TopicLine.createByAction(project, topic, file, line, noteInputField.getText()));
+                }
+            })
+            .setMovable(true)
+            .createPopup();
+
+
+        noteInputField.setOneLineMode(false);
+        noteInputField.setPlaceholder("[Optional] note input area");
+        noteInputField.setPreferredSize(
+            new JBDimension(
+                240,
+                (int)builder.getChooserComponent().getPreferredSize().getHeight()
+            )
+        );
+        builder.setEastComponent(noteInputField);
+
+        builder.createPopup().showInBestPositionFor(editor);
     }
 
     private static class MyCellRenderer<T> extends SimpleColoredComponent implements ListCellRenderer<T>

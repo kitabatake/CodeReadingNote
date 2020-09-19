@@ -7,7 +7,6 @@ import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.pom.Navigatable;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -22,12 +21,12 @@ public class TopicLine implements Navigatable
     private String relativePath;
     private String url;
 
-    public static TopicLine createByAction(Project project, Topic topic, VirtualFile file, int line)
+    public static TopicLine createByAction(Project project, Topic topic, VirtualFile file, int line, String note)
     {
         VirtualFile projectBase = LocalFileSystem.getInstance().findFileByPath(project.getBasePath());
         boolean inProject = VfsUtilCore.isAncestor(projectBase, file, true);
 
-        return new TopicLine(project, topic, file, line, "", inProject,
+        return new TopicLine(project, topic, file, line, note, inProject,
             VfsUtilCore.getRelativePath(file, projectBase), file.getUrl());
     }
 
@@ -84,6 +83,8 @@ public class TopicLine implements Navigatable
             return url;
         }
     }
+
+    public Topic topic() { return topic; }
 
     public boolean inProject() { return inProject; }
 

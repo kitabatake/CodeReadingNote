@@ -1,15 +1,20 @@
 package jp.kitabatakep.intellij.plugins.codereadingnote.ui;
 
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.*;
+import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.messages.MessageBus;
@@ -19,6 +24,8 @@ import jp.kitabatakep.intellij.plugins.codereadingnote.AppConstants;
 import jp.kitabatakep.intellij.plugins.codereadingnote.Topic;
 import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
 import jp.kitabatakep.intellij.plugins.codereadingnote.TopicNotifier;
+import jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicAddAction;
+import jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineMoveToGroupAction;
 import jp.kitabatakep.intellij.plugins.codereadingnote.actions.TopicLineRemoveAction;
 import javax.swing.*;
 import com.intellij.openapi.editor.event.DocumentListener;
@@ -134,10 +141,25 @@ class TopicDetailPanel extends JPanel
             @Override
             public void mouseClicked(MouseEvent e)
             {
+                int index = topicLineList.locationToIndex(e.getPoint());
+                TopicLine topicLine = topicLineListModel.get(index);
+
                 if (e.getClickCount() >= 2) {
-                    int index = topicLineList.locationToIndex(e.getPoint());
-                    TopicLine topicLine = topicLineListModel.get(index);
                     topicLine.navigate(true);
+                }
+
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    DefaultActionGroup actions = new DefaultActionGroup();
+                    actions.add(new TopicLineRemoveAction(project, (v) -> new Pair<>(topic, topicLine)));
+                    actions.add(new TopicLineMoveToGroupAction(topicLine));
+                    JBPopupFactory.getInstance().createActionGroupPopup(
+                        null,
+                        actions,
+                        DataManager.getInstance().getDataContext(topicLineList),
+                        false,
+                        null,
+                        10
+                    ).show(new RelativePoint(e));
                 }
             }
         });
