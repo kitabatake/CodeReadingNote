@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import jp.kitabatakep.intellij.plugins.codereadingnote.CodeReadingNoteService;
 import jp.kitabatakep.intellij.plugins.codereadingnote.Topic;
+import jp.kitabatakep.intellij.plugins.codereadingnote.TopicLine;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -12,8 +13,12 @@ import java.util.Iterator;
 
 public class TopicLineMoveToGroupAction extends ActionGroup
 {
-    public TopicLineMoveToGroupAction() {
+    private final TopicLine topicLine;
+
+    public TopicLineMoveToGroupAction(TopicLine topicLine)
+    {
         super("Move to", true);
+        this.topicLine = topicLine;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class TopicLineMoveToGroupAction extends ActionGroup
 
         ArrayList<AnAction> actions = new ArrayList<>();
         while (iterator.hasNext()) {
-            actions.add(new TopicLineMoveToAction(iterator.next()));
+            actions.add(new TopicLineMoveToAction(topicLine, iterator.next()));
         }
         return actions.toArray(new AnAction[0]);
     }
