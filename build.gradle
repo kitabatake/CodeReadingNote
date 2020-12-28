@@ -25,6 +25,11 @@ intellij {
 //    ideDirectory '/Applications/RubyMine.app/Contents'
 //}
 
+// patch of https://youtrack.jetbrains.com/issue/KTIJ-782
+tasks.buildSearchableOptions {
+    enabled = false
+}
+
 patchPluginXml {
     def stripTag = { text, tag -> text.replace("<${tag}>", "").replace("</${tag}>", "") }
     def bodyInnerHTML = { path ->
