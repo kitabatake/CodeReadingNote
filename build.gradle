@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'jp.kitabatakep'
-version '2020.2.2'
+version '2020.3.1'
 
 sourceCompatibility = 1.8
 
@@ -18,12 +18,17 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2020.2'
+    version '2020.3'
 }
 
 //runIde {
 //    ideDirectory '/Applications/RubyMine.app/Contents'
 //}
+
+// patch of https://youtrack.jetbrains.com/issue/KTIJ-782
+tasks.buildSearchableOptions {
+    enabled = false
+}
 
 patchPluginXml {
     def stripTag = { text, tag -> text.replace("<${tag}>", "").replace("</${tag}>", "") }
