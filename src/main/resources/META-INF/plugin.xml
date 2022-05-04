@@ -2,8 +2,8 @@
     <id>jp.kitabatakep.intellij.plugins.CodeReadingNote</id>
     <name>Code Reading Note</name>
     <vendor email="kitabatake.programmer@gmail.com">kitabatakep</vendor>
-    <version>2021.3.1</version>
-    <idea-version since-build="213" until-build="213.*"/>
+    <version>2022.1.1</version>
+    <idea-version since-build="221" until-build="221.*"/>
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>

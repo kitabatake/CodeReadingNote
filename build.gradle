@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.7.3'
+    id 'org.jetbrains.intellij' version '1.5.3'
 }
 
 group 'jp.kitabatakep'
-version '2021.3.1'
+version '2022.1.1'
 
 sourceCompatibility = 1.8
 
@@ -18,7 +18,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2021.3'
+    version.set('2022.1')
 }
 
 //runIde {
@@ -36,6 +36,6 @@ patchPluginXml {
         stripTag(stripTag(file(path).text, "html"), "body")
     }
 
-    pluginDescription bodyInnerHTML("src/main/resources/META-INF/description.html")
-    changeNotes bodyInnerHTML("src/main/resources/META-INF/changeNotes.html")
+    pluginDescription.set(provider{ bodyInnerHTML("src/main/resources/META-INF/description.html") })
+    changeNotes.set(provider{ bodyInnerHTML("src/main/resources/META-INF/changeNotes.html") } )
 }
