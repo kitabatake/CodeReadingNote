@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '1.5.3'
+    id 'org.jetbrains.intellij' version '1.8.0'
 }
 
 group 'jp.kitabatakep'
-version '2022.1.1'
+version '2022.2.0'
 
 sourceCompatibility = 1.8
 
@@ -13,12 +13,12 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set('2022.1')
+    version.set('2022.2')
 }
 
 //runIde {
@@ -29,6 +29,11 @@ intellij {
 tasks.buildSearchableOptions {
     enabled = false
 }
+
+// activate logging of deprecated API usage:
+//tasks.withType(JavaCompile) {
+//    options.compilerArgs << "-Xlint:deprecation"
+//}
 
 patchPluginXml {
     def stripTag = { text, tag -> text.replace("<${tag}>", "").replace("</${tag}>", "") }
