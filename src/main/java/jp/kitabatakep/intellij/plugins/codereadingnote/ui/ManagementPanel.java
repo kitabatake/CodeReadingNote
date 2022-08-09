@@ -141,7 +141,7 @@ public class ManagementPanel extends JPanel
             {
                 if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     Topic topic = topicList.getSelectedValue();
-                    ActionUtil.performActionDumbAware(
+                    ActionUtil.performActionDumbAwareWithCallbacks(
                         new TopicRemoveAction(project, (v) -> { return topic; }),
                         AnActionEvent.createFromDataContext(ActionPlaces.UNKNOWN, null, dataId -> null)
 //                        ActionUtil.createEmptyEvent()

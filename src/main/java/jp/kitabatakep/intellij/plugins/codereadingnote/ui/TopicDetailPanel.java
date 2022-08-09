@@ -170,7 +170,7 @@ class TopicDetailPanel extends JPanel
             {
                 if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     TopicLine topicLine = topicLineList.getSelectedValue();
-                    ActionUtil.performActionDumbAware(
+                    ActionUtil.performActionDumbAwareWithCallbacks(
                         new TopicLineRemoveAction(project, (v) -> { return new Pair<>(topic, topicLine); }),
                         ActionUtil.createEmptyEvent()
                     );
