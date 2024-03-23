@@ -1,24 +1,24 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '1.5.3'
+    id 'org.jetbrains.intellij' version '1.17.0'
 }
 
 group 'jp.kitabatakep'
-version '2022.1.1'
+version '2023.3.3'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 17
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set('2022.1')
+    version.set('2023.3.3')
 }
 
 //runIde {
